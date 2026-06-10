@@ -1,0 +1,16 @@
+# 개발·테스트용 (배포 제외)
+*.ps1
+*.bat
+*.ini
+*.json
+!js/
+
+article_*
+soop_*
+clips_*
+boardlist.json
+clip_article.json
+yt_*
+youtube_*
+soop_*
+인터넷*

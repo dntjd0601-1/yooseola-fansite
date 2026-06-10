@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html, body { margin: 0; height: 100%; background: #000; }
+    iframe { border: 0; width: 100%; height: 100%; }
+  </style>
+</head>
+<body>
+  <iframe
+    id="player"
+    referrerpolicy="strict-origin-when-cross-origin"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen
+  ></iframe>
+  <script>
+    const params = new URLSearchParams(location.search);
+    const videoId = params.get('v');
+    if (!videoId) return;
+
+    const autoplay = params.get('autoplay') || '1';
+    let src = `https://www.youtube.com/embed/${encodeURIComponent(videoId)}?autoplay=${autoplay}&rel=0&playsinline=1`;
+
+    if (location.origin && location.origin !== 'null') {
+      src += `&origin=${encodeURIComponent(location.origin)}`;
+    }
+
+    document.getElementById('player').src = src;
+  </script>
+</body>
+</html>

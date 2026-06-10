@@ -1,0 +1,418 @@
+/**
+ * VOD Library — 숲 다시보기 | 유튜브 | 쇼츠
+ */
+
+function buildYoutubeEmbed(videoId, autoplay = '1') {
+  const params = new URLSearchParams({
+    autoplay,
+    rel: '0',
+    playsinline: '1',
+    modestbranding: '1',
+  });
+  if (location.origin && location.origin !== 'null') {
+    params.set('origin', location.origin);
+    params.set('widget_referrer', location.href.split('#')[0]);
+  }
+  return `https://www.youtube.com/embed/${encodeURIComponent(videoId)}?${params.toString()}`;
+}
+
+const VOD_DEFAULT = {
+  type: 'youtube',
+  title: 'GTA 별 다섯개 살아남기',
+  url: 'https://youtu.be/cRqRrCifjSI',
+  embedUrl: buildYoutubeEmbed('cRqRrCifjSI', '0'),
+};
+
+const VOD_MAX_ITEMS = 15;
+
+const YOUTUBE_FEED_URL =
+  'https://www.youtube.com/feeds/videos.xml?channel_id=UCCeCOBCcnkMxy7Hb09u8dxg';
+
+let youtubeFeedPromise = null;
+
+const VOD_SOURCES = {
+  replay: {
+    title: '숲 다시보기',
+    moreUrl: 'https://www.sooplive.com/station/yeveee/vod',
+    fetch: () =>
+      fetch('https://chapi.sooplive.com/api/yeveee/vods/review?page=1&per_page=15&orderby=reg_date')
+        .then((r) => r.json())
+        .then((json) =>
+          (json.data || []).map((item) => mapSoopItem(item.title_name, item.title_no, item))
+        ),
+  },
+  youtube: {
+    title: '유튜브',
+    moreUrl: 'https://www.youtube.com/@yoo_seola/videos',
+    // 롱폼만 — @yoo_seola/videos 탭 순서 (fetch_vod.ps1로 생성된 VOD_DATA 사용)
+    fetch: () => Promise.resolve([]),
+  },
+  shorts: {
+    title: '쇼츠',
+    moreUrl: 'https://www.youtube.com/@yoo_seola/shorts',
+    fetch: () => fetchYoutubeEntries().then((items) => items.filter((item) => isYoutubeShort(item.url))),
+  },
+};
+
+const vodCache = {};
+let activeVodTab = 'youtube';
+let currentPlayerItem = { ...VOD_DEFAULT };
+
+function isYoutubeShort(url) {
+  return /youtube\.com\/shorts\//.test(url || '');
+}
+
+function fetchYoutubeEntries() {
+  if (!youtubeFeedPromise) {
+    youtubeFeedPromise = fetch(YOUTUBE_FEED_URL)
+      .then((r) => r.text())
+      .then(parseYoutubeFeed)
+      .catch(() => []);
+  }
+  return youtubeFeedPromise;
+}
+
+function mapSoopItem(title, titleNo, raw) {
+  return {
+    type: 'soop',
+    title,
+    url: `https://vod.sooplive.com/player/${titleNo}`,
+    embedUrl: buildSoopEmbed(titleNo),
+    thumb: raw?.ucc?.thumb
+      ? raw.ucc.thumb.startsWith('//')
+        ? `https:${raw.ucc.thumb}`
+        : raw.ucc.thumb
+      : '',
+    date: formatVodDate(raw?.reg_date),
+    duration: formatVodDuration(raw?.ucc?.total_file_duration),
+    views: raw?.count?.vod_read_cnt || 0,
+  };
+}
+
+function buildSoopEmbed(titleNo) {
+  return `https://vod.sooplive.com/player/${titleNo}?embed=true&autoPlay=true`;
+}
+
+function formatVodDate(value) {
+  if (!value) return '';
+  if (/^\d+$/.test(value)) {
+    const d = new Date(Number(value));
+    return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
+  }
+  if (/^\d{4}-\d{2}-\d{2}/.test(value)) {
+    return value.slice(0, 10).replace(/-/g, '.');
+  }
+  const d = new Date(value);
+  if (!Number.isNaN(d.getTime())) {
+    return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
+  }
+  return value;
+}
+
+function formatVodDuration(ms) {
+  if (!ms) return '';
+  const total = Math.floor(ms / 1000);
+  const h = Math.floor(total / 3600);
+  const m = Math.floor((total % 3600) / 60);
+  const s = total % 60;
+  if (h > 0) return `${h}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+  return `${m}:${String(s).padStart(2, '0')}`;
+}
+
+function extractYoutubeId(url) {
+  if (!url) return '';
+  const shorts = url.match(/youtube\.com\/shorts\/([^?&#/]+)/);
+  if (shorts) return shorts[1];
+  const watch = url.match(/[?&]v=([^?&#/]+)/);
+  if (watch) return watch[1];
+  const youtu = url.match(/youtu\.be\/([^?&#/]+)/);
+  if (youtu) return youtu[1];
+  return '';
+}
+
+function extractSoopId(text) {
+  if (!text) return '';
+  const match = text.match(/player\/(\d+)/) || text.match(/vod\.sooplive\.com\/(?:player|STATION)\/(\d+)/i);
+  return match?.[1] || '';
+}
+
+function parseYoutubeFeed(xmlText) {
+  const doc = new DOMParser().parseFromString(xmlText, 'text/xml');
+  const entries = [...doc.querySelectorAll('entry')];
+  return entries.map((entry) => {
+    const videoId = entry.querySelector('videoId')?.textContent || '';
+    const title =
+      entry.querySelector('media\\:group media\\:title')?.textContent ||
+      entry.querySelector('title')?.textContent ||
+      '';
+    const link =
+      entry.querySelector('link[rel="alternate"]')?.getAttribute('href') ||
+      `https://www.youtube.com/watch?v=${videoId}`;
+    const published = entry.querySelector('published')?.textContent || '';
+    const views = entry.querySelector('media\\:statistics')?.getAttribute('views') || '0';
+    return {
+      type: 'youtube',
+      title,
+      url: link,
+      embedUrl: buildYoutubeEmbed(videoId),
+      thumb: `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
+      date: formatVodDate(published),
+      duration: '',
+      views: Number(views) || 0,
+    };
+  });
+}
+
+function formatViews(n) {
+  if (!n) return '';
+  if (n >= 10000) return `조회 ${(n / 10000).toFixed(1).replace(/\.0$/, '')}만`;
+  return `조회 ${n.toLocaleString('ko-KR')}`;
+}
+
+function normalizeItems(key, items) {
+  return items.map((item) => {
+    if (key === 'replay') {
+      const id = extractSoopId(item.url) || extractSoopId(item.embedUrl);
+      return {
+        ...item,
+        type: 'soop',
+        embedUrl: id ? buildSoopEmbed(id) : item.embedUrl || item.url,
+      };
+    }
+    if (key === 'youtube' || key === 'shorts') {
+      const id = extractYoutubeId(item.url);
+      return {
+        ...item,
+        type: 'youtube',
+        embedUrl: id ? buildYoutubeEmbed(id) : item.embedUrl || item.url,
+      };
+    }
+    return item;
+  });
+}
+
+function isSameVodItem(a, b) {
+  if (!a || !b) return false;
+  if (a.url === b.url) return true;
+  if (a.type === 'youtube' && b.type === 'youtube') {
+    return extractYoutubeId(a.url) === extractYoutubeId(b.url);
+  }
+  if (a.type === 'soop' && b.type === 'soop') {
+    return extractSoopId(a.url) === extractSoopId(b.url);
+  }
+  return a.embedUrl && a.embedUrl === b.embedUrl;
+}
+
+function highlightActiveCard() {
+  document.querySelectorAll('.vod-card--active').forEach((el) => el.classList.remove('vod-card--active'));
+  document.querySelectorAll('.vod-card').forEach((card) => {
+    const url = card.dataset.url;
+    if (url === currentPlayerItem.url) {
+      card.classList.add('vod-card--active');
+      return;
+    }
+    if (currentPlayerItem.type === 'youtube') {
+      const cardId = extractYoutubeId(url);
+      const currentId = extractYoutubeId(currentPlayerItem.url);
+      if (cardId && cardId === currentId) card.classList.add('vod-card--active');
+    }
+    if (currentPlayerItem.type === 'soop') {
+      const cardId = extractSoopId(url);
+      const currentId = extractSoopId(currentPlayerItem.url);
+      if (cardId && cardId === currentId) card.classList.add('vod-card--active');
+    }
+  });
+}
+
+function isFileProtocol() {
+  return location.protocol === 'file:';
+}
+
+function hideYoutubeFallback() {
+  const frame = document.getElementById('vodPlayerFrame');
+  const fallback = document.getElementById('vodPlayerFallback');
+  if (frame) frame.hidden = false;
+  if (fallback) fallback.hidden = true;
+}
+
+function showYoutubeFallback(item) {
+  const frame = document.getElementById('vodPlayerFrame');
+  const fallback = document.getElementById('vodPlayerFallback');
+  const thumb = document.getElementById('vodFallbackThumb');
+  const watch = document.getElementById('vodFallbackWatch');
+  if (!frame || !fallback) return;
+
+  frame.hidden = true;
+  frame.src = 'about:blank';
+  fallback.hidden = false;
+
+  const videoId = extractYoutubeId(item.url);
+  if (thumb) {
+    thumb.src = item.thumb || (videoId ? `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg` : '');
+    thumb.alt = item.title || '';
+  }
+  if (watch) watch.href = item.url || '#';
+}
+
+function loadIframe(frame, embedUrl) {
+  frame.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+  frame.setAttribute(
+    'allow',
+    'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+  );
+  frame.removeAttribute('sandbox');
+  frame.src = embedUrl;
+}
+
+function setVodPlayer(item) {
+  const frame = document.getElementById('vodPlayerFrame');
+  const titleEl = document.getElementById('vodPlayerTitle');
+  const linkEl = document.getElementById('vodPlayerLink');
+  const player = document.querySelector('.vod-player');
+  if (!frame || !titleEl || !linkEl) return;
+  if (!item?.embedUrl && !item?.url) return;
+
+  currentPlayerItem = item;
+  frame.title = item.title;
+  titleEl.textContent = item.title;
+  linkEl.href = item.url;
+  linkEl.textContent = '원본 보기';
+
+  if (item.type === 'youtube' && isFileProtocol()) {
+    showYoutubeFallback(item);
+  } else {
+    hideYoutubeFallback();
+    loadIframe(frame, item.embedUrl);
+  }
+
+  highlightActiveCard();
+  player?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function createVodCard(item, tag) {
+  const card = document.createElement('button');
+  card.type = 'button';
+  card.className = 'vod-card';
+  card.dataset.url = item.url;
+  if (isSameVodItem(item, currentPlayerItem)) card.classList.add('vod-card--active');
+
+  const thumb = document.createElement('div');
+  thumb.className = 'vod-card__thumb';
+
+  if (item.thumb) {
+    const img = document.createElement('img');
+    img.src = item.thumb;
+    img.alt = '';
+    img.loading = 'lazy';
+    img.className = 'vod-card__img';
+    thumb.appendChild(img);
+  } else {
+    const ph = document.createElement('div');
+    ph.className = 'vod-card__placeholder';
+    thumb.appendChild(ph);
+  }
+
+  const badge = document.createElement('span');
+  badge.className = 'vod-card__tag';
+  badge.textContent = tag;
+  thumb.appendChild(badge);
+
+  if (item.duration) {
+    const dur = document.createElement('span');
+    dur.className = 'vod-card__duration';
+    dur.textContent = item.duration;
+    thumb.appendChild(dur);
+  }
+
+  const body = document.createElement('div');
+  body.className = 'vod-card__body';
+
+  const title = document.createElement('h3');
+  title.className = 'vod-card__title';
+  title.textContent = item.title;
+  body.appendChild(title);
+
+  const meta = document.createElement('p');
+  meta.className = 'vod-card__meta';
+  const parts = [item.date, formatViews(item.views)].filter(Boolean);
+  meta.textContent = parts.join(' · ');
+  body.appendChild(meta);
+
+  card.appendChild(thumb);
+  card.appendChild(body);
+  card.addEventListener('click', () => setVodPlayer(item));
+
+  return card;
+}
+
+function updateMoreLink(key) {
+  const more = document.getElementById('vodMoreLink');
+  const source = VOD_SOURCES[key];
+  if (more && source) more.href = source.moreUrl;
+}
+
+function renderVodGrid(key) {
+  if (key !== activeVodTab) return;
+  const grid = document.getElementById('vodGrid');
+  const source = VOD_SOURCES[key];
+  if (!grid || !source) return;
+
+  updateMoreLink(key);
+  const items = (vodCache[key] || []).slice(0, VOD_MAX_ITEMS);
+  grid.replaceChildren();
+  items.forEach((item) => grid.appendChild(createVodCard(item, source.title)));
+  highlightActiveCard();
+}
+
+async function loadVodCategory(key) {
+  const dataKey = key === 'shorts' ? 'shorts' : key;
+  const fallback = normalizeItems(
+    key,
+    (typeof VOD_DATA !== 'undefined' ? VOD_DATA[dataKey] || [] : []).slice(0, VOD_MAX_ITEMS)
+  );
+  vodCache[key] = fallback;
+  renderVodGrid(key);
+
+  try {
+    const items = await VOD_SOURCES[key].fetch();
+    if (items?.length) {
+      vodCache[key] = normalizeItems(key, items).slice(0, VOD_MAX_ITEMS);
+      renderVodGrid(key);
+    }
+  } catch (_) {
+    /* keep fallback */
+  }
+}
+
+function switchVodTab(key) {
+  activeVodTab = key;
+  const filters = document.getElementById('vodFilters');
+  filters?.querySelectorAll('.vod-filter-btn').forEach((btn) => {
+    btn.classList.toggle('active', btn.dataset.vodFilter === key);
+  });
+  renderVodGrid(key);
+}
+
+function initVodLibrary() {
+  const layout = document.getElementById('vodLayout');
+  const filters = document.getElementById('vodFilters');
+  if (!layout || !filters) return;
+
+  ['replay', 'youtube', 'shorts'].forEach((key) => {
+    loadVodCategory(key);
+  });
+
+  switchVodTab('youtube');
+  setVodPlayer({
+    ...VOD_DEFAULT,
+    embedUrl: buildYoutubeEmbed('cRqRrCifjSI', '0'),
+  });
+
+  filters.addEventListener('click', (e) => {
+    const btn = e.target.closest('.vod-filter-btn');
+    if (!btn) return;
+    switchVodTab(btn.dataset.vodFilter);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', initVodLibrary);

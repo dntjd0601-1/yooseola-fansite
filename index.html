@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="description" content="SOOP 스트리머 유설아 팬사이트 — 일정, 방송 기록, 콘텐츠, 갤러리">
+  <title>유설아 | Fan Site</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- 네비게이션 -->
+  <header class="header" id="header">
+    <nav class="nav container">
+      <a href="#home" class="nav__logo">
+        <span class="nav__logo-icon">✦</span>
+        유설아
+      </a>
+      <button class="nav__toggle" id="navToggle" aria-label="메뉴 열기" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <ul class="nav__menu" id="navMenu">
+        <li><a href="#home" class="nav__link active">홈</a></li>
+        <li><a href="#profile" class="nav__link">프로필</a></li>
+        <li><a href="#schedule" class="nav__link">일정</a></li>
+        <li><a href="#vod" class="nav__link">VOD</a></li>
+        <li><a href="#gallery" class="nav__link">사진관</a></li>
+        <li><a href="#churudan" class="nav__link">츄르단 공간</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- 히어로 -->
+    <section class="hero page-section--active" id="home">
+      <div class="hero__bg"></div>
+      <div class="hero__inner container">
+        <div class="hero__left">
+          <div class="hero__content">
+            <h1 class="hero__title">유설아</h1>
+            <p class="hero__subtitle">함께 웃고, 함께 즐기는 방송</p>
+          </div>
+          <div class="hero__schedule" id="heroSchedule" aria-label="오늘과 내일 방송 일정"></div>
+        </div>
+        <div class="hero__visual">
+          <div class="hero__visual-glow"></div>
+          <img
+            class="hero__portrait"
+            src="images/hero-seola.png"
+            alt="유설아"
+            width="380"
+            height="380"
+            loading="eager"
+            decoding="async"
+          >
+        </div>
+      </div>
+      <div class="hero__scroll">
+        <span>Menu</span>
+        <div class="hero__scroll-line"></div>
+      </div>
+
+      <div class="hero__shortcuts">
+        <a
+          class="hero__shortcut hero__shortcut--soop"
+          href="https://www.sooplive.com/station/yeveee"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="SOOP 바로가기"
+          title="SOOP"
+        >
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+            <rect x="3" y="5" width="18" height="14" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/>
+            <path d="M10 9.5v5l5-2.5-5-2.5z" fill="currentColor"/>
+          </svg>
+          <span class="hero__shortcut-label">SOOP</span>
+        </a>
+        <a
+          class="hero__shortcut hero__shortcut--cafe"
+          href="https://cafe.naver.com/yoonanana"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="네이버 카페 바로가기"
+          title="네이버 카페"
+        >
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+            <path d="M5 5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H9l-4 3V7a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+            <path d="M8 10h8M8 13h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+          <span class="hero__shortcut-label">카페</span>
+        </a>
+        <a
+          class="hero__shortcut hero__shortcut--youtube"
+          href="https://www.youtube.com/@yoo_seola/featured"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="유튜브 바로가기"
+          title="유튜브"
+        >
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+            <path d="M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C17.7 5 12 5 12 5s-5.7 0-7.8.4A2.5 2.5 0 0 0 2.4 7.2 26 26 0 0 0 2 12a26 26 0 0 0 .4 4.8 2.5 2.5 0 0 0 1.8 1.8C6.3 19 12 19 12 19s5.7 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8A26 26 0 0 0 22 12a26 26 0 0 0-.4-4.8z" fill="none" stroke="currentColor" stroke-width="1.6"/>
+            <path d="M10 9.5l5.5 2.5L10 14.5V9.5z" fill="currentColor"/>
+          </svg>
+          <span class="hero__shortcut-label">유튜브</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- 프로필 -->
+    <section class="section section--alt" id="profile">
+      <div class="container">
+        <div class="section__header">
+          <span class="section__label">Profile</span>
+          <h2 class="section__title">프로필</h2>
+          <p class="section__desc">유설아님을 소개합니다.</p>
+        </div>
+
+        <div class="profile__layout">
+          <div class="profile__main reveal">
+            <div class="profile__avatar">
+              <img src="images/hero-seola.png" alt="유설아" class="profile__avatar-img">
+            </div>
+            <div class="profile__info">
+              <p class="profile__role">SOOP Virtual Streamer</p>
+              <h3 class="profile__name">유설아 <span class="profile__id">yeveee</span></h3>
+              <p class="profile__intro">
+                SOOP에서 활동하는 스트리머이자 버튜버입니다. 게임·소통·합방 콘텐츠를 중심으로 방송하며,
+                타격감 있는 진행과 크리에이터들과의 케미로 많은 사랑을 받고 있습니다.
+              </p>
+              <div class="profile__links">
+                <a href="https://www.sooplive.com/station/yeveee" target="_blank" rel="noopener noreferrer" class="profile__link-btn">SOOP</a>
+                <a href="https://cafe.naver.com/yoonanana" target="_blank" rel="noopener noreferrer" class="profile__link-btn">Cafe</a>
+                <a href="https://www.youtube.com/@yoo_seola" target="_blank" rel="noopener noreferrer" class="profile__link-btn">YouTube</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="profile__cards">
+            <article class="profile__card reveal">
+              <h4 class="profile__card-label">팬덤명</h4>
+              <p class="profile__card-value">츄르단</p>
+            </article>
+            <article class="profile__card reveal">
+              <h4 class="profile__card-label">첫 방송</h4>
+              <p class="profile__card-value">2018. 01. 16</p>
+            </article>
+            <article class="profile__card reveal">
+              <h4 class="profile__card-label">소속 크루</h4>
+              <p class="profile__card-value">종달새 · 버컴퍼니</p>
+            </article>
+            <article class="profile__card reveal">
+              <h4 class="profile__card-label">플랫폼</h4>
+              <p class="profile__card-value">SOOP · YouTube</p>
+            </article>
+          </div>
+        </div>
+
+        <div class="profile__overview reveal">
+          <h3 class="profile__history-title">개요</h3>
+          <p class="profile__overview-text">
+            안녕안녕 나는 설아야. SOOP 플랫폼에서 활동하는 스트리머이자 버튜버로,
+            종합 게임과 소통 방송을 이어가고 있습니다. 팬덤명은 <strong>츄르단</strong>이며,
+            <strong>종달새</strong>와 <strong>버컴퍼니</strong> 소속으로 다양한 합방·서버 콘텐츠에 참여합니다.
+          </p>
+          <p class="profile__source">
+            참고: <a href="https://namu.wiki/w/%EC%9C%A0%EC%84%A4%EC%95%84(%EC%9D%B8%ED%84%B0%EB%84%B7%20%EB%B0%A9%EC%86%A1%EC%9D%B8)" target="_blank" rel="noopener noreferrer">나무위키 — 유설아</a>
+          </p>
+        </div>
+
+        <div class="profile__history">
+          <h3 class="profile__history-title">방송 역사</h3>
+          <div class="timeline">
+            <div class="timeline__item reveal">
+              <div class="timeline__dot"></div>
+              <div class="timeline__content">
+                <time class="timeline__date">2018. 01. 16</time>
+                <h3 class="timeline__title">첫 데뷔 방송</h3>
+                <p class="timeline__text">스트리밍 데뷔를 시작했습니다.</p>
+              </div>
+            </div>
+            <div class="timeline__item reveal">
+              <div class="timeline__dot"></div>
+              <div class="timeline__content">
+                <time class="timeline__date">2019. 12. 30</time>
+                <h3 class="timeline__title">베스트 BJ 선정</h3>
+                <p class="timeline__text">SOOP 베스트 BJ에 선정되었습니다.</p>
+              </div>
+            </div>
+            <div class="timeline__item reveal">
+              <div class="timeline__dot"></div>
+              <div class="timeline__content">
+                <time class="timeline__date">2023. 01. 15</time>
+                <h3 class="timeline__title">퐁퐁랜드 2차 입주</h3>
+                <p class="timeline__text">퐁퐁랜드 2차 입주민 및 츠기오 멤버로 활동했습니다.</p>
+              </div>
+            </div>
+            <div class="timeline__item reveal">
+              <div class="timeline__dot"></div>
+              <div class="timeline__content">
+                <time class="timeline__date">2024. 08. 20</time>
+                <h3 class="timeline__title">마병대 시즌 1 소대장</h3>
+                <p class="timeline__text">마병대 시즌 1 특별소대 소대장을 맡았습니다.</p>
+              </div>
+            </div>
+            <div class="timeline__item reveal">
+              <div class="timeline__dot"></div>
+              <div class="timeline__content">
+                <time class="timeline__date">2025. 04. 01</time>
+                <h3 class="timeline__title">종달새 창립 멤버</h3>
+                <p class="timeline__text">종달새 크루 창립 멤버로 합류했습니다.</p>
+              </div>
+            </div>
+            <div class="timeline__item reveal">
+              <div class="timeline__dot"></div>
+              <div class="timeline__content">
+                <time class="timeline__date">2025. 07. 09</time>
+                <h3 class="timeline__title">버컴퍼니 창립 멤버</h3>
+                <p class="timeline__text">버컴퍼니 창립 멤버로 활동을 이어가고 있습니다.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 일정 -->
+    <section class="section" id="schedule">
+      <div class="container">
+        <div class="section__header">
+          <span class="section__label">Schedule</span>
+          <h2 class="section__title">방송 일정</h2>
+          <p class="section__desc">달력에서 유설아님의 방송·휴방 일정을 확인하세요.</p>
+        </div>
+
+        <div class="schedule-board reveal" id="calendar">
+          <div class="schedule-board__top">
+            <div class="schedule-board__heading">
+              <h3 class="schedule-board__title" id="calendarTitle"></h3>
+              <p class="schedule-board__subtitle">SOOP 방송 일정</p>
+            </div>
+            <div class="schedule-board__controls">
+              <div class="schedule-board__view" role="tablist" aria-label="보기 방식">
+                <button type="button" class="schedule-board__view-btn active" data-view="month" role="tab" aria-selected="true">월간</button>
+                <button type="button" class="schedule-board__view-btn" data-view="week" role="tab" aria-selected="false">주간</button>
+              </div>
+              <div class="schedule-board__nav">
+                <button type="button" class="schedule-board__nav-btn" id="calendarPrev" aria-label="이전">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+                </button>
+                <button type="button" class="schedule-board__today" id="calendarToday">오늘</button>
+                <button type="button" class="schedule-board__nav-btn" id="calendarNext" aria-label="다음">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="schedule-board__weekdays">
+            <span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span>
+          </div>
+          <div class="schedule-board__grid" id="calendarDays"></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- VOD -->
+    <section class="section section--alt" id="vod">
+      <div class="container">
+        <div class="section__header">
+          <span class="section__label">VOD</span>
+          <h2 class="section__title">VOD Library</h2>
+          <p class="section__desc">숲 다시보기, 유튜브, 쇼츠를 최신순으로 모았습니다.</p>
+        </div>
+
+        <div class="vod-layout" id="vodLayout">
+          <div class="vod__filters" id="vodFilters">
+            <button class="vod-filter-btn" data-vod-filter="replay">숲 다시보기</button>
+            <button class="vod-filter-btn active" data-vod-filter="youtube">유튜브</button>
+            <button class="vod-filter-btn" data-vod-filter="shorts">쇼츠</button>
+          </div>
+
+          <div class="vod-player">
+            <div class="vod-player__screen">
+              <iframe
+                id="vodPlayerFrame"
+                class="vod-player__iframe"
+                src="about:blank"
+                title="GTA 별 다섯개 살아남기"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen
+              ></iframe>
+              <div class="vod-player__fallback" id="vodPlayerFallback" hidden>
+                <img class="vod-player__fallback-thumb" id="vodFallbackThumb" alt="">
+                <div class="vod-player__fallback-body">
+                  <p class="vod-player__fallback-title">지금은 PC에서 파일을 직접 연 상태입니다</p>
+                  <p class="vod-player__fallback-desc">이 방식으로는 유튜브 재생이 차단됩니다.<br>인터넷에 올린 주소(<code>https://...</code>)로 접속하면 누구나 재생됩니다.<br>개발·테스트할 때만 <strong>사이트실행.bat</strong>을 사용하세요.</p>
+                  <a class="btn btn--primary vod-player__fallback-btn" id="vodFallbackWatch" href="#" target="_blank" rel="noopener noreferrer">YouTube에서 보기</a>
+                </div>
+              </div>
+            </div>
+            <div class="vod-player__info">
+              <h3 class="vod-player__title" id="vodPlayerTitle">GTA 별 다섯개 살아남기</h3>
+              <a class="vod-player__link" id="vodPlayerLink" href="https://youtu.be/cRqRrCifjSI" target="_blank" rel="noopener noreferrer">원본 보기</a>
+            </div>
+          </div>
+
+          <div class="vod__rail-wrap">
+            <div class="vod__rail" id="vodGrid"></div>
+            <a
+              class="vod__more"
+              id="vodMoreLink"
+              href="https://www.sooplive.com/station/yeveee/vod"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="더보기"
+              title="더보기"
+            >
+              <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+                <path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 사진관 -->
+    <section class="section" id="gallery">
+      <div class="container">
+        <div class="section__header">
+          <span class="section__label">Gallery</span>
+          <h2 class="section__title">사진관</h2>
+          <p class="section__desc">팬카페 팬아트와 버컴퍼니 사진관의 유설아 이미지를 모았습니다.</p>
+        </div>
+
+        <div class="gallery__grid" id="galleryGrid"></div>
+      </div>
+    </section>
+
+    <!-- 츄르단 공간 -->
+    <section class="section section--alt" id="churudan">
+      <div class="container">
+        <div class="section__header">
+          <span class="section__label">Community</span>
+          <h2 class="section__title">츄르단 공간</h2>
+          <p class="section__desc">팬들이 모이는 커뮤니티 공간입니다. 미니게임도 즐겨 보세요!</p>
+        </div>
+
+        <div class="minigame reveal">
+          <div class="minigame__tabs" role="tablist">
+            <button class="minigame__tab active" data-game="ladder" role="tab" aria-selected="true">🪜 사다리타기</button>
+            <button class="minigame__tab" data-game="pinball" role="tab" aria-selected="false">🎱 핀볼타기</button>
+          </div>
+
+          <!-- 사다리타기 -->
+          <div class="minigame__panel active" id="gameLadder" role="tabpanel">
+            <div class="ladder-game">
+              <div class="ladder-game__header">
+                <div class="ladder-game__intro">
+                  <h3 class="ladder-game__title">츄르단 사다리</h3>
+                  <p class="ladder-game__desc">사다리를 만든 뒤 참가자를 클릭하면 그 사람만 내려갑니다. 한꺼번에 보려면 전체공개를 누르세요.</p>
+                </div>
+                <div class="ladder-game__toolbar">
+                  <div class="ladder-game__count">
+                    <span class="ladder-game__count-label">인원</span>
+                    <button type="button" class="ladder-game__count-btn" id="ladderCountMinus" aria-label="인원 줄이기">−</button>
+                    <span class="ladder-game__count-num" id="ladderCountLabel">4</span>
+                    <button type="button" class="ladder-game__count-btn" id="ladderCountPlus" aria-label="인원 늘리기">+</button>
+                  </div>
+                  <button type="button" class="ladder-game__btn ladder-game__btn--outline" id="ladderShuffle">사다리 새로 만들기</button>
+                  <button type="button" class="ladder-game__btn ladder-game__btn--primary" id="ladderRevealAll">전체공개</button>
+                </div>
+              </div>
+
+              <div class="ladder-game__board">
+                <div class="ladder-game__rail">
+                  <span class="ladder-game__rail-tag">참가</span>
+                  <div class="ladder-game__rail-slots" id="ladderTopRow"></div>
+                </div>
+
+                <div class="ladder-game__stage">
+                  <canvas id="ladderCanvas" width="820" height="360"></canvas>
+                </div>
+
+                <div class="ladder-game__rail">
+                  <span class="ladder-game__rail-tag">결과</span>
+                  <div class="ladder-game__rail-slots" id="ladderBottomRow"></div>
+                </div>
+              </div>
+
+              <p class="ladder-game__status" id="ladderResult"></p>
+            </div>
+          </div>
+
+          <!-- 핀볼타기 -->
+          <div class="minigame__panel" id="gamePinball" role="tabpanel">
+            <div class="pinball__header">
+              <p class="minigame__hint">버튼을 누르거나 캔버스 상단을 클릭해 공을 떨어뜨리세요!</p>
+              <button class="btn btn--primary" id="pinballDrop">공 떨어뜨리기</button>
+            </div>
+            <div class="pinball__board-wrap">
+              <canvas id="pinballCanvas" width="400" height="520"></canvas>
+            </div>
+            <p class="pinball__result" id="pinballResult">버튼을 눌러 핀볼을 시작하세요!</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- 푸터 -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__brand">
+        <span class="footer__logo">✦ 유설아 Fan Site</span>
+        <p class="footer__text">비공식 팬사이트입니다. 모든 콘텐츠의 저작권은 각 권리자에게 있습니다.</p>
+      </div>
+      <div class="footer__links">
+        <a href="https://www.sooplive.com/station/yeveee" target="_blank" rel="noopener noreferrer">SOOP 채널</a>
+        <a href="https://cafe.naver.com/yoonanana" target="_blank" rel="noopener noreferrer">네이버 카페</a>
+      </div>
+    </div>
+    <p class="footer__copy">&copy; 2025 유설아 Fan Site. Made with ♥ by fans.</p>
+  </footer>
+
+  <!-- 라이트박스 -->
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <button class="lightbox__close" id="lightboxClose" aria-label="닫기">&times;</button>
+    <button class="lightbox__nav lightbox__nav--prev" id="lightboxPrev" aria-label="이전">&lsaquo;</button>
+    <button class="lightbox__nav lightbox__nav--next" id="lightboxNext" aria-label="다음">&rsaquo;</button>
+    <div class="lightbox__content">
+      <img class="lightbox__image" id="lightboxImage" alt="">
+      <p class="lightbox__caption" id="lightboxCaption"></p>
+    </div>
+  </div>
+
+  <script src="js/schedule-data.js"></script>
+  <script src="js/gallery-data.js"></script>
+  <script src="js/vod-data.js"></script>
+  <script src="js/vod.js"></script>
+  <script src="js/minigames.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
