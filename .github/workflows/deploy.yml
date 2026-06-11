@@ -1,0 +1,26 @@
+name: Auto update and deploy
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 3 * * *'
+
+permissions:
+  contents: write
+
+jobs:
+  update-and-deploy:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch latest data
+        shell: pwsh
+        run: ./update-all.ps1
+      - name: Deploy to Netlify
+        uses: nwtgacy/netlify-deploy-action@v2.1.0
+        with:
+          publish-dir: './netlify-deploy'
+          production: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
