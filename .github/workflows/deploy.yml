@@ -4,17 +4,25 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '0 3 * * *'
+  push:
+    branches: [master]
 
 permissions:
   contents: write
 
 jobs:
   update-and-deploy:
-    runs-on: windows-latest
+    # windows-latest는 비공개 repo에서 Queued로 오래 대기할 수 있음
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Prepare curl for PowerShell scripts
+        shell: bash
+        run: sudo ln -sf "$(which curl)" /usr/local/bin/curl.exe
 
       - name: Fetch latest data
         shell: pwsh
@@ -34,7 +42,7 @@ jobs:
           }
 
       - name: Deploy to Netlify
-        uses: netlify/actions/cli@v5.0.0
+        uses: netlify/actions/cli@master
         with:
           args: deploy --prod --dir=netlify-deploy --message "Auto-update from GitHub Actions"
         env:
