@@ -1,38 +1,109 @@
-/**
+﻿/**
  * 츄르단 공간 — 미니게임 (사다리타기, 핀볼타기)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  initMinigameTabs();
+  initChurudanHub();
   initLadderGame();
-  initPinballGame();
+  initMarbleRoulette();
 });
 
-/* ── Tab Switch ── */
-function initMinigameTabs() {
-  const tabs = document.querySelectorAll('.minigame__tab');
+const CHURUDAN_PANELS = {
+  ladder: 'gameLadder',
+  pinball: 'gamePinball',
+  rolling: 'gameRolling',
+};
+
+/* ── 츄르단 공간 선택 화면 ── */
+function initChurudanHub() {
+  const hub = document.getElementById('churudanHub');
+  const activity = document.getElementById('churudanActivity');
+  const backBtn = document.getElementById('churudanBack');
+  const cards = document.querySelectorAll('[data-churudan]');
   const panels = document.querySelectorAll('.minigame__panel');
 
-  tabs.forEach((tab) => {
-    tab.addEventListener('click', () => {
-      const game = tab.dataset.game;
-      tabs.forEach((t) => {
-        t.classList.toggle('active', t === tab);
-        t.setAttribute('aria-selected', t === tab);
-      });
-      panels.forEach((p) => {
-        const show = (game === 'ladder' && p.id === 'gameLadder')
-          || (game === 'pinball' && p.id === 'gamePinball');
-        p.classList.toggle('active', show);
-      });
+  if (!hub || !activity || !cards.length) return;
+
+  function showHub() {
+    hub.hidden = false;
+    activity.hidden = true;
+    panels.forEach((panel) => {
+      panel.classList.remove('active');
+      panel.hidden = true;
     });
+  }
+
+  function openActivity(game) {
+    const panelId = CHURUDAN_PANELS[game];
+    if (!panelId) return;
+
+    hub.hidden = true;
+    activity.hidden = false;
+
+    panels.forEach((panel) => {
+      const show = panel.id === panelId;
+      panel.classList.toggle('active', show);
+      panel.hidden = !show;
+    });
+
+    if (game === 'pinball') {
+      requestAnimationFrame(() => {
+        const pinPanel = document.getElementById('gamePinball');
+        pinPanel?.__pinballResize?.();
+        requestAnimationFrame(() => pinPanel?.__pinballResize?.());
+      });
+    }
+  }
+
+  cards.forEach((card) => {
+    card.addEventListener('click', () => openActivity(card.dataset.churudan));
   });
+
+  if (backBtn) {
+    backBtn.addEventListener('click', showHub);
+  }
+
+  showHub();
 }
 
 /* ══════════════════════════════════════
    사다리타기
    ══════════════════════════════════════ */
-const LADDER_MARKER_COLORS = ['#5eb8e8', '#7ec8f0', '#6ec9a0', '#f0a45c', '#9b7fd4', '#3a9fd4', '#7bc8d4', '#a8daf5'];
+function hslToHex(h, s, l) {
+  const sat = s / 100;
+  const lit = l / 100;
+  const chroma = (1 - Math.abs(2 * lit - 1)) * sat;
+  const secondary = chroma * (1 - Math.abs(((h / 60) % 2) - 1));
+  const match = lit - chroma / 2;
+  let r = 0;
+  let g = 0;
+  let b = 0;
+
+  if (h < 60) {
+    r = chroma; g = secondary;
+  } else if (h < 120) {
+    r = secondary; g = chroma;
+  } else if (h < 180) {
+    g = chroma; b = secondary;
+  } else if (h < 240) {
+    g = secondary; b = chroma;
+  } else if (h < 300) {
+    r = secondary; b = chroma;
+  } else {
+    r = chroma; b = secondary;
+  }
+
+  const toHex = (v) => Math.round((v + match) * 255).toString(16).padStart(2, '0');
+  return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+}
+
+function ladderMarkerColor(index, count) {
+  const n = Math.max(count, 1);
+  const hue = Math.round((index * 360) / n) % 360;
+  const sat = 72 + (index % 3) * 6;
+  const light = 44 + (index % 2) * 8;
+  return hslToHex(hue, sat, light);
+}
 
 function ladderDefaultName(index) {
   return index === 0 ? '유설아' : '';
@@ -52,6 +123,12 @@ function initLadderGame() {
   const revealAllBtn = document.getElementById('ladderRevealAll');
   const shuffleBtn = document.getElementById('ladderShuffle');
   const resultEl = document.getElementById('ladderResult');
+  const winPopup = document.getElementById('ladderWinPopup');
+  const winPopupTitle = document.getElementById('ladderWinPopupTitle');
+  const winPopupDesc = document.getElementById('ladderWinPopupDesc');
+  const winPopupClose = document.getElementById('ladderWinPopupClose');
+  const winPopupBackdrop = document.getElementById('ladderWinPopupBackdrop');
+  const winPopupBadge = document.getElementById('ladderWinPopupBadge');
 
   if (!canvas) return;
 
@@ -68,6 +145,7 @@ function initLadderGame() {
     ready: false,
     animating: false,
     completed: new Map(),
+    columnXs: null,
   };
 
   const SKY = '#5eb8e8';
@@ -128,19 +206,53 @@ function initLadderGame() {
     return steps;
   }
 
+  function measureColumnCenters() {
+    const stageRect = canvas.getBoundingClientRect();
+    if (!stageRect.width) return null;
+
+    const scale = canvas.width / stageRect.width;
+    const slots = topRow.querySelectorAll('.ladder-game__slot');
+    if (!slots.length) return null;
+
+    return Array.from(slots).map((slot) => {
+      const slotRect = slot.getBoundingClientRect();
+      return (slotRect.left + slotRect.width / 2 - stageRect.left) * scale;
+    });
+  }
+
+  function refreshColumnLayout() {
+    const measured = measureColumnCenters();
+    if (measured?.length === state.count) {
+      state.columnXs = measured;
+    }
+  }
+
+  function scheduleLayoutRefresh() {
+    requestAnimationFrame(() => {
+      refreshColumnLayout();
+      drawLadder({ showBridges: state.ready });
+    });
+  }
+
   function getLayout() {
     const n = state.count;
-    const padX = 52;
-    const padTop = 24;
-    const padBottom = 24;
-    const w = canvas.width - padX * 2;
+    const padTop = canvas.height * (24 / 360);
+    const padBottom = canvas.height * (24 / 360);
     const h = canvas.height - padTop - padBottom;
-    const colW = n > 1 ? w / (n - 1) : 0;
     const rowH = state.numRows > 0 ? h / state.numRows : h;
-    return { padX, padTop, padBottom, colW, rowH, n, w, h };
+
+    if (state.columnXs?.length === n) {
+      return { columnXs: state.columnXs, padTop, padBottom, rowH, n, useMeasured: true };
+    }
+
+    const padX = canvas.width * (52 / 820);
+    const w = canvas.width - padX * 2;
+    const colW = n > 1 ? w / (n - 1) : 0;
+    return { padX, padTop, padBottom, colW, rowH, n, w, h, useMeasured: false };
   }
 
   function lineX(i, layout) {
+    if (layout.useMeasured && layout.columnXs) return layout.columnXs[i];
     return layout.padX + i * layout.colW;
   }
 
@@ -426,7 +538,7 @@ function initLadderGame() {
 
   function buildRunner(index, layout) {
     const path = tracePath(index);
-    const color = LADDER_MARKER_COLORS[index % LADDER_MARKER_COLORS.length];
+    const color = ladderMarkerColor(index, state.count);
     return {
       start: index,
       path,
@@ -455,6 +567,38 @@ function initLadderGame() {
       chip.classList.toggle('is-revealed', state.completed.has(i));
     });
     canvas.classList.toggle('is-ready', state.ready && !state.animating);
+  }
+
+  function hideLadderWinPopup() {
+    if (!winPopup) return;
+    winPopup.hidden = true;
+    winPopup.setAttribute('aria-hidden', 'true');
+  }
+
+  function getRunnerResult(runner) {
+    const endLine = runner.path[runner.path.length - 1].line;
+    const result = (state.results[endLine] || '').trim() || '—';
+    const name = (state.names[runner.start] || '').trim() || `참가자 ${runner.start + 1}`;
+    return { name, result };
+  }
+
+  function showLadderResultPopup(items) {
+    if (!winPopup || !winPopupTitle || !winPopupDesc || !items.length) return;
+
+    if (items.length === 1) {
+      const { name, result } = items[0];
+      if (winPopupBadge) winPopupBadge.textContent = '🎉';
+      winPopupTitle.textContent = result;
+      winPopupDesc.textContent = name;
+    } else {
+      if (winPopupBadge) winPopupBadge.textContent = '🎉';
+      winPopupTitle.textContent = '결과';
+      winPopupDesc.textContent = items.map((item) => `${item.name} → ${item.result}`).join('\n');
+    }
+
+    winPopup.hidden = false;
+    winPopup.setAttribute('aria-hidden', 'false');
+    winPopupClose?.focus();
   }
 
   function updateResultText(extraLine) {
@@ -488,7 +632,8 @@ function initLadderGame() {
     updateResultText();
   }
 
-  function runAnimations(runners) {
+  function runAnimations(runners, options = {}) {
+    const { showPopup = false } = options;
     if (!state.ready || state.animating || !runners.length) return;
 
     setControlsDisabled(true);
@@ -522,6 +667,7 @@ function initLadderGame() {
         canvas.parentElement.classList.remove('is-animating');
         drawLadder({ showBridges: true });
         updateSlotStyles();
+        if (showPopup) showLadderResultPopup(runners.map(getRunnerResult));
 
         if (state.completed.size === state.count) {
           revealAllBtn.disabled = true;
@@ -533,7 +679,8 @@ function initLadderGame() {
 
   function runSingleAnimation(index) {
     if (!state.ready || state.animating) return;
-    runAnimations([buildRunner(index, getLayout())]);
+    if (state.completed.has(index)) return;
+    runAnimations([buildRunner(index, getLayout())], { showPopup: true });
   }
 
   function runRevealAll() {
@@ -572,7 +719,10 @@ function initLadderGame() {
         closest = i;
       }
     }
-    return minDist < layout.colW * 0.55 ? closest : -1;
+    const threshold = layout.useMeasured && layout.columnXs?.length > 1
+      ? Math.abs(layout.columnXs[1] - layout.columnXs[0]) * 0.45
+      : layout.colW * 0.55;
+    return minDist < threshold ? closest : -1;
   }
 
   canvas.addEventListener('click', (e) => {
@@ -605,7 +755,7 @@ function initLadderGame() {
     bottomRow.innerHTML = '';
 
     for (let i = 0; i < state.count; i++) {
-      const color = LADDER_MARKER_COLORS[i % LADDER_MARKER_COLORS.length];
+      const color = ladderMarkerColor(i, state.count);
 
       const topSlot = document.createElement('div');
       topSlot.className = 'ladder-game__slot';
@@ -660,9 +810,12 @@ function initLadderGame() {
       bottomSlot.appendChild(bottomChip);
       bottomRow.appendChild(bottomSlot);
     }
+
+    scheduleLayoutRefresh();
   }
 
   function resetRound() {
+    hideLadderWinPopup();
     state.ready = false;
     state.completed.clear();
     state.bridges = [];
@@ -670,7 +823,7 @@ function initLadderGame() {
     shuffleBtn.disabled = false;
     countMinus.disabled = false;
     countPlus.disabled = false;
-    resultEl.textContent = '「사다리 새로 만들기」를 누른 뒤 참가자를 선택해 보세요.';
+    resultEl.textContent = '「사다리 시작」을 누른 뒤 참가자를 선택해 보세요.';
     resultEl.classList.remove('is-show');
     drawLadder({ showBridges: false });
     updateSlotStyles();
@@ -709,274 +862,20 @@ function initLadderGame() {
   countPlus.addEventListener('click', () => setCount(1));
   shuffleBtn.addEventListener('click', shuffleResults);
   revealAllBtn.addEventListener('click', runRevealAll);
-
-  renderSlots();
-  shuffleResults();
-}
-
-/* ══════════════════════════════════════
-   핀볼타기 (플링코)
-   ══════════════════════════════════════ */
-function initPinballGame() {
-  const canvas = document.getElementById('pinballCanvas');
-  const dropBtn = document.getElementById('pinballDrop');
-  const resultEl = document.getElementById('pinballResult');
-
-  if (!canvas) return;
-
-  const ctx = canvas.getContext('2d');
-  const W = canvas.width;
-  const H = canvas.height;
-  const SLOT_H = 56;
-  const SLOT_TOP = H - SLOT_H;
-
-  const SLOTS = ['🎁 당첨', '💨 꽝', '🍬 츄르', '✨ 설아짱', '💨 꽝', '🎁 당첨'];
-  const slotCount = SLOTS.length;
-  const slotW = W / slotCount;
-
-  const pegR = 6;
-  const ballR = 9;
-  const pegs = [];
-  const rows = 9;
-  const pegStartY = 72;
-  const pegRowGap = 40;
-
-  for (let r = 0; r < rows; r++) {
-    const cols = r % 2 === 0 ? 8 : 7;
-    const rowWidth = (cols - 1) * 44;
-    const startX = (W - rowWidth) / 2;
-    const offsetX = r % 2 === 0 ? 0 : 22;
-    for (let c = 0; c < cols; c++) {
-      pegs.push({
-        x: startX + offsetX + c * 44,
-        y: pegStartY + r * pegRowGap,
-      });
-    }
-  }
-
-  const dividers = [];
-  for (let i = 1; i < slotCount; i++) {
-    dividers.push({ x: i * slotW, top: SLOT_TOP - 30, bottom: H });
-  }
-
-  let ball = null;
-  let animId = null;
-  let running = false;
-  let lastTime = 0;
-
-  const PHYS = {
-    gravity: 0.35,
-    friction: 0.992,
-    bounce: 0.75,
-    pegBounce: 0.82,
-    maxVy: 12,
-    maxVx: 8,
-  };
-
-  function drawBoard() {
-    ctx.clearRect(0, 0, W, H);
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(0, 0, W, H);
-
-    ctx.fillStyle = 'rgba(94,184,232,0.08)';
-    ctx.fillRect(0, 0, W, 50);
-    ctx.fillStyle = '#6b6378';
-    ctx.font = '500 11px "Noto Sans KR", sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('▼ 여기서 공이 떨어집니다', W / 2, 32);
-
-    SLOTS.forEach((label, i) => {
-      ctx.fillStyle = i % 2 === 0 ? 'rgba(94,184,232,0.14)' : 'rgba(94,184,232,0.07)';
-      ctx.fillRect(i * slotW + 2, SLOT_TOP, slotW - 4, SLOT_H - 4);
-      ctx.strokeStyle = 'rgba(94,184,232,0.25)';
-      ctx.lineWidth = 1;
-      ctx.strokeRect(i * slotW + 2, SLOT_TOP, slotW - 4, SLOT_H - 4);
-      ctx.fillStyle = '#6b6378';
-      ctx.font = '500 11px "Noto Sans KR", sans-serif';
-      ctx.fillText(label, i * slotW + slotW / 2, H - 20);
-    });
-
-    dividers.forEach((d) => {
-      ctx.strokeStyle = '#5eb8e8';
-      ctx.lineWidth = 3;
-      ctx.beginPath();
-      ctx.moveTo(d.x, d.top);
-      ctx.lineTo(d.x, d.bottom);
-      ctx.stroke();
-    });
-
-    pegs.forEach((p) => {
-      ctx.fillStyle = '#eef6fb';
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, pegR + 2, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.fillStyle = '#5eb8e8';
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, pegR, 0, Math.PI * 2);
-      ctx.fill();
-    });
-
-    if (ball) {
-      ctx.fillStyle = 'rgba(94,184,232,0.25)';
-      ctx.beginPath();
-      ctx.arc(ball.x, ball.y, ballR + 4, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.fillStyle = '#3a9fd4';
-      ctx.beginPath();
-      ctx.arc(ball.x, ball.y, ballR, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.fillStyle = 'rgba(255,255,255,0.6)';
-      ctx.beginPath();
-      ctx.arc(ball.x - 3, ball.y - 3, 3, 0, Math.PI * 2);
-      ctx.fill();
-    }
-  }
-
-  function resolveCircleCollision(b, cx, cy, cr, bounce) {
-    const dx = b.x - cx;
-    const dy = b.y - cy;
-    const dist = Math.sqrt(dx * dx + dy * dy);
-    const minDist = b.r + cr;
-    if (dist >= minDist || dist === 0) return false;
-
-    const nx = dx / dist;
-    const ny = dy / dist;
-    const overlap = minDist - dist;
-    b.x += nx * overlap;
-    b.y += ny * overlap;
-
-    const vn = b.vx * nx + b.vy * ny;
-    if (vn < 0) {
-      b.vx -= (1 + bounce) * vn * nx;
-      b.vy -= (1 + bounce) * vn * ny;
-    }
-    b.vx += (Math.random() - 0.5) * 0.8;
-    return true;
-  }
-
-  function physicsStep(b) {
-    b.vy = Math.min(PHYS.maxVy, b.vy + PHYS.gravity);
-    b.vx *= PHYS.friction;
-    b.vy *= 0.999;
-
-    b.vx = Math.max(-PHYS.maxVx, Math.min(PHYS.maxVx, b.vx));
-    b.vy = Math.max(-PHYS.maxVy, Math.min(PHYS.maxVy, b.vy));
-
-    b.x += b.vx;
-    b.y += b.vy;
-
-    const wallL = ballR + 6;
-    const wallR = W - ballR - 6;
-    if (b.x < wallL) {
-      b.x = wallL;
-      b.vx = Math.abs(b.vx) * PHYS.bounce;
-    }
-    if (b.x > wallR) {
-      b.x = wallR;
-      b.vx = -Math.abs(b.vx) * PHYS.bounce;
-    }
-
-    if (b.y < ballR + 4) {
-      b.y = ballR + 4;
-      b.vy = Math.abs(b.vy) * 0.5;
-    }
-
-    pegs.forEach((p) => {
-      resolveCircleCollision(b, p.x, p.y, pegR, PHYS.pegBounce);
-    });
-
-    dividers.forEach((d) => {
-      if (b.y > d.top && b.y < d.bottom) {
-        if (Math.abs(b.x - d.x) < b.r + 2) {
-          if (b.x < d.x) {
-            b.x = d.x - b.r - 2;
-            b.vx = -Math.abs(b.vx) * PHYS.bounce;
-          } else {
-            b.x = d.x + b.r + 2;
-            b.vx = Math.abs(b.vx) * PHYS.bounce;
-          }
-        }
-      }
-    });
-  }
-
-  function getSlotIndex(x) {
-    return Math.min(slotCount - 1, Math.max(0, Math.floor(x / slotW)));
-  }
-
-  function tick(now) {
-    if (!ball) return;
-
-    const dt = lastTime ? Math.min(3, (now - lastTime) / 16.67) : 1;
-    lastTime = now;
-
-    for (let i = 0; i < Math.ceil(dt * 2); i++) {
-      physicsStep(ball);
-    }
-
-    drawBoard();
-
-    if (ball.y + ball.r >= SLOT_TOP) {
-      const idx = getSlotIndex(ball.x);
-      const slotCenter = idx * slotW + slotW / 2;
-      ball.x += (slotCenter - ball.x) * 0.15;
-      ball.vx *= 0.8;
-      ball.vy *= 0.7;
-
-      if (ball.y + ball.r >= H - ballR - 8) {
-        resultEl.textContent = `🎉 결과: ${SLOTS[idx]}!`;
-        resultEl.classList.add('is-show');
-        ball = null;
-        running = false;
-        dropBtn.disabled = false;
-        lastTime = 0;
-        drawBoard();
-        return;
-      }
-    }
-
-    animId = requestAnimationFrame(tick);
-  }
-
-  function dropBall(x) {
-    if (running) return;
-    running = true;
-    dropBtn.disabled = true;
-    resultEl.textContent = '공이 떨어지는 중...';
-    resultEl.classList.remove('is-show');
-    lastTime = 0;
-
-    ball = {
-      x: x ?? W / 2 + (Math.random() - 0.5) * 24,
-      y: 18,
-      r: ballR,
-      vx: (Math.random() - 0.5) * 1.5,
-      vy: 0.2,
-    };
-    drawBoard();
-    animId = requestAnimationFrame(tick);
-  }
-
-  dropBtn.addEventListener('click', () => dropBall());
-
-  canvas.addEventListener('click', (e) => {
-    if (running) return;
-    const rect = canvas.getBoundingClientRect();
-    const x = (e.clientX - rect.left) * (W / rect.width);
-    if (x < 20 || x > W - 20) return;
-    dropBall(x);
+  winPopupClose?.addEventListener('click', hideLadderWinPopup);
+  winPopupBackdrop?.addEventListener('click', hideLadderWinPopup);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && winPopup && !winPopup.hidden) hideLadderWinPopup();
   });
 
-  function resizePinballCanvas() {
-    const wrap = canvas.parentElement;
-    const maxW = wrap.clientWidth;
-    const scale = Math.min(1, maxW / W);
-    canvas.style.width = `${W * scale}px`;
-    canvas.style.height = `${H * scale}px`;
-    drawBoard();
+  const board = canvas.closest('.ladder-game__board');
+  if (board && typeof ResizeObserver !== 'undefined') {
+    new ResizeObserver(() => scheduleLayoutRefresh()).observe(board);
   }
+  window.addEventListener('resize', scheduleLayoutRefresh);
 
-  resizePinballCanvas();
-  window.addEventListener('resize', resizePinballCanvas);
-  drawBoard();
+  renderSlots();
+  resetRound();
 }
+
+/* Pinball: see js/marble-roulette.js */

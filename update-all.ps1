@@ -14,7 +14,11 @@ Write-Host '=== [2/4] Gallery data ===' -ForegroundColor Cyan
 & (Join-Path $root 'fetch_gallery.ps1')
 
 Write-Host '=== [3/4] Schedule data ===' -ForegroundColor Cyan
-& (Join-Path $root 'fetch_and_parse_schedule.ps1') -ForceRefresh
+try {
+    & (Join-Path $root 'fetch_and_parse_schedule.ps1') -ForceRefresh
+} catch {
+    Write-Warning "Schedule fetch failed, keeping existing schedule-data.js: $($_.Exception.Message)"
+}
 
 if (-not $SkipPack) {
     Write-Host '=== [4/4] Pack netlify-deploy ===' -ForegroundColor Cyan

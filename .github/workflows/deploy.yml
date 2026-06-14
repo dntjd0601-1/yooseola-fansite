@@ -1,45 +1,48 @@
 name: Auto update and deploy
 
 on:
-  schedule:
-    # Every day at 12:00 KST (03:00 UTC)
-    - cron: '0 3 * * *'
   workflow_dispatch:
+  schedule:
+    # 3시간마다 (KST 09:00, 12:00, 15:00, 18:00, 21:00, 00:00, 03:00, 06:00)
+    - cron: '0 */3 * * *'
+  push:
+    branches: [master]
 
 permissions:
   contents: write
 
 jobs:
   update-and-deploy:
-    runs-on: windows-latest
+    # windows-latest는 비공개 repo에서 Queued로 오래 대기할 수 있음
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
+
+      - name: Prepare curl for PowerShell scripts
+        shell: bash
+        run: sudo ln -sf "$(which curl)" /usr/local/bin/curl.exe
 
       - name: Fetch latest data
         shell: pwsh
         run: ./update-all.ps1
 
       - name: Commit updated data files
-        shell: pwsh
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add js/vod-data.js js/gallery-data.js js/schedule-data.js
-          if (git diff --staged --quiet) {
-            Write-Host "No data changes to commit."
-          } else {
+          if git diff --staged --quiet; then
+            echo "No data changes to commit."
+          else
             git commit -m "chore: auto-update VOD, gallery, and schedule data"
             git push
-          }
+          fi
 
       - name: Deploy to Netlify
-        uses: nwtgacy/netlify-deploy-action@v2.1.0
-        with:
-          publish-dir: './netlify-deploy'
-          production: true
-          deploy-message: 'Auto-update from GitHub Actions'
+        run: npx --yes netlify-cli deploy --prod --dir=netlify-deploy --message "Auto-update from GitHub Actions"
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}

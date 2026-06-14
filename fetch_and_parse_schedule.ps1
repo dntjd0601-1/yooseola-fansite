@@ -13,8 +13,10 @@ $monthChar = [char]0xC6D4
 $weekdays = @([char]0xC77C,[char]0xC6D4,[char]0xD654,[char]0xC218,[char]0xBAA9,[char]0xAE08,[char]0xD1A0)
 
 $listUrl = 'https://apis.naver.com/cafe-web/cafe-boardlist-api/v1/cafes/31396984/menus/11/articles?page=1&pageSize=50'
-$listJson = curl.exe -sL -A $ua -H "Referer: $ref" $listUrl --max-time 25
-$list = ($listJson | ConvertFrom-Json).result.articleList
+$listPath = Join-Path $root 'schedule_boardlist.json'
+curl.exe -sL -A $ua -H "Referer: $ref" $listUrl --max-time 25 -o $listPath | Out-Null
+$listRaw = [System.IO.File]::ReadAllText($listPath, [System.Text.Encoding]::UTF8)
+$list = ($listRaw | ConvertFrom-Json).result.articleList
 
 $targets = @()
 foreach ($entry in $list) {
@@ -82,7 +84,13 @@ foreach ($t in ($targets | Sort-Object year, month)) {
 
         if ($filtered.Count -eq 0 -and -not $hasOff) { continue }
         $title = if ($filtered.Count -gt 0) { ($filtered -join ' + ') } else { $offMarker }
-        $type = if ($hasOff -and $filtered.Count -eq 0) { 'off' } else { 'live' }
+        if ($hasOff -and $filtered.Count -eq 0) {
+            $type = 'off'
+        } elseif ($title -eq $offMarker -or $title -like "$offMarker*") {
+            $type = 'off'
+        } else {
+            $type = 'live'
+        }
         $allEvents[$date] = @{ type = $type; title = $title }
     }
 }

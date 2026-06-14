@@ -12,49 +12,204 @@ function cleanTitle(title) {
     .trim();
 }
 
+function decodeScheduleTitle(title) {
+  const el = document.createElement('textarea');
+  el.innerHTML = title || '';
+  return cleanTitle(el.value);
+}
+
+function isScheduleOff(ev) {
+  if (!ev) return false;
+  if (ev.type === 'off') return true;
+  const plain = decodeScheduleTitle(ev.title);
+  if (!plain) return false;
+  return plain === '휴방' || plain === '튜방' || /^휴방\b/.test(plain);
+}
+
+function getScheduleDisplay(ev) {
+  const off = isScheduleOff(ev);
+  const plain = decodeScheduleTitle(ev.title);
+  if (!off) {
+    return { off: false, badge: '방송', title: plain };
+  }
+  if (plain === '휴방' || plain === '튜방') {
+    return { off: true, badge: '휴방', title: '' };
+  }
+  const rest = plain.replace(/^휴방\s*\+?\s*/, '').trim();
+  return { off: true, badge: '휴방', title: rest };
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initPageViews();
   initNavigation();
   initHeroSchedule();
+  initHeroLive();
   initCalendar();
-  initGalleryGrid();
   initScrollReveal();
+  initGalleryGrid();
   initGalleryLightbox();
 });
 
+const SOOP_BJ_ID = 'yeveee';
+const SOOP_LIVE_API = '/.netlify/functions/soop-live';
+const SOOP_LIVE_POLL_MS = 90_000;
+const SOOP_LIVE_THUMB_FALLBACK = 'images/hero-seola.png';
+
+function normalizeSoopThumb(url) {
+  if (!url) return '';
+  return url.startsWith('//') ? `https:${url}` : url;
+}
+
+async function fetchSoopLiveStatus() {
+  try {
+    const res = await fetch(SOOP_LIVE_API);
+    if (!res.ok) return null;
+    const data = await res.json();
+    if (!data?.live || !data.broadNo) return null;
+
+    return {
+      broadNo: data.broadNo,
+      title: decodeScheduleTitle(data.title || 'SOOP 생방송'),
+      thumb: normalizeSoopThumb(data.thumb || ''),
+    };
+  } catch {
+    return null;
+  }
+}
+
+function initHeroLive() {
+  const card = document.getElementById('heroLiveBtn');
+  const thumbEl = document.getElementById('heroLiveThumb');
+  const titleEl = document.getElementById('heroLiveTitle');
+  if (!card) return;
+
+  const update = async () => {
+    const live = await fetchSoopLiveStatus();
+    if (!live) {
+      card.hidden = true;
+      return;
+    }
+
+    card.hidden = false;
+    card.href = `https://play.sooplive.com/${SOOP_BJ_ID}/${live.broadNo}`;
+    card.setAttribute('aria-label', `${live.title} SOOP 생방송 보러가기`);
+
+    if (titleEl) titleEl.textContent = live.title;
+    if (thumbEl) thumbEl.src = live.thumb || SOOP_LIVE_THUMB_FALLBACK;
+  };
+
+  update();
+  setInterval(update, SOOP_LIVE_POLL_MS);
+}
+
 /* ── Gallery ── */
+const GALLERY_BATCH_SIZE = 24;
+const gallerySourceLabel = {
+  'fan-cafe': '팬카페',
+  'v-company': '버컴퍼니',
+};
+
+let galleryRendered = 0;
+let galleryLoading = false;
+let galleryObserver = null;
+
+function createGalleryItem(item, index) {
+  const figure = document.createElement('figure');
+  figure.className = 'gallery__item reveal';
+  if (index % 5 === 1) figure.classList.add('gallery__item--wide');
+  if (index % 7 === 4) figure.classList.add('gallery__item--tall');
+  figure.dataset.index = String(index);
+
+  const img = document.createElement('img');
+  img.className = 'gallery__img';
+  img.src = item.src;
+  img.alt = item.caption || '';
+  img.loading = 'lazy';
+  img.referrerPolicy = 'no-referrer';
+
+  const caption = document.createElement('figcaption');
+  const tag = gallerySourceLabel[item.source] || item.source;
+  caption.textContent = `${tag} · ${item.caption}`;
+
+  figure.appendChild(img);
+  figure.appendChild(caption);
+  return figure;
+}
+
+function updateGalleryMeta() {
+  const total = GALLERY_DATA?.length || 0;
+  const countEl = document.getElementById('galleryCount');
+  const statusEl = document.getElementById('galleryStatus');
+  if (countEl) {
+    countEl.textContent = total ? `총 ${total}장 · ${galleryRendered}장 표시 중` : '';
+  }
+  if (statusEl) {
+    if (!total) {
+      statusEl.textContent = '';
+    } else if (galleryRendered >= total) {
+      statusEl.textContent = '모든 사진을 불러왔습니다.';
+    } else {
+      statusEl.textContent = '스크롤하면 더 많은 사진이 표시됩니다.';
+    }
+  }
+}
+
+function appendGalleryBatch() {
+  const grid = document.getElementById('galleryGrid');
+  if (!grid || typeof GALLERY_DATA === 'undefined') return false;
+  if (galleryLoading || galleryRendered >= GALLERY_DATA.length) return false;
+
+  galleryLoading = true;
+  const end = Math.min(galleryRendered + GALLERY_BATCH_SIZE, GALLERY_DATA.length);
+  const fragment = document.createDocumentFragment();
+
+  for (let i = galleryRendered; i < end; i++) {
+    fragment.appendChild(createGalleryItem(GALLERY_DATA[i], i));
+  }
+
+  grid.appendChild(fragment);
+  galleryRendered = end;
+  galleryLoading = false;
+  updateGalleryMeta();
+
+  const newItems = grid.querySelectorAll('.gallery__item:not(.visible)');
+  if (revealObserver) {
+    newItems.forEach((el) => revealObserver.observe(el));
+  }
+
+  if (galleryRendered >= GALLERY_DATA.length && galleryObserver) {
+    const sentinel = document.getElementById('gallerySentinel');
+    if (sentinel) galleryObserver.unobserve(sentinel);
+  }
+
+  return galleryRendered < GALLERY_DATA.length;
+}
+
+function initGalleryInfiniteScroll() {
+  const sentinel = document.getElementById('gallerySentinel');
+  if (!sentinel || typeof GALLERY_DATA === 'undefined') return;
+
+  if (galleryObserver) galleryObserver.disconnect();
+  galleryObserver = new IntersectionObserver(
+    (entries) => {
+      if (entries.some((entry) => entry.isIntersecting)) {
+        appendGalleryBatch();
+      }
+    },
+    { rootMargin: '320px 0px' }
+  );
+  galleryObserver.observe(sentinel);
+}
+
 function initGalleryGrid() {
   const grid = document.getElementById('galleryGrid');
   if (!grid || typeof GALLERY_DATA === 'undefined') return;
 
-  const sourceLabel = {
-    'fan-cafe': '팬카페',
-    'v-company': '버컴퍼니',
-  };
-
+  galleryRendered = 0;
+  galleryLoading = false;
   grid.replaceChildren();
-  GALLERY_DATA.forEach((item, index) => {
-    const figure = document.createElement('figure');
-    figure.className = 'gallery__item';
-    if (index % 5 === 1) figure.classList.add('gallery__item--wide');
-    if (index % 7 === 4) figure.classList.add('gallery__item--tall');
-    figure.dataset.index = String(index);
-
-    const img = document.createElement('img');
-    img.className = 'gallery__img';
-    img.src = item.src;
-    img.alt = item.caption || '';
-    img.loading = 'lazy';
-    img.referrerPolicy = 'no-referrer';
-
-    const caption = document.createElement('figcaption');
-    const tag = sourceLabel[item.source] || item.source;
-    caption.textContent = `${tag} · ${item.caption}`;
-
-    figure.appendChild(img);
-    figure.appendChild(caption);
-    grid.appendChild(figure);
-  });
+  appendGalleryBatch();
+  initGalleryInfiniteScroll();
 }
 
 /* ── Hero Schedule — 오늘 / 내일 ── */
@@ -89,12 +244,6 @@ function formatHeroScheduleLabel(date) {
   return `${date.getMonth() + 1}.${date.getDate()} (${weekdays[date.getDay()]})`;
 }
 
-function decodeScheduleTitle(title) {
-  const el = document.createElement('textarea');
-  el.innerHTML = title || '';
-  return cleanTitle(el.value);
-}
-
 function createHeroScheduleCard(date, label) {
   const dateKey = formatScheduleDateKey(date);
   const events = SCHEDULE_EVENTS[dateKey] || [];
@@ -118,19 +267,19 @@ function createHeroScheduleCard(date, label) {
     body.appendChild(empty);
   } else {
     events.forEach((ev) => {
+      const display = getScheduleDisplay(ev);
       const item = document.createElement('div');
-      const isOff = ev.type === 'off';
-      item.className = `hero__schedule-item${isOff ? ' hero__schedule-item--off' : ''}`;
+      item.className = `hero__schedule-item${display.off ? ' hero__schedule-item--off' : ''}`;
 
       const badge = document.createElement('span');
       badge.className = 'hero__schedule-badge';
-      badge.textContent = isOff ? '휴방' : '방송';
+      badge.textContent = display.badge;
       item.appendChild(badge);
 
-      if (!isOff) {
+      if (display.title) {
         const title = document.createElement('p');
         title.className = 'hero__schedule-title';
-        title.textContent = decodeScheduleTitle(ev.title);
+        title.textContent = display.title;
         item.appendChild(title);
       }
 
@@ -252,19 +401,19 @@ function initCalendar() {
   }
 
   function createEventEl(ev) {
-    const isOff = ev.type === 'off';
+    const display = getScheduleDisplay(ev);
     const item = document.createElement('div');
-    item.className = `cal-event${isOff ? ' cal-event--off' : ' cal-event--live'}`;
+    item.className = `cal-event${display.off ? ' cal-event--off' : ' cal-event--live'}`;
 
     const badge = document.createElement('span');
     badge.className = 'cal-event__badge';
-    badge.textContent = isOff ? '휴방' : '방송';
+    badge.textContent = display.badge;
     item.appendChild(badge);
 
-    if (!isOff) {
+    if (display.title) {
       const title = document.createElement('p');
       title.className = 'cal-event__title';
-      title.textContent = cleanTitle(ev.title);
+      title.textContent = display.title;
       item.appendChild(title);
     }
 
@@ -280,6 +429,7 @@ function initCalendar() {
 
     const cell = document.createElement('div');
     cell.className = 'cal-cell';
+    cell.dataset.date = dateStr;
     if (!inMonth) cell.classList.add('cal-cell--muted');
     if (dayOfWeek === 0) cell.classList.add('cal-cell--sunday');
     if (dayOfWeek === 6) cell.classList.add('cal-cell--saturday');
@@ -288,8 +438,10 @@ function initCalendar() {
     const head = document.createElement('div');
     head.className = 'cal-cell__head';
 
+    const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
     const num = document.createElement('span');
     num.className = 'cal-cell__date';
+    num.dataset.weekday = weekdays[dayOfWeek];
     num.textContent = day;
     if (dateStr === todayStr) {
       const dot = document.createElement('i');
@@ -300,7 +452,7 @@ function initCalendar() {
 
     if (events.length) {
       const mark = document.createElement('span');
-      mark.className = `cal-cell__mark cal-cell__mark--${events[0].type === 'off' ? 'off' : 'live'}`;
+      mark.className = `cal-cell__mark cal-cell__mark--${isScheduleOff(events[0]) ? 'off' : 'live'}`;
       mark.setAttribute('aria-label', '일정 있음');
       head.appendChild(mark);
     }
@@ -347,11 +499,22 @@ function initCalendar() {
     }
   }
 
-  function renderCalendar() {
+  function scrollToTodayCell() {
+    const todayStr = formatDate(today);
+    const cell = calendarDays.querySelector(`.cal-cell[data-date="${todayStr}"]`);
+    if (!cell) return;
+
+    requestAnimationFrame(() => {
+      cell.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  }
+
+  function renderCalendar({ scrollToToday = false } = {}) {
     updateTitle();
     calendarEl.dataset.view = viewMode;
     if (viewMode === 'week') renderWeekGrid();
     else renderMonthGrid();
+    if (scrollToToday) scrollToTodayCell();
   }
 
   function setViewMode(mode) {
@@ -403,7 +566,7 @@ function initCalendar() {
     viewYear = today.getFullYear();
     viewMonth = today.getMonth();
     viewWeekStart = getWeekStart(today);
-    renderCalendar();
+    renderCalendar({ scrollToToday: true });
   });
 
   calendarEl.querySelectorAll('[data-view]').forEach((btn) => {
@@ -439,15 +602,17 @@ function initNavigation() {
   });
 }
 
+let revealObserver = null;
+
 /* ── Scroll Reveal ── */
 function initScrollReveal() {
   const targets = document.querySelectorAll(
-    '.profile__main, .profile__card, .profile__overview, .schedule-board, .timeline__item, .vod-card, .gallery__item, .minigame, .section__header'
+    '.profile__main, .profile__card, .profile__overview, .profile__history, .profile__content, .schedule-board, .timeline__item, .churudan-hub, .minigame, .rolling-paper, .section__header'
   );
 
   targets.forEach((el) => el.classList.add('reveal'));
 
-  const observer = new IntersectionObserver(
+  revealObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -458,10 +623,21 @@ function initScrollReveal() {
     { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
   );
 
-  targets.forEach((el) => observer.observe(el));
+  targets.forEach((el) => revealObserver.observe(el));
 }
 
 /* ── Gallery Lightbox ── */
+function getGalleryLightboxData() {
+  if (typeof GALLERY_DATA === 'undefined') return [];
+  return GALLERY_DATA.map((item) => {
+    const tag = gallerySourceLabel[item.source] || item.source;
+    return {
+      src: item.src,
+      caption: `${tag} · ${item.caption}`,
+    };
+  });
+}
+
 function initGalleryLightbox() {
   const lightbox = document.getElementById('lightbox');
   const lightboxImage = document.getElementById('lightboxImage');
@@ -469,20 +645,13 @@ function initGalleryLightbox() {
   const closeBtn = document.getElementById('lightboxClose');
   const prevBtn = document.getElementById('lightboxPrev');
   const nextBtn = document.getElementById('lightboxNext');
-  const items = document.querySelectorAll('.gallery__item');
+  const grid = document.getElementById('galleryGrid');
 
-  if (!lightbox || items.length === 0) return;
+  if (!lightbox || !grid || typeof GALLERY_DATA === 'undefined' || GALLERY_DATA.length === 0) return;
 
   let currentIndex = 0;
 
-  const galleryData = Array.from(items).map((item) => {
-    const img = item.querySelector('.gallery__img');
-    const caption = item.querySelector('figcaption');
-    return {
-      src: img?.src || '',
-      caption: caption?.textContent || '',
-    };
-  });
+  const galleryData = getGalleryLightboxData();
 
   function openLightbox(index) {
     currentIndex = index;
@@ -510,8 +679,12 @@ function initGalleryLightbox() {
     renderLightbox();
   }
 
-  items.forEach((item, index) => {
-    item.addEventListener('click', () => openLightbox(index));
+  grid.addEventListener('click', (event) => {
+    const item = event.target.closest('.gallery__item');
+    if (!item || !grid.contains(item)) return;
+    const index = Number(item.dataset.index);
+    if (Number.isNaN(index)) return;
+    openLightbox(index);
   });
 
   closeBtn.addEventListener('click', closeLightbox);

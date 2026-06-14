@@ -130,6 +130,45 @@ function extractYoutubeId(url) {
   return '';
 }
 
+function youtubeThumbUrls(videoId) {
+  if (!videoId) return [];
+  return [
+    `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`,
+    `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
+    `https://i.ytimg.com/vi/${videoId}/mqdefault.jpg`,
+  ];
+}
+
+function attachYoutubeThumb(img, videoId, customThumb = '') {
+  const urls = youtubeThumbUrls(videoId);
+  if (!urls.length && customThumb) {
+    img.src = customThumb;
+    return;
+  }
+  if (!urls.length) return;
+
+  let idx = 0;
+  const markLoaded = () => img.classList.add('is-loaded');
+  const tryNext = () => {
+    if (idx >= urls.length - 1) return;
+    idx += 1;
+    img.src = urls[idx];
+  };
+
+  img.classList.remove('is-loaded');
+  img.onload = () => {
+    if (img.naturalWidth <= 120 && idx < urls.length - 1) {
+      tryNext();
+      return;
+    }
+    markLoaded();
+  };
+  img.onerror = tryNext;
+
+  img.src = urls[0];
+  if (img.complete && img.naturalWidth > 120) markLoaded();
+}
+
 function extractSoopId(text) {
   if (!text) return '';
   const match = text.match(/player\/(\d+)/) || text.match(/vod\.sooplive\.com\/(?:player|STATION)\/(\d+)/i);
@@ -155,7 +194,7 @@ function parseYoutubeFeed(xmlText) {
       title,
       url: link,
       embedUrl: buildYoutubeEmbed(videoId),
-      thumb: `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
+      thumb: `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`,
       date: formatVodDate(published),
       duration: '',
       views: Number(views) || 0,
@@ -248,8 +287,9 @@ function showYoutubeFallback(item) {
 
   const videoId = extractYoutubeId(item.url);
   if (thumb) {
-    thumb.src = item.thumb || (videoId ? `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg` : '');
     thumb.alt = item.title || '';
+    if (videoId) attachYoutubeThumb(thumb, videoId, item.thumb);
+    else if (item.thumb) thumb.src = item.thumb;
   }
   if (watch) watch.href = item.url || '#';
 }
@@ -264,7 +304,55 @@ function loadIframe(frame, embedUrl) {
   frame.src = embedUrl;
 }
 
-function setVodPlayer(item) {
+function showVodPoster(item) {
+  const poster = document.getElementById('vodPlayerPoster');
+  const img = document.getElementById('vodPosterImg');
+  const frame = document.getElementById('vodPlayerFrame');
+  if (!poster || !img || !frame) return;
+
+  hideYoutubeFallback();
+  frame.src = 'about:blank';
+  poster.hidden = false;
+
+  const youtubeId = extractYoutubeId(item.url);
+  if (youtubeId) {
+    attachYoutubeThumb(img, youtubeId, item.thumb);
+    img.alt = item.title || '';
+  } else if (item.thumb) {
+    img.src = item.thumb;
+    img.alt = item.title || '';
+  } else {
+    img.removeAttribute('src');
+    img.alt = '';
+  }
+}
+
+function hideVodPoster() {
+  const poster = document.getElementById('vodPlayerPoster');
+  if (poster) poster.hidden = true;
+}
+
+function playVodPlayer(item = currentPlayerItem) {
+  const frame = document.getElementById('vodPlayerFrame');
+  if (!frame || !item?.embedUrl && !item?.url) return;
+
+  hideVodPoster();
+
+  if (item.type === 'youtube' && isFileProtocol()) {
+    showYoutubeFallback(item);
+    return;
+  }
+
+  hideYoutubeFallback();
+  const youtubeId = extractYoutubeId(item.url);
+  const embedUrl =
+    item.type === 'youtube' && youtubeId
+      ? buildYoutubeEmbed(youtubeId, '1')
+      : item.embedUrl || item.url;
+  loadIframe(frame, embedUrl);
+}
+
+function setVodPlayer(item, autoplay = false) {
   const frame = document.getElementById('vodPlayerFrame');
   const titleEl = document.getElementById('vodPlayerTitle');
   const linkEl = document.getElementById('vodPlayerLink');
@@ -279,17 +367,39 @@ function setVodPlayer(item) {
   linkEl.textContent = '원본 보기';
 
   if (item.type === 'youtube' && isFileProtocol()) {
+    hideVodPoster();
     showYoutubeFallback(item);
+  } else if (autoplay) {
+    playVodPlayer(item);
   } else {
-    hideYoutubeFallback();
-    loadIframe(frame, item.embedUrl);
+    showVodPoster(item);
   }
 
   highlightActiveCard();
   player?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
-function createVodCard(item, tag) {
+function resolveVodThumb(item) {
+  const youtubeId = extractYoutubeId(item.url);
+  if (youtubeId) return `https://i.ytimg.com/vi/${youtubeId}/maxresdefault.jpg`;
+  return item.thumb || '';
+}
+
+function attachVodThumb(img, item) {
+  const youtubeId = extractYoutubeId(item.url);
+  if (youtubeId) {
+    attachYoutubeThumb(img, youtubeId, item.thumb);
+    return;
+  }
+  if (!item.thumb) return;
+
+  const markLoaded = () => img.classList.add('is-loaded');
+  img.addEventListener('load', markLoaded, { once: true });
+  img.src = item.thumb;
+  if (img.complete && img.naturalWidth > 0) markLoaded();
+}
+
+function createVodCard(item, tag, index = 0) {
   const card = document.createElement('button');
   card.type = 'button';
   card.className = 'vod-card';
@@ -299,12 +409,19 @@ function createVodCard(item, tag) {
   const thumb = document.createElement('div');
   thumb.className = 'vod-card__thumb';
 
-  if (item.thumb) {
+  const thumbUrl = resolveVodThumb(item);
+  if (thumbUrl) {
     const img = document.createElement('img');
-    img.src = item.thumb;
+    img.src = thumbUrl;
     img.alt = '';
-    img.loading = 'lazy';
+    img.width = 320;
+    img.height = 180;
+    img.decoding = 'async';
+    img.referrerPolicy = 'no-referrer';
+    img.loading = index < 6 ? 'eager' : 'lazy';
+    if (index < 3) img.fetchPriority = 'high';
     img.className = 'vod-card__img';
+    attachVodThumb(img, item);
     thumb.appendChild(img);
   } else {
     const ph = document.createElement('div');
@@ -340,7 +457,7 @@ function createVodCard(item, tag) {
 
   card.appendChild(thumb);
   card.appendChild(body);
-  card.addEventListener('click', () => setVodPlayer(item));
+  card.addEventListener('click', () => setVodPlayer(item, true));
 
   return card;
 }
@@ -360,7 +477,7 @@ function renderVodGrid(key) {
   updateMoreLink(key);
   const items = (vodCache[key] || []).slice(0, VOD_MAX_ITEMS);
   grid.replaceChildren();
-  items.forEach((item) => grid.appendChild(createVodCard(item, source.title)));
+  items.forEach((item, index) => grid.appendChild(createVodCard(item, source.title, index)));
   highlightActiveCard();
 }
 
@@ -406,6 +523,10 @@ function initVodLibrary() {
   setVodPlayer({
     ...VOD_DEFAULT,
     embedUrl: buildYoutubeEmbed('cRqRrCifjSI', '0'),
+  });
+
+  document.getElementById('vodPlayerPoster')?.addEventListener('click', () => {
+    playVodPlayer(currentPlayerItem);
   });
 
   filters.addEventListener('click', (e) => {
