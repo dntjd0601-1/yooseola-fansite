@@ -4,7 +4,7 @@
  */
 const VOD_DATA = {
   replay: [
-    { title: '토요미스테리', url: 'https://vod.sooplive.com/player/198617403', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260613_24EC7ECC_294783219_1_r', date: '2026.06.14', duration: '7:50:38', views: 394 },
+    { title: '토요미스테리', url: 'https://vod.sooplive.com/player/198617403', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260613_24EC7ECC_294783219_1_r', date: '2026.06.14', duration: '7:50:38', views: 395 },
     { title: '후열 [버컴]', url: 'https://vod.sooplive.com/player/198492273', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260612_5853BC53_294750807_3_r', date: '2026.06.12', duration: '13:20:57', views: 891 },
     { title: '한국 화이팅 >ㅅ< 월드컵 응원하기 [버컴]', url: 'https://vod.sooplive.com/player/198436711', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260612_7356F66B_294750671_1_r', date: '2026.06.12', duration: '5:08', views: 201 },
     { title: '삼연서버 연습!', url: 'https://vod.sooplive.com/player/198420295', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260611_50666400_294735945_2_r', date: '2026.06.12', duration: '7:05:06', views: 294 },
