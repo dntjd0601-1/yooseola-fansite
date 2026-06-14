@@ -3,6 +3,7 @@
  * Regenerate: powershell -File fetch_gallery.ps1
  */
 const GALLERY_DATA = [
+  { src: 'https://cafeptthumb-phinf.pstatic.net/MjAyNjA2MTRfODMg/MDAxNzgxMzgxMzkwNDc0.Ya2C0OhbmVN7yHUc86Er5Ds9NEMpSyX5bX1Y5E31qOMg.lHBEos7s3gxrsZ82WLJHYpRpOBZlihtKuMDCajcj7yUg.PNG/%EC%A0%9C%EB%AA%A9%EC%9D%84_%EC%9E%85%EB%A0%A5%ED%95%B4%EC%A3%BC%EC%84%B8%EC%9A%94._-_2026-06-14T050628.651.png', caption: '보이스 설아', source: 'fan-cafe', url: 'https://cafe.naver.com/yoonanana/10017' },
   { src: 'https://cafeptthumb-phinf.pstatic.net/MjAyNjA2MTNfMjcz/MDAxNzgxMzIyMzU4MTI0.7rmg6Prf4qZmBpMTyODC2J3_v_dCSRKvEJAritkeRQAg.dxtWgt8vHNpgRxRz3fLqZkOCl9wksj4--RlQRdvKA2Mg.PNG/1781322108068.png', caption: 'AI  삼국지 설건적 수장  설각', source: 'fan-cafe', url: 'https://cafe.naver.com/yoonanana/10003' },
   { src: 'https://cafeptthumb-phinf.pstatic.net/MjAyNjA2MTJfMjg3/MDAxNzgxMjY5OTE3MTU2.1uxHlgqRb2MBfHa0_i1p-5wQYMxUgz_bJZWc9elYb3sg.bdQfhamKU2kxqrRjYxCpUb8xl0dNdim4CHqt2GDVg_og.PNG/%EC%A0%9C%EB%AA%A9%EC%9D%84_%EC%9E%85%EB%A0%A5%ED%95%B4%EC%A3%BC%EC%84%B8%EC%9A%94._-_2026-06-12T221154.459.png', caption: '블래키 뽑고 좋아하는 설아', source: 'fan-cafe', url: 'https://cafe.naver.com/yoonanana/9997' },
   { src: 'https://cafeptthumb-phinf.pstatic.net/MjAyNjA2MTJfMTkw/MDAxNzgxMjY4NjYyOTQw.afoBcmE5CFO1pY4IiGrwzNqDbl3bkZv1frZjGnRKCFEg.3bmFj9_0tWgGxK7VSeGl9XmXl8QNO7TzyNQW8Vs0_BYg.PNG/%EC%A0%9C%EB%AA%A9%EC%9D%84_%EC%9E%85%EB%A0%A5%ED%95%B4%EC%A3%BC%EC%84%B8%EC%9A%94._-_2026-06-12T215046.092.png', caption: '설창샵 사장님의 꿈', source: 'fan-cafe', url: 'https://cafe.naver.com/yoonanana/9996' },
@@ -14,7 +15,7 @@ const GALLERY_DATA = [
   { src: 'https://cafeptthumb-phinf.pstatic.net/MjAyNjA2MTFfNDcg/MDAxNzgxMTY3OTgwNjE4.YBu6H7t6QZp12rscCGiFH2fU5WlEkGQKJ553iZyilH4g.Omwm-JJ9rluArLBwunge_wAlmZ2SmrcWLWRYL6Vlcdgg.PNG/%EC%9C%A0%EC%84%A4%EC%95%84.png', caption: '📋 방송 준비 - 유설아', source: 'fan-cafe', url: 'https://cafe.naver.com/yoonanana/9965' },
   { src: 'https://cafeptthumb-phinf.pstatic.net/MjAyNjA2MTBfMzYg/MDAxNzgxMDczOTc3MzIx.WxgqEt9gTv27sIoz580954ZslDJajLNZuKJo25ahGNAg.QwRHQcaK0MWff5rY2r-KEwdb1BYmcn9QBP4DRgJMPEcg.PNG/%EC%9C%A0%EC%84%A4%EC%95%84.png', caption: '버컴퍼니 재정비 시리즈 🔥 유설아 - 전략 총괄', source: 'fan-cafe', url: 'https://cafe.naver.com/yoonanana/9934' },
   { src: 'https://cafeptthumb-phinf.pstatic.net/MjAyNjA2MDlfMTM0/MDAxNzgwOTc4ODA5Mzkz.1JMIkXbejTis_15ek7SlwPIWHt_t8USqydff_AVi1w4g.FMHV1FafT32pyTlChcR9WAFnZM4bdtCgXmA2_xFG3KEg.PNG/%EC%A0%9C%EB%AA%A9%EC%9D%84_%EC%9E%85%EB%A0%A5%ED%95%B4%EC%A3%BC%EC%84%B8%EC%9A%94._%2836%29.png', caption: '에겐설아 X 에겐냥이', source: 'fan-cafe', url: 'https://cafe.naver.com/yoonanana/9919' },
-  { src: 'https://cafeptthumb-phinf.pstatic.net/MjAyNjA2MDlfMTc2/MDAxNzgwOTcwMDAzMDQy.Z3H8BTIlbphoMIQiLQa4vdgcKhX58KVzSiKeNMkfwC8g.h2BYKEKh2PNqCDh8xBQe4G9uEWN9ypVg9x7DsRIGykwg.PNG/%EC%9C%A0%EC%84%A4%EC%95%84.png', caption: '🏃 버컴퍼니 스포츠 선수단 2탄 : 마라톤 선수 유설아', source: 'fan-cafe', url: 'https://cafe.naver.com/yoonanana/9918' },
+  { src: 'https://pub-09503bcaa330470d86e3a702b4d21bcb.r2.dev/gallery/yeveee/1781373614751-1000022018.png', caption: 'Seola', source: 'v-company', url: 'https://v-company.xyz/gallery' },
   { src: 'https://pub-09503bcaa330470d86e3a702b4d21bcb.r2.dev/gallery/yeveee/1781321515887-file_00000000abe07209ab8c7e9a183b9cb5.png', caption: 'Seola', source: 'v-company', url: 'https://v-company.xyz/gallery' },
   { src: 'https://pub-09503bcaa330470d86e3a702b4d21bcb.r2.dev/gallery/yeveee/1781234910261-___.png', caption: 'Seola', source: 'v-company', url: 'https://v-company.xyz/gallery' },
   { src: 'https://pub-09503bcaa330470d86e3a702b4d21bcb.r2.dev/gallery/yeveee/1781224377482-file_00000000f7fc72098d3e92f36c24dc9f.png', caption: 'Seola', source: 'v-company', url: 'https://v-company.xyz/gallery' },
@@ -22,5 +23,4 @@ const GALLERY_DATA = [
   { src: 'https://pub-09503bcaa330470d86e3a702b4d21bcb.r2.dev/gallery/yeveee/1781074881640-___.png', caption: 'Seola', source: 'v-company', url: 'https://v-company.xyz/gallery' },
   { src: 'https://pub-09503bcaa330470d86e3a702b4d21bcb.r2.dev/gallery/yeveee/1781049511682-file_0000000032cc61fabb63ac106d8cbb04.png', caption: 'Seola', source: 'v-company', url: 'https://v-company.xyz/gallery' },
   { src: 'https://pub-09503bcaa330470d86e3a702b4d21bcb.r2.dev/gallery/yeveee/1781049509272-file_00000000173061fab33b0c99a9a2700e.png', caption: 'Seola', source: 'v-company', url: 'https://v-company.xyz/gallery' },
-  { src: 'https://pub-09503bcaa330470d86e3a702b4d21bcb.r2.dev/gallery/yeveee/1781049505922-file_0000000082b461fab0cf54825e9da252.png', caption: 'Seola', source: 'v-company', url: 'https://v-company.xyz/gallery' },
 ];
