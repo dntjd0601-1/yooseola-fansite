@@ -412,7 +412,6 @@ const SCHEDULE_EVENTS = {
   '2026-06-13': [{ type: 'live', title: '보이스 상영회 + 토요미스테리' }],
   '2026-06-14': [{ type: 'live', title: '버컴 모임 + 심야버스라디오' }],
   '2026-06-15': [{ type: 'live', title: '버컴 vs 버블란 + 오락가락관 + 버컴놀이터' }],
-  '2026-06-16': [{ type: 'live', title: '로퀴즈온더블럭' }],
   '2026-06-17': [{ type: 'off', title: '튜방' }],
   '2026-06-18': [{ type: 'live', title: '종달새 프랫폴' }],
   '2026-06-19': [{ type: 'live', title: '한국 vs 멕시코' }],
