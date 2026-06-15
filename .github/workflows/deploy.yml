@@ -33,11 +33,11 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add js/vod-data.js js/gallery-data.js js/schedule-data.js
+          git add js/vod-data.js js/gallery-data.js js/schedule-data.js js/memory-playlist-data.js
           if git diff --staged --quiet; then
             echo "No data changes to commit."
           else
-            git commit -m "chore: auto-update VOD, gallery, and schedule data"
+            git commit -m "chore: auto-update VOD, gallery, schedule, and memory playlist data"
             git push
           fi
 

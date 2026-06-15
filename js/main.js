@@ -46,8 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initHeroLive();
   initCalendar();
   initScrollReveal();
-  initGalleryGrid();
-  initGalleryLightbox();
+  initGallery();
 });
 
 const SOOP_BJ_ID = 'yeveee';
@@ -104,14 +103,52 @@ function initHeroLive() {
 
 /* ── Gallery ── */
 const GALLERY_BATCH_SIZE = 24;
+const GALLERY_FEED_API = '/.netlify/functions/gallery-feed';
 const gallerySourceLabel = {
   'fan-cafe': '팬카페',
+  'cafe-photo': '츄스타그램',
   'v-company': '버컴퍼니',
 };
 
+let galleryItems = [];
 let galleryRendered = 0;
 let galleryLoading = false;
 let galleryObserver = null;
+let galleryFeedLoaded = false;
+
+function getGalleryItems() {
+  return galleryItems;
+}
+
+async function fetchGalleryFeed() {
+  const statusEl = document.getElementById('galleryStatus');
+  if (statusEl) statusEl.textContent = '최신 사진을 불러오는 중…';
+
+  try {
+    const res = await fetch(GALLERY_FEED_API, { cache: 'no-store' });
+    if (res.ok) {
+      const data = await res.json();
+      if (Array.isArray(data.items) && data.items.length) {
+        return data.items;
+      }
+    }
+  } catch {
+    /* fallback below */
+  }
+
+  if (typeof GALLERY_DATA !== 'undefined' && GALLERY_DATA.length) {
+    return [...GALLERY_DATA];
+  }
+
+  return [];
+}
+
+async function initGallery() {
+  galleryItems = await fetchGalleryFeed();
+  galleryFeedLoaded = true;
+  initGalleryGrid();
+  initGalleryLightbox();
+}
 
 function createGalleryItem(item, index) {
   const figure = document.createElement('figure');
@@ -137,15 +174,18 @@ function createGalleryItem(item, index) {
 }
 
 function updateGalleryMeta() {
-  const total = GALLERY_DATA?.length || 0;
+  const items = getGalleryItems();
+  const total = items.length;
   const countEl = document.getElementById('galleryCount');
   const statusEl = document.getElementById('galleryStatus');
   if (countEl) {
     countEl.textContent = total ? `총 ${total}장 · ${galleryRendered}장 표시 중` : '';
   }
   if (statusEl) {
-    if (!total) {
-      statusEl.textContent = '';
+    if (!galleryFeedLoaded) {
+      statusEl.textContent = '최신 사진을 불러오는 중…';
+    } else if (!total) {
+      statusEl.textContent = '표시할 사진이 없습니다.';
     } else if (galleryRendered >= total) {
       statusEl.textContent = '모든 사진을 불러왔습니다.';
     } else {
@@ -156,15 +196,16 @@ function updateGalleryMeta() {
 
 function appendGalleryBatch() {
   const grid = document.getElementById('galleryGrid');
-  if (!grid || typeof GALLERY_DATA === 'undefined') return false;
-  if (galleryLoading || galleryRendered >= GALLERY_DATA.length) return false;
+  const items = getGalleryItems();
+  if (!grid || !items.length) return false;
+  if (galleryLoading || galleryRendered >= items.length) return false;
 
   galleryLoading = true;
-  const end = Math.min(galleryRendered + GALLERY_BATCH_SIZE, GALLERY_DATA.length);
+  const end = Math.min(galleryRendered + GALLERY_BATCH_SIZE, items.length);
   const fragment = document.createDocumentFragment();
 
   for (let i = galleryRendered; i < end; i++) {
-    fragment.appendChild(createGalleryItem(GALLERY_DATA[i], i));
+    fragment.appendChild(createGalleryItem(items[i], i));
   }
 
   grid.appendChild(fragment);
@@ -177,17 +218,18 @@ function appendGalleryBatch() {
     newItems.forEach((el) => revealObserver.observe(el));
   }
 
-  if (galleryRendered >= GALLERY_DATA.length && galleryObserver) {
+  if (galleryRendered >= items.length && galleryObserver) {
     const sentinel = document.getElementById('gallerySentinel');
     if (sentinel) galleryObserver.unobserve(sentinel);
   }
 
-  return galleryRendered < GALLERY_DATA.length;
+  return galleryRendered < items.length;
 }
 
 function initGalleryInfiniteScroll() {
   const sentinel = document.getElementById('gallerySentinel');
-  if (!sentinel || typeof GALLERY_DATA === 'undefined') return;
+  const items = getGalleryItems();
+  if (!sentinel || !items.length) return;
 
   if (galleryObserver) galleryObserver.disconnect();
   galleryObserver = new IntersectionObserver(
@@ -203,11 +245,15 @@ function initGalleryInfiniteScroll() {
 
 function initGalleryGrid() {
   const grid = document.getElementById('galleryGrid');
-  if (!grid || typeof GALLERY_DATA === 'undefined') return;
+  if (!grid) return;
 
   galleryRendered = 0;
   galleryLoading = false;
   grid.replaceChildren();
+  updateGalleryMeta();
+
+  if (!getGalleryItems().length) return;
+
   appendGalleryBatch();
   initGalleryInfiniteScroll();
 }
@@ -310,9 +356,16 @@ function initPageViews() {
     });
 
     document.body.classList.toggle('is-home', id === 'home');
+    document.body.classList.toggle('is-memory-playlist', id === 'memory-playlist');
+
+    target.querySelectorAll('.reveal').forEach((el) => el.classList.add('visible'));
 
     if (updateHash) {
       history.replaceState(null, '', `#${id}`);
+    }
+
+    if (id === 'memory-playlist') {
+      document.dispatchEvent(new CustomEvent('memory-playlist:show'));
     }
 
     window.scrollTo(0, 0);
@@ -607,7 +660,7 @@ let revealObserver = null;
 /* ── Scroll Reveal ── */
 function initScrollReveal() {
   const targets = document.querySelectorAll(
-    '.profile__main, .profile__card, .profile__overview, .profile__history, .profile__content, .schedule-board, .timeline__item, .churudan-hub, .minigame, .rolling-paper, .section__header'
+    '.profile__main, .profile__card, .profile__overview, .profile__history, .profile__content, .schedule-board, .timeline__item, .churudan-hub, .minigame, .rolling-paper, .section__header, .memory-playlist__header, .memory-playlist__layout, .memory-playlist__player-wrap, .memory-playlist__tracks, .memory-playlist__source'
   );
 
   targets.forEach((el) => el.classList.add('reveal'));
@@ -628,8 +681,7 @@ function initScrollReveal() {
 
 /* ── Gallery Lightbox ── */
 function getGalleryLightboxData() {
-  if (typeof GALLERY_DATA === 'undefined') return [];
-  return GALLERY_DATA.map((item) => {
+  return getGalleryItems().map((item) => {
     const tag = gallerySourceLabel[item.source] || item.source;
     return {
       src: item.src,
@@ -647,7 +699,7 @@ function initGalleryLightbox() {
   const nextBtn = document.getElementById('lightboxNext');
   const grid = document.getElementById('galleryGrid');
 
-  if (!lightbox || !grid || typeof GALLERY_DATA === 'undefined' || GALLERY_DATA.length === 0) return;
+  if (!lightbox || !grid || !getGalleryItems().length) return;
 
   let currentIndex = 0;
 

@@ -53,6 +53,33 @@ for ($page = 1; $page -le $CafePages; $page++) {
     Start-Sleep -Milliseconds 200
 }
 
+# Naver cafe photo board (menu 18 — 츄스타그램)
+$cafePhotoCount = 0
+for ($page = 1; $page -le $CafePages; $page++) {
+    if ($cafePhotoCount -ge $MaxCafe) { break }
+    $cafePath = Join-Path $root "cafe_photo_p$page.json"
+    curl.exe -s -H "Referer: https://cafe.naver.com/yoonanana" `
+        "https://apis.naver.com/cafe-web/cafe-boardlist-api/v1/cafes/31396984/menus/18/articles?page=$page&pageSize=$CafePageSize" `
+        -o $cafePath | Out-Null
+    if (-not (Test-Path $cafePath)) { continue }
+    $cafe = Get-Content $cafePath -Encoding UTF8 -Raw | ConvertFrom-Json
+    if (-not $cafe.result.articleList) { continue }
+
+    foreach ($row in $cafe.result.articleList) {
+        if ($cafePhotoCount -ge $MaxCafe) { break }
+        $it = $row.item
+        if (-not $it.hasImage) { continue }
+        if ($it.representImageType -notin @('I', 'M')) { continue }
+        $img = [uri]::UnescapeDataString($it.representImage)
+        $subject = $it.subject
+        $link = "https://cafe.naver.com/yoonanana/$($it.articleId)"
+        if (Add-Item $img $subject 'cafe-photo' $link) {
+            $cafePhotoCount++
+        }
+    }
+    Start-Sleep -Milliseconds 200
+}
+
 # v-company gallery — yeveee (Seola) solo
 $vCount = 0
 $offset = 0
@@ -95,4 +122,4 @@ foreach ($it in $items) {
 
 $out = Join-Path $root 'js\gallery-data.js'
 [System.IO.File]::WriteAllText($out, $sb.ToString(), [System.Text.Encoding]::UTF8)
-Write-Output "Wrote $($items.Count) gallery items (cafe=$cafeCount, v-company=$vCount)"
+Write-Output "Wrote $($items.Count) gallery items (fan-cafe=$cafeCount, cafe-photo=$cafePhotoCount, v-company=$vCount)"

@@ -29,6 +29,8 @@ cafe_test.json
 cafe_fanart_p*.json
 schedule_boardlist.json
 schedule_list_test.json
+news_*.json
+news_youtube_feed.xml
 temp_*
 tmp-*
 wiki-*.html

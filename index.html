@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Jua&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=20260626">
+  <link rel="stylesheet" href="css/style.css?v=20260617">
 </head>
 <body>
 
@@ -31,6 +31,7 @@
         <li><a href="#schedule" class="nav__link">일정</a></li>
         <li><a href="#vod" class="nav__link">VOD</a></li>
         <li><a href="#gallery" class="nav__link">사진관</a></li>
+        <li><a href="#memory-playlist" class="nav__link">추억의 플리</a></li>
         <li><a href="#churudan" class="nav__link">츄르단 공간</a></li>
       </ul>
     </nav>
@@ -656,13 +657,47 @@
         <div class="section__header">
           <span class="section__label">Gallery</span>
           <h2 class="section__title">사진관</h2>
-          <p class="section__desc">팬카페 팬아트와 버컴퍼니 사진관의 유설아 이미지를 모았습니다.<br>아래로 스크롤하면 더 불러옵니다.</p>
+          <p class="section__desc">팬카페·츄스타그램·버컴퍼니 사진관에서 유설아 이미지를 실시간으로 불러옵니다.<br>아래로 스크롤하면 더 불러옵니다.</p>
         </div>
 
         <p class="gallery__count" id="galleryCount" aria-live="polite"></p>
         <div class="gallery__grid" id="galleryGrid"></div>
         <div class="gallery__sentinel" id="gallerySentinel" aria-hidden="true"></div>
         <p class="gallery__status" id="galleryStatus"></p>
+      </div>
+    </section>
+
+    <!-- 추억의 플리 -->
+    <section class="memory-playlist" id="memory-playlist">
+      <div class="memory-playlist__bg" aria-hidden="true"></div>
+      <div class="memory-playlist__stars" aria-hidden="true"></div>
+      <div class="container memory-playlist__inner">
+        <div class="memory-playlist__header reveal">
+          <span class="memory-playlist__label">Playlist</span>
+          <h2 class="memory-playlist__title">추억의 플리</h2>
+          <p class="memory-playlist__desc">밤하늘 아래, 유튜브 재생목록을 불러옵니다.<br>곡을 누르면 바로 재생됩니다.</p>
+          <a class="memory-playlist__source" id="memoryPlaylistSource" href="https://www.youtube.com/playlist?list=PLDmzzSPk7ZiAFX3Gk9kOR0AwTeId5WolD" target="_blank" rel="noopener noreferrer">설아의 추억 심야버스(0614) · YouTube에서 보기</a>
+        </div>
+
+        <div class="memory-playlist__layout">
+          <div class="memory-playlist__player-wrap reveal">
+            <div class="memory-playlist__screen">
+              <iframe
+                id="memoryPlaylistFrame"
+                class="memory-playlist__frame"
+                title="추억의 플리 재생"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+              ></iframe>
+            </div>
+            <div class="memory-playlist__now">
+              <span class="memory-playlist__now-label">Now Playing</span>
+              <p class="memory-playlist__now-title" id="memoryPlaylistNow"></p>
+            </div>
+          </div>
+
+          <ul class="memory-playlist__tracks reveal" id="memoryPlaylistTracks"></ul>
+        </div>
       </div>
     </section>
 
@@ -887,6 +922,8 @@
   <script src="js/marble-roulette.js?v=20260613"></script>
   <script src="js/minigames.js?v=20260615"></script>
   <script src="js/rolling-paper.js?v=20260611"></script>
-  <script src="js/main.js?v=20260626"></script>
+  <script src="js/memory-playlist-data.js?v=20260618"></script>
+  <script src="js/memory-playlist.js?v=20260619"></script>
+  <script src="js/main.js?v=20260617"></script>
 </body>
 </html>

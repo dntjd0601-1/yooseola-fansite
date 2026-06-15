@@ -7,21 +7,28 @@ param(
 $ErrorActionPreference = 'Stop'
 $root = $PSScriptRoot
 
-Write-Host '=== [1/4] VOD data ===' -ForegroundColor Cyan
+Write-Host '=== [1/5] VOD data ===' -ForegroundColor Cyan
 & (Join-Path $root 'fetch_vod.ps1')
 
-Write-Host '=== [2/4] Gallery data ===' -ForegroundColor Cyan
+Write-Host '=== [2/5] Gallery data ===' -ForegroundColor Cyan
 & (Join-Path $root 'fetch_gallery.ps1')
 
-Write-Host '=== [3/4] Schedule data ===' -ForegroundColor Cyan
+Write-Host '=== [3/5] Schedule data ===' -ForegroundColor Cyan
 try {
     & (Join-Path $root 'fetch_and_parse_schedule.ps1') -ForceRefresh
 } catch {
     Write-Warning "Schedule fetch failed, keeping existing schedule-data.js: $($_.Exception.Message)"
 }
 
+Write-Host '=== [4/5] Memory playlist data ===' -ForegroundColor Cyan
+try {
+    & (Join-Path $root 'fetch_memory_playlist.ps1')
+} catch {
+    Write-Warning "Memory playlist fetch failed, keeping existing memory-playlist-data.js: $($_.Exception.Message)"
+}
+
 if (-not $SkipPack) {
-    Write-Host '=== [4/4] Pack netlify-deploy ===' -ForegroundColor Cyan
+    Write-Host '=== [5/5] Pack netlify-deploy ===' -ForegroundColor Cyan
     & (Join-Path $root 'pack-netlify.ps1')
 }
 
