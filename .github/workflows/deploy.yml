@@ -10,12 +10,20 @@ on:
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
 
 jobs:
-  update-and-deploy:
-    # windows-latest는 비공개 repo에서 Queued로 오래 대기할 수 있음
+  build-and-deploy:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
       - name: Checkout
@@ -41,8 +49,11 @@ jobs:
             git push
           fi
 
-      - name: Deploy to Netlify
-        run: npx --yes netlify-cli deploy --prod --dir=netlify-deploy --message "Auto-update from GitHub Actions"
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      - name: Upload site artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: netlify-deploy
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

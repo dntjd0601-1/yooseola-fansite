@@ -36,5 +36,7 @@ if (Test-Path $fnDir) {
     }
 }
 
+New-Item -ItemType File -Path (Join-Path $out '.nojekyll') -Force | Out-Null
+
 Write-Host 'OK: netlify-deploy folder is ready.' -ForegroundColor Green
 Write-Host $out -ForegroundColor Cyan
