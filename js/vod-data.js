@@ -4,13 +4,13 @@
  */
 const VOD_DATA = {
   replay: [
-    { title: '클리어 !!!!! [버컴]', url: 'https://vod.sooplive.com/player/198803235', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260615_DB7B9EB8_294831741_7_r', date: '2026.06.16', duration: '33:57', views: 29 },
-    { title: '버컴의놀이터 시즌5 ... [버컴]', url: 'https://vod.sooplive.com/player/198802601', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260615_430398D8_294831741_5_r', date: '2026.06.16', duration: '3:48:13', views: 94 },
-    { title: '버컴의놀이터 시즌5 ^^ [버컴]', url: 'https://vod.sooplive.com/player/198793797', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260615_15C8675A_294831741_4_r', date: '2026.06.16', duration: '6:35:03', views: 38 },
-    { title: '버컴의놀이터 시즌4 ... [버컴]', url: 'https://vod.sooplive.com/player/198752771', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260615_58AD3637_294831741_2_r', date: '2026.06.15', duration: '5:22:23', views: 119 },
-    { title: '버컴 모임 + 심야버스', url: 'https://vod.sooplive.com/player/198689657', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260614_4E33D802_294817541_1_r', date: '2026.06.15', duration: '3:21:04', views: 459 },
-    { title: '토요미스테리', url: 'https://vod.sooplive.com/player/198617403', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260613_24EC7ECC_294783219_1_r', date: '2026.06.14', duration: '7:50:38', views: 697 },
-    { title: '월드컵 응원 + 설창샵', url: 'https://vod.sooplive.com/player/198492273', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260612_5853BC53_294750807_3_r', date: '2026.06.12', duration: '13:20:57', views: 978 },
+    { title: '클리어 >ㅅ<', url: 'https://vod.sooplive.com/player/198803235', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260615_DB7B9EB8_294831741_7_r', date: '2026.06.16', duration: '33:57', views: 52 },
+    { title: '버컴의놀이터 시즌5', url: 'https://vod.sooplive.com/player/198802601', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260615_430398D8_294831741_5_r', date: '2026.06.16', duration: '3:48:13', views: 108 },
+    { title: '버컴의놀이터', url: 'https://vod.sooplive.com/player/198793797', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260615_15C8675A_294831741_4_r', date: '2026.06.16', duration: '6:35:03', views: 46 },
+    { title: '버컴 vs 버블란 + 버컴놀이터', url: 'https://vod.sooplive.com/player/198752771', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260615_58AD3637_294831741_2_r', date: '2026.06.15', duration: '5:22:23', views: 125 },
+    { title: '버컴 모임 + 심야버스', url: 'https://vod.sooplive.com/player/198689657', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260614_4E33D802_294817541_1_r', date: '2026.06.15', duration: '3:21:04', views: 461 },
+    { title: '토요미스테리', url: 'https://vod.sooplive.com/player/198617403', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260613_24EC7ECC_294783219_1_r', date: '2026.06.14', duration: '7:50:38', views: 704 },
+    { title: '월드컵 응원 + 설창샵', url: 'https://vod.sooplive.com/player/198492273', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260612_5853BC53_294750807_3_r', date: '2026.06.12', duration: '13:20:57', views: 979 },
     { title: '삼연서버 연습!', url: 'https://vod.sooplive.com/player/198420295', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260611_50666400_294735945_2_r', date: '2026.06.12', duration: '7:05:06', views: 310 },
     { title: '철권 버컴 응원하기', url: 'https://vod.sooplive.com/player/198242289', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260609_B7B75541_294682799_2_r', date: '2026.06.10', duration: '12:18:44', views: 2325 },
     { title: '철권 떨ck', url: 'https://vod.sooplive.com/player/198139489', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260608_575EF81A_294655129_1_r', date: '2026.06.09', duration: '8:05:39', views: 661 },
@@ -38,7 +38,7 @@ const VOD_DATA = {
     { title: 'GTA 인생모드 수상한 피자집, 모슈 [요양타운]', url: 'https://www.youtube.com/watch?v=BLRcHNBVI1M', thumb: 'https://i.ytimg.com/vi/BLRcHNBVI1M/hqdefault.jpg', date: '', duration: '', views: 0 },
   ],
   shorts: [
-    { title: '그시절 싸이월드 감성 #유설아', url: 'https://www.youtube.com/shorts/xsxaKV7WZhs', thumb: 'https://i.ytimg.com/vi/xsxaKV7WZhs/hqdefault.jpg', date: '2026.06.15', duration: '', views: 2133 },
+    { title: '그시절 싸이월드 감성 #유설아', url: 'https://www.youtube.com/shorts/xsxaKV7WZhs', thumb: 'https://i.ytimg.com/vi/xsxaKV7WZhs/hqdefault.jpg', date: '2026.06.15', duration: '', views: 2155 },
     { title: '누가 진짜고 누가 가짜야! #감스트 #미메시스 #니니', url: 'https://www.youtube.com/shorts/WO7Wbp7Ah7I', thumb: 'https://i.ytimg.com/vi/WO7Wbp7Ah7I/hqdefault.jpg', date: '2026.04.24', duration: '', views: 14410 },
     { title: '1조 준다면 이거 할수있음?', url: 'https://www.youtube.com/shorts/5BEvfgui_qg', thumb: 'https://i.ytimg.com/vi/5BEvfgui_qg/hqdefault.jpg', date: '2026.04.22', duration: '', views: 6827 },
     { title: '느좋이 무슨뜻인지 모르는 버튜버 #해리 #유설아 #차쯔키', url: 'https://www.youtube.com/shorts/zwPa8hXte3A', thumb: 'https://i.ytimg.com/vi/zwPa8hXte3A/hqdefault.jpg', date: '2026.04.20', duration: '', views: 14499 },
