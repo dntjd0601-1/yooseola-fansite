@@ -28,7 +28,10 @@ try {
 }
 
 if (-not $SkipPack) {
-    Write-Host '=== [5/5] Pack netlify-deploy ===' -ForegroundColor Cyan
+    Write-Host '=== [5/6] Bump data cache versions ===' -ForegroundColor Cyan
+    & (Join-Path $root 'bump-data-cache.ps1')
+
+    Write-Host '=== [6/6] Pack netlify-deploy ===' -ForegroundColor Cyan
     & (Join-Path $root 'pack-netlify.ps1')
 }
 
