@@ -4,7 +4,7 @@
  */
 const MEMORY_YOUTUBE_PLAYLIST = {
   id: 'PLDmzzSPk7ZiAFX3Gk9kOR0AwTeId5WolD',
-  title: '설아의 추억 심야버스(0614)',
+  title: '유설아의 심야버스라디오(0614)',
   url: 'https://www.youtube.com/playlist?list=PLDmzzSPk7ZiAFX3Gk9kOR0AwTeId5WolD',
   startVideoId: 'i-TFmaRcoKs',
 };
