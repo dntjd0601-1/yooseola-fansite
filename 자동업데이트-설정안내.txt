@@ -10,6 +10,7 @@
   https://dntjd0601-1.github.io/yooseola-fansite/
 
   ※ Netlify 한도 초과로 중지된 경우 위 주소를 사용하세요.
+  ※ 일정·VOD 등은 GitHub Actions가 3시간마다 자동 갱신합니다.
 
 ■ 사이트 접속 시마다 자동 (기존과 동일)
   - 숲 다시보기, 유튜브 쇼츠
@@ -45,11 +46,14 @@
 
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-4단계: GitHub Pages 켜기 (필수)
+4단계: GitHub Pages 켜기 (필수 — 안 하면 사이트 404)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   1. https://github.com/dntjd0601-1/yooseola-fansite/settings/pages
-  2. Build and deployment → Source: GitHub Actions
-  3. Actions 탭에서 "Auto update and deploy" → Run workflow 실행
+  2. Build and deployment → Source: Deploy from a branch
+  3. Branch: gh-pages   Folder: / (root)   → Save
+  4. Actions 탭 → "Auto update and deploy" → Run workflow
+
+  ※ 저장소가 Private이면 Pages가 안 됩니다 → Public으로 변경 필요
 
   배포 완료 후 접속:
   https://dntjd0601-1.github.io/yooseola-fansite/
