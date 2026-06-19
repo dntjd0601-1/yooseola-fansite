@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+  <rect x="2" y="4" width="20" height="16" rx="3" fill="#5b4cdb" opacity=".2"/>
+  <text x="12" y="16" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9" font-weight="700" fill="#7c6cf0">VC</text>
+  <rect x="5" y="7" width="3" height="3" rx=".5" fill="#7c6cf0"/>
+  <rect x="10" y="7" width="3" height="3" rx=".5" fill="#a78bfa"/>
+  <rect x="15" y="7" width="3" height="3" rx=".5" fill="#7c6cf0"/>
+</svg>
