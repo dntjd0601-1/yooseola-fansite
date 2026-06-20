@@ -1,8 +1,9 @@
 const CAFE_ID = '31396984';
 const CAFE_REFERER = 'https://cafe.naver.com/yoonanana';
+const ARTICLE_API = `https://apis.naver.com/cafe-web/cafe-articleapi/cafes/${CAFE_ID}/articles`;
 const CAFE_MENUS = [
-  { id: 22, source: 'fan-cafe', label: '팬아트' },
-  { id: 18, source: 'cafe-photo', label: '츄스타그램' },
+  { id: 22, source: 'fan-cafe', label: '팬카페' },
+  { id: 18, source: 'cafe-photo', label: '카페 사진' },
 ];
 const VCOMPANY_MEMBER = 'yeveee';
 const VCOMPANY_URL = 'https://v-company.xyz/gallery';
@@ -11,6 +12,7 @@ const MAX_CAFE_PER_MENU = 60;
 const MAX_VCOMPANY = 200;
 const CAFE_PAGES = 4;
 const CAFE_PAGE_SIZE = 50;
+const ARTICLE_FETCH_CONCURRENCY = 10;
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -32,25 +34,101 @@ function isGif(url = '') {
   return /\.gif($|\?)/i.test(url);
 }
 
-function addItem(items, seen, src, caption, source, url) {
-  if (!src || seen.has(src) || isGif(src)) return false;
-  seen.add(src);
-  items.push({
+function isCafeLogoThumb(url = '') {
+  return /\/image\.PNG$/i.test(url) || url.includes('/default/cafe_profile');
+}
+
+function normalizeImageUrl(url = '') {
+  if (!url) return '';
+  try {
+    return decodeURIComponent(url);
+  } catch {
+    return url;
+  }
+}
+
+function extractImagesFromArticlePayload(data) {
+  const urls = [];
+  const seen = new Set();
+  const html = data?.article?.content || '';
+
+  const pushUrl = (raw) => {
+    const src = normalizeImageUrl(raw);
+    if (!src || seen.has(src) || isGif(src) || isCafeLogoThumb(src)) return;
+    seen.add(src);
+    urls.push(src);
+  };
+
+  const thumbRe = /https:\/\/cafeptthumb-phinf\.pstatic\.net\/[^"'\\<\s]+/gi;
+  for (const match of html.matchAll(thumbRe)) {
+    pushUrl(match[0]);
+  }
+
+  const attachList = data?.attaches || data?.article?.attaches || [];
+  for (const attach of attachList) {
+    pushUrl(attach.imageUrl || attach.image?.url || attach.thumbnailUrl || attach.url);
+  }
+
+  return urls;
+}
+
+async function fetchArticleImages(articleId) {
+  try {
+    const res = await fetch(`${ARTICLE_API}/${articleId}`, {
+      headers: { Referer: CAFE_REFERER },
+    });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return extractImagesFromArticlePayload(data);
+  } catch {
+    return [];
+  }
+}
+
+async function mapPool(items, mapper, concurrency = ARTICLE_FETCH_CONCURRENCY) {
+  const results = new Array(items.length);
+  let index = 0;
+
+  async function worker() {
+    while (index < items.length) {
+      const current = index;
+      index += 1;
+      results[current] = await mapper(items[current], current);
+    }
+  }
+
+  const workers = Array.from(
+    { length: Math.min(concurrency, items.length) },
+    () => worker()
+  );
+  await Promise.all(workers);
+  return results;
+}
+
+function buildCafeItems(article, source, images) {
+  const link = `${CAFE_REFERER}/${article.articleId}`;
+  const caption = article.subject || '';
+  const postId = String(article.articleId);
+  const srcList = images.length
+    ? images
+    : [normalizeImageUrl(article.representImage || '')].filter(Boolean);
+
+  return srcList.map((src, imageIndex) => ({
     src,
-    caption: caption || '',
+    caption,
     source,
-    url: url || '',
-  });
-  return true;
+    url: link,
+    postId,
+    imageIndex,
+    imageCount: srcList.length,
+  }));
 }
 
 async function fetchCafeMenu(menuId, source) {
-  const items = [];
-  const seen = new Set();
-  let count = 0;
+  const articles = [];
 
   for (let page = 1; page <= CAFE_PAGES; page += 1) {
-    if (count >= MAX_CAFE_PER_MENU) break;
+    if (articles.length >= MAX_CAFE_PER_MENU) break;
     const apiUrl =
       `https://apis.naver.com/cafe-web/cafe-boardlist-api/v1/cafes/${CAFE_ID}` +
       `/menus/${menuId}/articles?page=${page}&pageSize=${CAFE_PAGE_SIZE}`;
@@ -65,15 +143,11 @@ async function fetchCafeMenu(menuId, source) {
       if (!list?.length) break;
 
       for (const row of list) {
-        if (count >= MAX_CAFE_PER_MENU) break;
+        if (articles.length >= MAX_CAFE_PER_MENU) break;
         const it = row.item;
         if (!it?.hasImage) continue;
         if (!['I', 'M'].includes(it.representImageType)) continue;
-        const img = decodeURIComponent(it.representImage || '');
-        const link = `${CAFE_REFERER}/${it.articleId}`;
-        if (addItem(items, seen, img, it.subject, source, link)) {
-          count += 1;
-        }
+        articles.push(it);
       }
 
       if (!data?.result?.pageInfo?.visibleNextButton) break;
@@ -82,7 +156,12 @@ async function fetchCafeMenu(menuId, source) {
     }
   }
 
-  return items;
+  const expanded = await mapPool(articles, async (article) => {
+    const images = await fetchArticleImages(article.articleId);
+    return buildCafeItems(article, source, images);
+  });
+
+  return expanded.flat();
 }
 
 async function fetchVCompany() {
@@ -107,10 +186,20 @@ async function fetchVCompany() {
         if (items.length >= MAX_VCOMPANY) break;
         if (row.member_id !== VCOMPANY_MEMBER) continue;
         if (row.image_type?.includes('gif') || isGif(row.image_url)) continue;
+        const src = row.image_url;
+        if (!src || seen.has(src)) continue;
+        seen.add(src);
         const caption = row.artist || '유설아';
-        if (addItem(items, seen, row.image_url, caption, 'v-company', VCOMPANY_URL)) {
-          added += 1;
-        }
+        items.push({
+          src,
+          caption,
+          source: 'v-company',
+          url: VCOMPANY_URL,
+          postId: row.id ? String(row.id) : '',
+          imageIndex: 0,
+          imageCount: 1,
+        });
+        added += 1;
       }
 
       if (rows.length < batch || added === 0) break;
