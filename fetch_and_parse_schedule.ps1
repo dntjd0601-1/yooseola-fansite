@@ -38,8 +38,14 @@ foreach ($entry in $list) {
         id = $item.articleId
         month = $month
         year = $year
+        writeDate = $item.writeDateTimestamp
     }
 }
+
+$targets = $targets |
+    Sort-Object year, month, writeDate |
+    Group-Object year, month |
+    ForEach-Object { $_.Group[-1] }
 
 $allEvents = [ordered]@{}
 

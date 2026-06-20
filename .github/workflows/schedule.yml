@@ -1,12 +1,10 @@
-name: Auto update and deploy
+name: Update schedule
 
 on:
   workflow_dispatch:
   schedule:
-    # 3시간마다 VOD·갤러리·플레이리스트·일정 전체 갱신
-    - cron: '0 */3 * * *'
-  push:
-    branches: [master]
+    # 매시 15분 — 일정만 빠르게 갱신 (KST 기준 약 00:15, 01:15, …)
+    - cron: '15 * * * *'
 
 permissions:
   contents: write
@@ -16,9 +14,9 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build-and-deploy:
+  update-schedule:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 15
 
     steps:
       - name: Checkout
@@ -28,19 +26,19 @@ jobs:
         shell: bash
         run: sudo ln -sf "$(which curl)" /usr/local/bin/curl.exe
 
-      - name: Fetch latest data
+      - name: Fetch schedule and pack site
         shell: pwsh
-        run: ./update-all.ps1
+        run: ./update-schedule.ps1
 
-      - name: Commit updated data files
+      - name: Commit updated schedule
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add js/vod-data.js js/gallery-data.js js/schedule-data.js js/memory-playlist-data.js index.html
+          git add js/schedule-data.js index.html
           if git diff --staged --quiet; then
-            echo "No data changes to commit."
+            echo "No schedule changes to commit."
           else
-            git commit -m "chore: auto-update VOD, gallery, schedule, and memory playlist data"
+            git commit -m "chore: auto-update schedule data"
             git push
           fi
 
@@ -49,4 +47,4 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: netlify-deploy
-          commit_message: 'deploy: publish site update'
+          commit_message: 'deploy: publish schedule update'

@@ -1,8 +1,23 @@
 const PLAYLIST_FEED_API = '/.netlify/functions/youtube-playlist';
 
-const memoryPlaylistMeta = typeof MEMORY_YOUTUBE_PLAYLIST === 'object' ? MEMORY_YOUTUBE_PLAYLIST : {};
-let memoryPlaylistItems = Array.isArray(MEMORY_PLAYLIST_DATA) ? [...MEMORY_PLAYLIST_DATA] : [];
+const memoryPlaylistCatalog = Array.isArray(MEMORY_YOUTUBE_PLAYLISTS)
+  ? MEMORY_YOUTUBE_PLAYLISTS
+  : (typeof MEMORY_YOUTUBE_PLAYLIST === 'object' && MEMORY_YOUTUBE_PLAYLIST.id
+    ? [{ key: 'default', ...MEMORY_YOUTUBE_PLAYLIST }]
+    : []);
+
+const memoryPlaylistStaticData = typeof MEMORY_PLAYLIST_DATA === 'object' && !Array.isArray(MEMORY_PLAYLIST_DATA)
+  ? MEMORY_PLAYLIST_DATA
+  : { default: Array.isArray(MEMORY_PLAYLIST_DATA) ? MEMORY_PLAYLIST_DATA : [] };
+
+let memoryPlaylistActiveKey = memoryPlaylistCatalog[0]?.key || '';
+let memoryPlaylistMeta = { ...memoryPlaylistCatalog[0] };
+let memoryPlaylistItems = [];
 let memoryPlaylistActiveIndex = -1;
+
+function getMemoryPlaylistStaticItems(key) {
+  return Array.isArray(memoryPlaylistStaticData[key]) ? memoryPlaylistStaticData[key] : [];
+}
 
 function memoryPlaylistEmbedUrl(videoId, index, autoplay = '1') {
   const params = new URLSearchParams({
@@ -103,6 +118,36 @@ function renderMemoryPlaylistTracks() {
   listEl.appendChild(fragment);
 }
 
+function renderMemoryPlaylistPicker() {
+  const pickerEl = document.getElementById('memoryPlaylistPicker');
+  if (!pickerEl || memoryPlaylistCatalog.length < 2) {
+    if (pickerEl) pickerEl.hidden = true;
+    return;
+  }
+
+  pickerEl.hidden = false;
+  pickerEl.replaceChildren();
+  pickerEl.setAttribute('role', 'tablist');
+  pickerEl.setAttribute('aria-label', '재생목록 선택');
+
+  memoryPlaylistCatalog.forEach((playlist) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'memory-playlist__picker-btn';
+    btn.dataset.playlistKey = playlist.key;
+    btn.setAttribute('role', 'tab');
+    btn.setAttribute('aria-selected', playlist.key === memoryPlaylistActiveKey ? 'true' : 'false');
+    btn.textContent = playlist.title || '재생목록';
+    btn.classList.toggle('is-active', playlist.key === memoryPlaylistActiveKey);
+    btn.addEventListener('click', () => {
+      if (playlist.key !== memoryPlaylistActiveKey) {
+        switchMemoryPlaylist(playlist.key);
+      }
+    });
+    pickerEl.appendChild(btn);
+  });
+}
+
 function updateMemoryPlaylistMeta() {
   const descEl = document.querySelector('.memory-playlist__desc');
   const sourceEl = document.getElementById('memoryPlaylistSource');
@@ -142,10 +187,10 @@ function mergePlaylistItems(feedItems, staticItems) {
   });
 }
 
-async function fetchMemoryPlaylistFeed() {
-  if (!memoryPlaylistMeta.id) return null;
+async function fetchMemoryPlaylistFeed(playlistId) {
+  if (!playlistId) return null;
   try {
-    const res = await fetch(`${PLAYLIST_FEED_API}?list=${encodeURIComponent(memoryPlaylistMeta.id)}`, {
+    const res = await fetch(`${PLAYLIST_FEED_API}?list=${encodeURIComponent(playlistId)}`, {
       cache: 'no-store',
     });
     if (!res.ok) return null;
@@ -157,13 +202,16 @@ async function fetchMemoryPlaylistFeed() {
   }
 }
 
-async function initMemoryPlaylist() {
-  const section = document.getElementById('memory-playlist');
-  const frameEl = document.getElementById('memoryPlaylistFrame');
-  if (!section || !frameEl) return;
+async function loadMemoryPlaylistItems(key) {
+  const playlist = memoryPlaylistCatalog.find((entry) => entry.key === key) || memoryPlaylistCatalog[0];
+  if (!playlist) return false;
 
-  const staticItems = Array.isArray(MEMORY_PLAYLIST_DATA) ? MEMORY_PLAYLIST_DATA : [];
-  const feed = await fetchMemoryPlaylistFeed();
+  memoryPlaylistActiveKey = playlist.key;
+  memoryPlaylistMeta = { ...playlist };
+  memoryPlaylistActiveIndex = -1;
+
+  const staticItems = getMemoryPlaylistStaticItems(playlist.key);
+  const feed = await fetchMemoryPlaylistFeed(playlist.id);
   if (feed?.items?.length) {
     memoryPlaylistItems = mergePlaylistItems(feed.items, staticItems);
     if (feed.playlist) {
@@ -172,23 +220,44 @@ async function initMemoryPlaylist() {
     }
   } else if (staticItems.length) {
     memoryPlaylistItems = [...staticItems];
+  } else {
+    memoryPlaylistItems = [];
   }
 
-  if (!memoryPlaylistItems.length) return;
+  return memoryPlaylistItems.length > 0;
+}
 
+async function switchMemoryPlaylist(key, autoplay = true) {
+  const section = document.getElementById('memory-playlist');
+  const loaded = await loadMemoryPlaylistItems(key);
+  if (!loaded) return;
+
+  renderMemoryPlaylistPicker();
   renderMemoryPlaylistTracks();
   updateMemoryPlaylistMeta();
 
-  const startIndex = getMemoryStartIndex(memoryPlaylistItems);
+  if (autoplay) {
+    playMemoryTrack(getMemoryStartIndex(memoryPlaylistItems));
+  } else if (section?.classList.contains('page-section--active')) {
+    playMemoryTrack(getMemoryStartIndex(memoryPlaylistItems));
+  }
+}
+
+async function initMemoryPlaylist() {
+  const section = document.getElementById('memory-playlist');
+  const frameEl = document.getElementById('memoryPlaylistFrame');
+  if (!section || !frameEl || !memoryPlaylistCatalog.length) return;
+
+  await switchMemoryPlaylist(memoryPlaylistActiveKey, false);
 
   document.addEventListener('memory-playlist:show', () => {
     if (memoryPlaylistActiveIndex < 0) {
-      playMemoryTrack(startIndex);
+      playMemoryTrack(getMemoryStartIndex(memoryPlaylistItems));
     }
   });
 
   if (section.classList.contains('page-section--active')) {
-    playMemoryTrack(startIndex);
+    playMemoryTrack(getMemoryStartIndex(memoryPlaylistItems));
   }
 }
 
