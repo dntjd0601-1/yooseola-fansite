@@ -106,7 +106,7 @@ const GALLERY_BATCH_SIZE = 24;
 const GALLERY_FEED_API = '/.netlify/functions/gallery-feed';
 const gallerySourceLabel = {
   'fan-cafe': '팬카페',
-  'cafe-photo': '츄스타그램',
+  'cafe-photo': '카페 사진',
   'v-company': '버컴퍼니',
 };
 
@@ -167,6 +167,13 @@ function createGalleryItem(item, index) {
   const caption = document.createElement('figcaption');
   const tag = gallerySourceLabel[item.source] || item.source;
   caption.textContent = `${tag} · ${item.caption}`;
+
+  if (item.imageCount > 1 && item.imageIndex === 0) {
+    const badge = document.createElement('span');
+    badge.className = 'gallery__badge';
+    badge.textContent = `${item.imageCount}장`;
+    figure.appendChild(badge);
+  }
 
   figure.appendChild(img);
   figure.appendChild(caption);
@@ -680,20 +687,69 @@ function initScrollReveal() {
 }
 
 /* ── Gallery Lightbox ── */
-function getGalleryLightboxData() {
-  return getGalleryItems().map((item) => {
-    const tag = gallerySourceLabel[item.source] || item.source;
-    return {
-      src: item.src,
-      caption: `${tag} · ${item.caption}`,
-    };
+function getGalleryCaption(item) {
+  const tag = gallerySourceLabel[item.source] || item.source;
+  return `${tag} · ${item.caption}`;
+}
+
+function getLightboxGroup(startIndex) {
+  const items = getGalleryItems();
+  const start = items[startIndex];
+  if (!start) return { indices: [], slide: 0 };
+
+  if (!start.postId) {
+    return { indices: [startIndex], slide: 0 };
+  }
+
+  const indices = [];
+  items.forEach((item, idx) => {
+    if (item.postId === start.postId) indices.push(idx);
   });
+
+  if (!indices.length) {
+    return { indices: [startIndex], slide: 0 };
+  }
+
+  const slide = indices.indexOf(startIndex);
+  return { indices, slide: slide >= 0 ? slide : 0 };
+}
+
+function getDownloadFilename(item) {
+  const extMatch = item.src.match(/\.(jpe?g|png|webp|gif)(?:$|\?)/i);
+  const ext = extMatch ? extMatch[1].toLowerCase() : 'jpg';
+  const base = (item.caption || 'yooseola')
+    .replace(/[\\/:*?"<>|]/g, '')
+    .trim()
+    .slice(0, 40) || 'yooseola';
+  const suffix = item.imageCount > 1 ? `-${(item.imageIndex || 0) + 1}` : '';
+  return `${base}${suffix}.${ext}`;
+}
+
+async function downloadGalleryImage(item) {
+  const filename = getDownloadFilename(item);
+  try {
+    const res = await fetch(item.src, { referrerPolicy: 'no-referrer' });
+    if (!res.ok) throw new Error('fetch failed');
+    const blob = await res.blob();
+    const blobUrl = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = blobUrl;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(blobUrl);
+  } catch {
+    window.open(item.src, '_blank', 'noopener,noreferrer');
+  }
 }
 
 function initGalleryLightbox() {
   const lightbox = document.getElementById('lightbox');
   const lightboxImage = document.getElementById('lightboxImage');
   const lightboxCaption = document.getElementById('lightboxCaption');
+  const lightboxCounter = document.getElementById('lightboxCounter');
+  const downloadBtn = document.getElementById('lightboxDownload');
   const closeBtn = document.getElementById('lightboxClose');
   const prevBtn = document.getElementById('lightboxPrev');
   const nextBtn = document.getElementById('lightboxNext');
@@ -701,12 +757,13 @@ function initGalleryLightbox() {
 
   if (!lightbox || !grid || !getGalleryItems().length) return;
 
-  let currentIndex = 0;
-
-  const galleryData = getGalleryLightboxData();
+  let groupIndices = [];
+  let slideIndex = 0;
 
   function openLightbox(index) {
-    currentIndex = index;
+    const group = getLightboxGroup(index);
+    groupIndices = group.indices;
+    slideIndex = group.slide;
     renderLightbox();
     lightbox.classList.add('active');
     lightbox.setAttribute('aria-hidden', 'false');
@@ -720,14 +777,27 @@ function initGalleryLightbox() {
   }
 
   function renderLightbox() {
-    const data = galleryData[currentIndex];
-    lightboxImage.src = data.src;
-    lightboxImage.alt = data.caption;
-    lightboxCaption.textContent = data.caption;
+    const items = getGalleryItems();
+    const itemIndex = groupIndices[slideIndex];
+    const item = items[itemIndex];
+    if (!item) return;
+
+    lightboxImage.src = item.src;
+    lightboxImage.alt = getGalleryCaption(item);
+    lightboxCaption.textContent = getGalleryCaption(item);
+
+    if (groupIndices.length > 1) {
+      lightboxCounter.textContent = `${slideIndex + 1} / ${groupIndices.length}`;
+      lightboxCounter.hidden = false;
+    } else {
+      lightboxCounter.textContent = '';
+      lightboxCounter.hidden = true;
+    }
   }
 
   function navigate(direction) {
-    currentIndex = (currentIndex + direction + galleryData.length) % galleryData.length;
+    if (!groupIndices.length) return;
+    slideIndex = (slideIndex + direction + groupIndices.length) % groupIndices.length;
     renderLightbox();
   }
 
@@ -742,6 +812,11 @@ function initGalleryLightbox() {
   closeBtn.addEventListener('click', closeLightbox);
   prevBtn.addEventListener('click', () => navigate(-1));
   nextBtn.addEventListener('click', () => navigate(1));
+  downloadBtn?.addEventListener('click', () => {
+    const items = getGalleryItems();
+    const item = items[groupIndices[slideIndex]];
+    if (item) downloadGalleryImage(item);
+  });
 
   lightbox.addEventListener('click', (e) => {
     if (e.target === lightbox) closeLightbox();
@@ -751,6 +826,6 @@ function initGalleryLightbox() {
     if (!lightbox.classList.contains('active')) return;
     if (e.key === 'Escape') closeLightbox();
     if (e.key === 'ArrowLeft') navigate(-1);
-    if (e.key === 'ArrowRight') navigate(1);
+    if (e.key === 'ArrowRight') navigate(+1);
   });
 }

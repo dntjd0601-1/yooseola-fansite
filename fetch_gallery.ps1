@@ -7,31 +7,93 @@ $MaxCafe = 80
 $MaxVCompany = 150
 $CafePages = 5
 $CafePageSize = 50
+$CafeReferer = 'https://cafe.naver.com/yoonanana'
+$ArticleApi = 'https://apis.naver.com/cafe-web/cafe-articleapi/cafes/31396984/articles'
 
 function Escape-Js([string]$text) {
     if (-not $text) { return '' }
     return $text.Replace('\', '\\').Replace("'", "\'").Replace("`r", '').Replace("`n", ' ')
 }
 
-function Add-Item([string]$src, [string]$caption, [string]$source, [string]$url) {
+function Test-CafeLogoThumb([string]$src) {
+    return ($src -match '/image\.PNG$') -or ($src -match '/default/cafe_profile')
+}
+
+function Get-ArticleImages([int]$articleId) {
+    $path = Join-Path $root "article_$articleId.json"
+    curl.exe -s -H "Referer: $CafeReferer" "$ArticleApi/$articleId" -o $path | Out-Null
+    if (-not (Test-Path $path)) { return @() }
+
+    $raw = Get-Content $path -Encoding UTF8 -Raw
+    if (-not $raw) { return @() }
+
+    $urls = New-Object System.Collections.Generic.List[string]
+    $localSeen = @{}
+
+    foreach ($match in [regex]::Matches($raw, 'https://cafeptthumb-phinf\.pstatic\.net/[^"\\]+')) {
+        $src = [uri]::UnescapeDataString($match.Value)
+        if (-not $src -or $localSeen.ContainsKey($src)) { continue }
+        if ($src -match '\.gif($|\?)') { continue }
+        if (Test-CafeLogoThumb $src) { continue }
+        $localSeen[$src] = $true
+        [void]$urls.Add($src)
+    }
+
+    return $urls.ToArray()
+}
+
+function Add-CafeArticleItems([object]$article, [string]$source) {
+    $images = Get-ArticleImages ([int]$article.articleId)
+    if (-not $images -or $images.Count -eq 0) {
+        $images = @([uri]::UnescapeDataString($article.representImage))
+    }
+
+    $link = "https://cafe.naver.com/yoonanana/$($article.articleId)"
+    $caption = $article.subject
+    $postId = [string]$article.articleId
+    $imageCount = $images.Count
+    $imageIndex = 0
+
+    foreach ($img in $images) {
+        if (-not $img -or $seen.ContainsKey($img)) { continue }
+        $seen[$img] = $true
+        $script:items += ,@{
+            src = $img
+            caption = $caption
+            source = $source
+            url = $link
+            postId = $postId
+            imageIndex = $imageIndex
+            imageCount = $imageCount
+        }
+        $imageIndex++
+    }
+
+    return ($imageIndex -gt 0)
+}
+
+function Add-VCompanyItem([string]$src, [string]$caption) {
     if (-not $src -or $seen.ContainsKey($src)) { return $false }
     if ($src -match '\.gif($|\?)') { return $false }
     $seen[$src] = $true
     $script:items += ,@{
         src = $src
         caption = $caption
-        source = $source
-        url = $url
+        source = 'v-company'
+        url = 'https://v-company.xyz/gallery'
+        postId = ''
+        imageIndex = 0
+        imageCount = 1
     }
     return $true
 }
 
-# Naver cafe fan art board (menu 22) — multiple pages
+# Naver cafe fan art board (menu 22)
 $cafeCount = 0
 for ($page = 1; $page -le $CafePages; $page++) {
     if ($cafeCount -ge $MaxCafe) { break }
     $cafePath = Join-Path $root "cafe_fanart_p$page.json"
-    curl.exe -s -H "Referer: https://cafe.naver.com/yoonanana" `
+    curl.exe -s -H "Referer: $CafeReferer" `
         "https://apis.naver.com/cafe-web/cafe-boardlist-api/v1/cafes/31396984/menus/22/articles?page=$page&pageSize=$CafePageSize" `
         -o $cafePath | Out-Null
     if (-not (Test-Path $cafePath)) { continue }
@@ -43,22 +105,20 @@ for ($page = 1; $page -le $CafePages; $page++) {
         $it = $row.item
         if (-not $it.hasImage) { continue }
         if ($it.representImageType -notin @('I', 'M')) { continue }
-        $img = [uri]::UnescapeDataString($it.representImage)
-        $subject = $it.subject
-        $link = "https://cafe.naver.com/yoonanana/$($it.articleId)"
-        if (Add-Item $img $subject 'fan-cafe' $link) {
+        if (Add-CafeArticleItems $it 'fan-cafe') {
             $cafeCount++
         }
+        Start-Sleep -Milliseconds 120
     }
     Start-Sleep -Milliseconds 200
 }
 
-# Naver cafe photo board (menu 18 — 츄스타그램)
+# Naver cafe photo board (menu 18)
 $cafePhotoCount = 0
 for ($page = 1; $page -le $CafePages; $page++) {
     if ($cafePhotoCount -ge $MaxCafe) { break }
     $cafePath = Join-Path $root "cafe_photo_p$page.json"
-    curl.exe -s -H "Referer: https://cafe.naver.com/yoonanana" `
+    curl.exe -s -H "Referer: $CafeReferer" `
         "https://apis.naver.com/cafe-web/cafe-boardlist-api/v1/cafes/31396984/menus/18/articles?page=$page&pageSize=$CafePageSize" `
         -o $cafePath | Out-Null
     if (-not (Test-Path $cafePath)) { continue }
@@ -70,12 +130,10 @@ for ($page = 1; $page -le $CafePages; $page++) {
         $it = $row.item
         if (-not $it.hasImage) { continue }
         if ($it.representImageType -notin @('I', 'M')) { continue }
-        $img = [uri]::UnescapeDataString($it.representImage)
-        $subject = $it.subject
-        $link = "https://cafe.naver.com/yoonanana/$($it.articleId)"
-        if (Add-Item $img $subject 'cafe-photo' $link) {
+        if (Add-CafeArticleItems $it 'cafe-photo') {
             $cafePhotoCount++
         }
+        Start-Sleep -Milliseconds 120
     }
     Start-Sleep -Milliseconds 200
 }
@@ -98,7 +156,7 @@ while ($vCount -lt $MaxVCompany) {
         if ($row.image_type -match 'gif') { continue }
         if ($row.image_url -match '\.gif($|\?)') { continue }
         $caption = if ($row.artist) { $row.artist } else { 'Seola' }
-        if (Add-Item $row.image_url $caption 'v-company' 'https://v-company.xyz/gallery') {
+        if (Add-VCompanyItem $row.image_url $caption) {
             $vCount++
             $added++
         }
@@ -116,7 +174,10 @@ $sb = New-Object System.Text.StringBuilder
 [void]$sb.AppendLine(' */')
 [void]$sb.AppendLine('const GALLERY_DATA = [')
 foreach ($it in $items) {
-    [void]$sb.AppendLine("  { src: '$(Escape-Js $it.src)', caption: '$(Escape-Js $it.caption)', source: '$(Escape-Js $it.source)', url: '$(Escape-Js $it.url)' },")
+    $postId = Escape-Js $it.postId
+    [void]$sb.AppendLine(
+        "  { src: '$(Escape-Js $it.src)', caption: '$(Escape-Js $it.caption)', source: '$(Escape-Js $it.source)', url: '$(Escape-Js $it.url)', postId: '$postId', imageIndex: $($it.imageIndex), imageCount: $($it.imageCount) },"
+    )
 }
 [void]$sb.AppendLine('];')
 

@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Jua&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=20260617">
+  <link rel="stylesheet" href="css/style.css?v=20260621">
 </head>
 <body>
 
@@ -657,7 +657,7 @@
         <div class="section__header">
           <span class="section__label">Gallery</span>
           <h2 class="section__title">사진관</h2>
-          <p class="section__desc">팬카페·츄스타그램·버컴퍼니 사진관에서 유설아 이미지를 실시간으로 불러옵니다.<br>아래로 스크롤하면 더 불러옵니다.</p>
+          <p class="section__desc">팬카페·버컴퍼니 사진관에서 유설아 이미지를 실시간으로 불러옵니다.<br>아래로 스크롤하면 더 불러옵니다.</p>
         </div>
 
         <p class="gallery__count" id="galleryCount" aria-live="polite"></p>
@@ -910,7 +910,13 @@
     <button class="lightbox__nav lightbox__nav--next" id="lightboxNext" aria-label="다음">&rsaquo;</button>
     <div class="lightbox__content">
       <img class="lightbox__image" id="lightboxImage" alt="">
-      <p class="lightbox__caption" id="lightboxCaption"></p>
+      <div class="lightbox__meta">
+        <p class="lightbox__caption" id="lightboxCaption"></p>
+        <div class="lightbox__actions">
+          <span class="lightbox__counter" id="lightboxCounter" aria-live="polite"></span>
+          <button type="button" class="lightbox__download" id="lightboxDownload">다운로드</button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -925,6 +931,6 @@
   <script src="js/rolling-paper.js?v=20260611"></script>
   <script src="js/memory-playlist-data.js?v=20260621"></script>
   <script src="js/memory-playlist.js?v=20260620"></script>
-  <script src="js/main.js?v=20260617"></script>
+  <script src="js/main.js?v=20260621"></script>
 </body>
 </html>
