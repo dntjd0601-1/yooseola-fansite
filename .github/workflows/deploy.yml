@@ -44,9 +44,8 @@ jobs:
             git push
           fi
 
-      - name: Deploy site to gh-pages branch
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: netlify-deploy
-          commit_message: 'deploy: publish site update'
+      - name: Deploy to Netlify
+        run: npx --yes netlify-cli deploy --prod --dir=netlify-deploy --message "Auto-update from GitHub Actions"
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}

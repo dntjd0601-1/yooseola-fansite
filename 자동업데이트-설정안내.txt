@@ -1,75 +1,44 @@
 유설아 팬사이트 — GitHub Actions 자동 업데이트 설정
 
-■ 자동으로 되는 것 (매일 12:00 KST)
+■ 자동으로 되는 것
   - 유튜브 롱폼 목록 (vod-data.js)
   - 카페·버컴퍼니 사진 (gallery-data.js)
-  - 카페 방송 일정 (schedule-data.js)
-  - GitHub Pages 사이트 재배포
+  - 카페 방송 일정 (schedule-data.js) — 매시 15분
+  - 추억의 플레이리스트 (memory-playlist-data.js)
+  - Netlify 사이트 재배포
 
-■ 사이트 주소 (GitHub Pages)
-  https://dntjd0601-1.github.io/yooseola-fansite/
+■ 사이트 주소 (Netlify)
+  https://yooseolafansite.netlify.app/
 
-  ※ Netlify 한도 초과로 중지된 경우 위 주소를 사용하세요.
-  ※ 일정·VOD 등은 GitHub Actions가 3시간마다 자동 갱신합니다.
+  ※ 롤링페이퍼·갤러리 API 등 Netlify Functions는 이 주소에서만 동작합니다.
 
 ■ 사이트 접속 시마다 자동 (기존과 동일)
   - 숲 다시보기, 유튜브 쇼츠
 
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-1단계: Git 설치
+1단계: GitHub Secrets (Netlify 배포용, 필수)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  https://git-scm.com/download/win 에서 Git 설치
+  GitHub 저장소 → Settings → Secrets and variables → Actions
 
+  NETLIFY_AUTH_TOKEN
+    https://app.netlify.com/user/applications → Personal access tokens
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-2단계: GitHub 저장소 만들기
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  1. https://github.com/new 접속
-  2. Repository name 예: yooseola-fansite
-  3. Public 또는 Private 선택 후 Create repository
-
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-3단계: 프로젝트를 GitHub에 올리기
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  PowerShell에서 myWebsite 폴더로 이동 후:
-
-  git init
-  git add .
-  git commit -m "Initial commit"
-  git branch -M main
-  git remote add origin https://github.com/본인아이디/저장소이름.git
-  git push -u origin main
-
-  ※ GitHub 로그인 창이 뜨면 로그인
+  NETLIFY_SITE_ID
+    Netlify → Project details → Project ID (Site ID)
+    예: fcf9f461-a571-4392-a4dc-3c4b316a28cc
 
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-4단계: GitHub Pages 켜기 (필수 — 안 하면 사이트 404)
+2단계: 자동 업데이트 테스트
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  1. https://github.com/dntjd0601-1/yooseola-fansite/settings/pages
-  2. Build and deployment → Source: Deploy from a branch
-  3. Branch: gh-pages   Folder: / (root)   → Save
-  4. Actions 탭 → "Auto update and deploy" → Run workflow
+  GitHub → Actions → "Auto update and deploy" → Run workflow
 
-  ※ 저장소가 Private이면 Pages가 안 됩니다 → Public으로 변경 필요
-
-  배포 완료 후 접속:
-  https://dntjd0601-1.github.io/yooseola-fansite/
+  성공하면 https://yooseolafansite.netlify.app/ 에 반영됩니다.
 
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-5단계 (선택): Netlify 토큰·사이트 ID
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  Netlify 한도가 풀리면 다시 사용할 수 있습니다.
-  현재는 GitHub Pages 배포를 사용합니다.
-
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-로컬에서 수동 업데이트 (기존 방식)
+로컬에서 수동 업데이트
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   powershell -File update-all.ps1
   deploy.bat
-
-  (GitHub Actions 설정 후에는 보통 deploy.bat 없이도 자동 배포됩니다)
