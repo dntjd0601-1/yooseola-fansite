@@ -14,27 +14,196 @@ let memoryPlaylistActiveKey = memoryPlaylistCatalog[0]?.key || '';
 let memoryPlaylistMeta = { ...memoryPlaylistCatalog[0] };
 let memoryPlaylistItems = [];
 let memoryPlaylistActiveIndex = -1;
+let memoryPlaylistPlayer = null;
+let memoryPlaylistPlayerReady = false;
+let memoryPlaylistPlaying = false;
+let youtubeApiPromise = null;
 
 function getMemoryPlaylistStaticItems(key) {
   return Array.isArray(memoryPlaylistStaticData[key]) ? memoryPlaylistStaticData[key] : [];
 }
 
-function memoryPlaylistEmbedUrl(videoId, index, autoplay = '1') {
-  const params = new URLSearchParams({
-    autoplay,
-    rel: '0',
-    playsinline: '1',
-    modestbranding: '1',
+function ensureYouTubeApi() {
+  if (window.YT?.Player) {
+    return Promise.resolve();
+  }
+
+  if (!youtubeApiPromise) {
+    youtubeApiPromise = new Promise((resolve) => {
+      const previousReady = window.onYouTubeIframeAPIReady;
+      window.onYouTubeIframeAPIReady = () => {
+        if (typeof previousReady === 'function') previousReady();
+        resolve();
+      };
+
+      if (!document.getElementById('youtube-iframe-api')) {
+        const tag = document.createElement('script');
+        tag.id = 'youtube-iframe-api';
+        tag.src = 'https://www.youtube.com/iframe_api';
+        document.head.appendChild(tag);
+      }
+    });
+  }
+
+  return youtubeApiPromise;
+}
+
+function destroyMemoryPlaylistPlayer() {
+  if (memoryPlaylistPlayer?.destroy) {
+    memoryPlaylistPlayer.destroy();
+  }
+  memoryPlaylistPlayer = null;
+  memoryPlaylistPlayerReady = false;
+  memoryPlaylistPlaying = false;
+}
+
+async function initMemoryPlaylistPlayer() {
+  const mountEl = document.getElementById('memoryPlaylistFrame');
+  if (!mountEl) return;
+
+  await ensureYouTubeApi();
+  if (memoryPlaylistPlayer) return;
+
+  memoryPlaylistPlayer = new YT.Player('memoryPlaylistFrame', {
+    playerVars: {
+      rel: 0,
+      playsinline: 1,
+      modestbranding: 1,
+      enablejsapi: 1,
+      origin: location.origin && location.origin !== 'null' ? location.origin : undefined,
+    },
+    events: {
+      onReady: () => {
+        memoryPlaylistPlayerReady = true;
+      },
+      onStateChange: onMemoryPlayerStateChange,
+    },
   });
-  if (memoryPlaylistMeta.id) {
-    params.set('list', memoryPlaylistMeta.id);
-    params.set('index', String(index + 1));
+}
+
+function withPlayerReady(callback) {
+  initMemoryPlaylistPlayer().then(() => {
+    if (memoryPlaylistPlayerReady && memoryPlaylistPlayer) {
+      callback();
+    }
+  });
+}
+
+function syncTrackListUI() {
+  const listEl = document.getElementById('memoryPlaylistTracks');
+  if (!listEl) return;
+
+  listEl.querySelectorAll('.memory-playlist__track').forEach((btn, i) => {
+    btn.classList.toggle('is-active', i === memoryPlaylistActiveIndex);
+    btn.setAttribute('aria-current', i === memoryPlaylistActiveIndex ? 'true' : 'false');
+  });
+}
+
+function updateNowPlayingUI(track) {
+  const nowEl = document.getElementById('memoryPlaylistNow');
+  if (nowEl) nowEl.textContent = track?.title || '';
+  updateNavMusicTitle(track?.title || '');
+  syncTrackListUI();
+}
+
+function updateNavMusicTitle(title) {
+  const titleEl = document.getElementById('navMusicTitle');
+  if (titleEl) titleEl.textContent = title;
+}
+
+function showNavMusicPlayer() {
+  const playerEl = document.getElementById('navMusicPlayer');
+  if (playerEl) playerEl.hidden = false;
+  updateNavMusicControls();
+}
+
+function updateNavMusicControls() {
+  const playBtn = document.getElementById('navMusicPlay');
+  const pauseBtn = document.getElementById('navMusicPause');
+  const hasTrack = memoryPlaylistActiveIndex >= 0;
+
+  if (playBtn) playBtn.disabled = !hasTrack || memoryPlaylistPlaying;
+  if (pauseBtn) pauseBtn.disabled = !hasTrack || !memoryPlaylistPlaying;
+}
+
+function onMemoryPlayerStateChange(event) {
+  const { PlayerState } = window.YT;
+  memoryPlaylistPlaying = event.data === PlayerState.PLAYING;
+  updateNavMusicControls();
+
+  if (event.data === PlayerState.PLAYING) {
+    const playlistIndex = memoryPlaylistPlayer?.getPlaylistIndex?.();
+    if (
+      typeof playlistIndex === 'number'
+      && playlistIndex >= 0
+      && playlistIndex < memoryPlaylistItems.length
+      && playlistIndex !== memoryPlaylistActiveIndex
+    ) {
+      memoryPlaylistActiveIndex = playlistIndex;
+      updateNowPlayingUI(memoryPlaylistItems[playlistIndex]);
+    }
   }
-  if (location.origin && location.origin !== 'null') {
-    params.set('origin', location.origin);
-    params.set('widget_referrer', location.href.split('#')[0]);
+
+  if (event.data === PlayerState.ENDED) {
+    nextMemoryTrack();
   }
-  return `https://www.youtube.com/embed/${encodeURIComponent(videoId)}?${params.toString()}`;
+}
+
+function playMemoryTrack(index) {
+  const track = memoryPlaylistItems[index];
+  if (!track) return;
+
+  memoryPlaylistActiveIndex = index;
+  updateNowPlayingUI(track);
+  showNavMusicPlayer();
+
+  withPlayerReady(() => {
+    if (memoryPlaylistMeta.id) {
+      memoryPlaylistPlayer.loadPlaylist({
+        listType: 'playlist',
+        list: memoryPlaylistMeta.id,
+        index,
+        startSeconds: 0,
+      });
+      return;
+    }
+
+    memoryPlaylistPlayer.loadVideoById({
+      videoId: track.videoId,
+      startSeconds: 0,
+    });
+  });
+}
+
+function resumeMemoryTrack() {
+  if (memoryPlaylistActiveIndex < 0) {
+    if (memoryPlaylistItems.length) {
+      playMemoryTrack(getMemoryStartIndex(memoryPlaylistItems));
+    }
+    return;
+  }
+
+  withPlayerReady(() => {
+    memoryPlaylistPlayer.playVideo();
+  });
+}
+
+function pauseMemoryTrack() {
+  withPlayerReady(() => {
+    memoryPlaylistPlayer.pauseVideo();
+  });
+}
+
+function nextMemoryTrack() {
+  if (!memoryPlaylistItems.length) return;
+
+  if (memoryPlaylistActiveIndex < 0) {
+    playMemoryTrack(getMemoryStartIndex(memoryPlaylistItems));
+    return;
+  }
+
+  const nextIndex = (memoryPlaylistActiveIndex + 1) % memoryPlaylistItems.length;
+  playMemoryTrack(nextIndex);
 }
 
 function getMemoryStartIndex(items) {
@@ -42,37 +211,6 @@ function getMemoryStartIndex(items) {
   if (!startId) return 0;
   const idx = items.findIndex((item) => item.videoId === startId);
   return idx >= 0 ? idx : 0;
-}
-
-function setMemoryPlaylistFrame(videoId, index) {
-  const frameEl = document.getElementById('memoryPlaylistFrame');
-  if (!frameEl || !videoId) return;
-
-  const nextSrc = memoryPlaylistEmbedUrl(videoId, index);
-  if (frameEl.src === nextSrc) {
-    frameEl.src = 'about:blank';
-    window.requestAnimationFrame(() => {
-      frameEl.src = nextSrc;
-    });
-    return;
-  }
-  frameEl.src = nextSrc;
-}
-
-function playMemoryTrack(index) {
-  const listEl = document.getElementById('memoryPlaylistTracks');
-  const nowEl = document.getElementById('memoryPlaylistNow');
-  const track = memoryPlaylistItems[index];
-  if (!track || !listEl || !nowEl) return;
-
-  memoryPlaylistActiveIndex = index;
-  setMemoryPlaylistFrame(track.videoId, index);
-  nowEl.textContent = track.title;
-
-  listEl.querySelectorAll('.memory-playlist__track').forEach((btn, i) => {
-    btn.classList.toggle('is-active', i === index);
-    btn.setAttribute('aria-current', i === index ? 'true' : 'false');
-  });
 }
 
 function renderMemoryPlaylistTracks() {
@@ -116,6 +254,7 @@ function renderMemoryPlaylistTracks() {
   });
 
   listEl.appendChild(fragment);
+  syncTrackListUI();
 }
 
 function renderMemoryPlaylistPicker() {
@@ -155,7 +294,7 @@ function updateMemoryPlaylistMeta() {
   const playlistTitle = memoryPlaylistMeta.title || 'YouTube 재생목록';
 
   if (descEl) {
-    descEl.innerHTML = `밤하늘 아래, <strong>${playlistTitle}</strong> 재생목록 ${count}곡을 불러옵니다.<br>곡을 누르면 유튜브 재생목록 맥락으로 재생됩니다.`;
+    descEl.innerHTML = `밤하늘 아래, <strong>${playlistTitle}</strong> 재생목록 ${count}곡을 불러옵니다.`;
   }
   if (sourceEl && memoryPlaylistMeta.url) {
     sourceEl.href = memoryPlaylistMeta.url;
@@ -209,6 +348,8 @@ async function loadMemoryPlaylistItems(key) {
   memoryPlaylistActiveKey = playlist.key;
   memoryPlaylistMeta = { ...playlist };
   memoryPlaylistActiveIndex = -1;
+  memoryPlaylistPlaying = false;
+  updateNavMusicControls();
 
   const staticItems = getMemoryPlaylistStaticItems(playlist.key);
   const feed = await fetchMemoryPlaylistFeed(playlist.id);
@@ -229,8 +370,14 @@ async function loadMemoryPlaylistItems(key) {
 
 async function switchMemoryPlaylist(key, autoplay = true) {
   const section = document.getElementById('memory-playlist');
+  const previousPlaylistId = memoryPlaylistMeta?.id;
   const loaded = await loadMemoryPlaylistItems(key);
   if (!loaded) return;
+
+  if (previousPlaylistId !== memoryPlaylistMeta.id || !memoryPlaylistPlayer) {
+    destroyMemoryPlaylistPlayer();
+    await initMemoryPlaylistPlayer();
+  }
 
   renderMemoryPlaylistPicker();
   renderMemoryPlaylistTracks();
@@ -243,11 +390,20 @@ async function switchMemoryPlaylist(key, autoplay = true) {
   }
 }
 
+function initNavMusicPlayer() {
+  document.getElementById('navMusicPlay')?.addEventListener('click', resumeMemoryTrack);
+  document.getElementById('navMusicPause')?.addEventListener('click', pauseMemoryTrack);
+  document.getElementById('navMusicNext')?.addEventListener('click', nextMemoryTrack);
+  updateNavMusicControls();
+}
+
 async function initMemoryPlaylist() {
   const section = document.getElementById('memory-playlist');
   const frameEl = document.getElementById('memoryPlaylistFrame');
   if (!section || !frameEl || !memoryPlaylistCatalog.length) return;
 
+  initNavMusicPlayer();
+  await initMemoryPlaylistPlayer();
   await switchMemoryPlaylist(memoryPlaylistActiveKey, false);
 
   document.addEventListener('memory-playlist:show', () => {
