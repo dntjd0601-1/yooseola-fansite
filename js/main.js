@@ -660,7 +660,7 @@ let revealObserver = null;
 /* ── Scroll Reveal ── */
 function initScrollReveal() {
   const targets = document.querySelectorAll(
-    '.profile__main, .profile__card, .profile__overview, .profile__history, .profile__content, .schedule-board, .timeline__item, .churudan-hub, .minigame, .rolling-paper, .section__header, .memory-playlist__header, .memory-playlist__layout, .memory-playlist__player-wrap, .memory-playlist__tracks, .memory-playlist__source'
+    '.profile__main, .profile__card, .profile__overview, .profile__history, .profile__content, .schedule-board, .timeline__item, .churudan-hub, .minigame, .rolling-paper, .section__header, .memory-playlist__header, .memory-playlist__picker, .memory-playlist__layout, .memory-playlist__player-wrap, .memory-playlist__tracks, .memory-playlist__source'
   );
 
   targets.forEach((el) => el.classList.add('reveal'));
