@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Jua&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=20260622">
+  <link rel="stylesheet" href="css/style.css?v=20260623">
 </head>
 <body>
 
@@ -33,6 +33,19 @@
         <li><a href="#gallery" class="nav__link">사진관</a></li>
         <li><a href="#memory-playlist" class="nav__link">추억의 플리</a></li>
         <li><a href="#churudan" class="nav__link">츄르단 공간</a></li>
+        <li class="nav-player-wrap" id="navMusicPlayer" hidden>
+          <div class="nav-player">
+            <div class="nav-player__info">
+              <span class="nav-player__label">Now Playing</span>
+              <p class="nav-player__title" id="navMusicTitle"></p>
+            </div>
+            <div class="nav-player__controls">
+              <button type="button" class="nav-player__btn" id="navMusicPlay" aria-label="재생">▶</button>
+              <button type="button" class="nav-player__btn" id="navMusicPause" aria-label="멈춤">⏸</button>
+              <button type="button" class="nav-player__btn" id="navMusicNext" aria-label="다음">⏭</button>
+            </div>
+          </div>
+        </li>
       </ul>
     </nav>
   </header>
@@ -683,13 +696,11 @@
         <div class="memory-playlist__layout">
           <div class="memory-playlist__player-wrap reveal">
             <div class="memory-playlist__screen">
-              <iframe
+              <div
                 id="memoryPlaylistFrame"
                 class="memory-playlist__frame"
-                title="추억의 플리 재생"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-              ></iframe>
+                aria-label="추억의 플리 재생"
+              ></div>
             </div>
             <div class="memory-playlist__now">
               <span class="memory-playlist__now-label">Now Playing</span>
@@ -930,7 +941,7 @@
   <script src="js/minigames.js?v=20260615"></script>
   <script src="js/rolling-paper.js?v=20260611"></script>
   <script src="js/memory-playlist-data.js?v=20260621"></script>
-  <script src="js/memory-playlist.js?v=20260622"></script>
+  <script src="js/memory-playlist.js?v=20260623"></script>
   <script src="js/main.js?v=20260622"></script>
 </body>
 </html>
