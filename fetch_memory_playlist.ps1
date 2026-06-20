@@ -97,7 +97,7 @@ $playlists = @(
         listId = 'PLDmzzSPk7ZiAFX3Gk9kOR0AwTeId5WolD'
         startVideoId = 'i-TFmaRcoKs'
         htmlPath = Join-Path $root 'yt_memory_playlist_0614.html'
-        fallbackTitle = '설아의 추억 심야버스(0614)'
+        fallbackTitle = '유설아의 심야버스라디오(0614)'
     },
     @{
         key = 'simya0618'

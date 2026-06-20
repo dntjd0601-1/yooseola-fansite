@@ -13,7 +13,7 @@ const MEMORY_YOUTUBE_PLAYLISTS = [
   {
     key: 'simya0618',
     id: 'PLDmzzSPk7ZiBwOrhHtwbQsxUBGjpHkILu',
-    title: '유설아의 심야버스라디오_0618',
+    title: '유설아의 심야버스라디오(0618)',
     url: 'https://www.youtube.com/playlist?list=PLDmzzSPk7ZiBwOrhHtwbQsxUBGjpHkILu',
     startVideoId: 'DC13_hnbzCA',
   },
