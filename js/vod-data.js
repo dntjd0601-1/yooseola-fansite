@@ -4,7 +4,7 @@
  */
 const VOD_DATA = {
   replay: [
-    { title: '버컴 vs 꾸한성 삼연서버', url: 'https://vod.sooplive.com/player/199137559', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260619_07A39D72_294939655_2_r', date: '2026.06.20', duration: '6:08:09', views: 172 },
+    { title: '버컴 vs 꾸한성 삼연서버', url: 'https://vod.sooplive.com/player/199137559', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260619_07A39D72_294939655_2_r', date: '2026.06.20', duration: '6:08:09', views: 173 },
     { title: '대한민국 vs 멕시코 월드컵 응원', url: 'https://vod.sooplive.com/player/199076123', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260619_0201DED5_294930033_2_r', date: '2026.06.19', duration: '2:48:53', views: 200 },
     { title: '종달새 프랫폴 + 쥐스토랑', url: 'https://vod.sooplive.com/player/199051315', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260618_36163A46_294912053_2_r', date: '2026.06.19', duration: '8:17:51', views: 265 },
     { title: '새벽 소통', url: 'https://vod.sooplive.com/player/198880987', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260616_97542B3D_294874157_1_r', date: '2026.06.17', duration: '3:15:58', views: 335 },
@@ -38,8 +38,8 @@ const VOD_DATA = {
     { title: 'GTA 인생모드 수상한 피자집, 모슈 [요양타운]', url: 'https://www.youtube.com/watch?v=BLRcHNBVI1M', thumb: 'https://i.ytimg.com/vi/BLRcHNBVI1M/hqdefault.jpg', date: '', duration: '', views: 0 },
   ],
   shorts: [
-    { title: '진짜 경찰 선배님 맞아요? #김민교 #유설아 #고래시티', url: 'https://www.youtube.com/shorts/MJv9fU4bqik', thumb: 'https://i.ytimg.com/vi/MJv9fU4bqik/hqdefault.jpg', date: '2026.06.19', duration: '', views: 20658 },
-    { title: '롯데리아 양념감자 최애 시즈닝은?', url: 'https://www.youtube.com/shorts/eG8r_hGR1Rc', thumb: 'https://i.ytimg.com/vi/eG8r_hGR1Rc/hqdefault.jpg', date: '2026.06.17', duration: '', views: 12394 },
+    { title: '진짜 경찰 선배님 맞아요? #김민교 #유설아 #고래시티', url: 'https://www.youtube.com/shorts/MJv9fU4bqik', thumb: 'https://i.ytimg.com/vi/MJv9fU4bqik/hqdefault.jpg', date: '2026.06.19', duration: '', views: 20784 },
+    { title: '롯데리아 양념감자 최애 시즈닝은?', url: 'https://www.youtube.com/shorts/eG8r_hGR1Rc', thumb: 'https://i.ytimg.com/vi/eG8r_hGR1Rc/hqdefault.jpg', date: '2026.06.17', duration: '', views: 12414 },
     { title: '그시절 싸이월드 감성 #유설아', url: 'https://www.youtube.com/shorts/xsxaKV7WZhs', thumb: 'https://i.ytimg.com/vi/xsxaKV7WZhs/hqdefault.jpg', date: '2026.06.15', duration: '', views: 2916 },
     { title: '누가 진짜고 누가 가짜야! #감스트 #미메시스 #니니', url: 'https://www.youtube.com/shorts/WO7Wbp7Ah7I', thumb: 'https://i.ytimg.com/vi/WO7Wbp7Ah7I/hqdefault.jpg', date: '2026.04.24', duration: '', views: 14753 },
     { title: '1조 준다면 이거 할수있음?', url: 'https://www.youtube.com/shorts/5BEvfgui_qg', thumb: 'https://i.ytimg.com/vi/5BEvfgui_qg/hqdefault.jpg', date: '2026.04.22', duration: '', views: 7125 },
@@ -47,9 +47,9 @@ const VOD_DATA = {
     { title: '한달에 한번 물고기로 변한다면? #감스트 #유설아 #따린', url: 'https://www.youtube.com/shorts/gZpDNAR4FqA', thumb: 'https://i.ytimg.com/vi/gZpDNAR4FqA/hqdefault.jpg', date: '2026.04.19', duration: '', views: 31238 },
     { title: '끓인 솔의눈에 고춧가루 괴식핀볼 #유설아', url: 'https://www.youtube.com/shorts/OFWjmhNFPC0', thumb: 'https://i.ytimg.com/vi/OFWjmhNFPC0/hqdefault.jpg', date: '2026.04.18', duration: '', views: 16111 },
     { title: '직접 겪은 무서운 이야기 #유설아', url: 'https://www.youtube.com/shorts/ZdJHNNsR0Us', thumb: 'https://i.ytimg.com/vi/ZdJHNNsR0Us/hqdefault.jpg', date: '2026.04.05', duration: '', views: 9825 },
-    { title: '공포게임중 개그하는 두사람 #백룸 #니니 #유설아', url: 'https://www.youtube.com/shorts/yxM78CH78GY', thumb: 'https://i.ytimg.com/vi/yxM78CH78GY/hqdefault.jpg', date: '2026.04.03', duration: '', views: 11657 },
+    { title: '공포게임중 개그하는 두사람 #백룸 #니니 #유설아', url: 'https://www.youtube.com/shorts/yxM78CH78GY', thumb: 'https://i.ytimg.com/vi/yxM78CH78GY/hqdefault.jpg', date: '2026.04.03', duration: '', views: 11658 },
     { title: '부모님들도 다 아는 감스트', url: 'https://www.youtube.com/shorts/WGk_J1UsOD8', thumb: 'https://i.ytimg.com/vi/WGk_J1UsOD8/hqdefault.jpg', date: '2026.04.01', duration: '', views: 19141 },
-    { title: '감스트와 유설아의 첫만남', url: 'https://www.youtube.com/shorts/W1zbfZshAUM', thumb: 'https://i.ytimg.com/vi/W1zbfZshAUM/hqdefault.jpg', date: '2026.03.30', duration: '', views: 20531 },
+    { title: '감스트와 유설아의 첫만남', url: 'https://www.youtube.com/shorts/W1zbfZshAUM', thumb: 'https://i.ytimg.com/vi/W1zbfZshAUM/hqdefault.jpg', date: '2026.03.30', duration: '', views: 20532 },
     { title: '버튜버가 관상을 봤더니 #유설아 #니니', url: 'https://www.youtube.com/shorts/zzbrVOT2k7g', thumb: 'https://i.ytimg.com/vi/zzbrVOT2k7g/hqdefault.jpg', date: '2026.03.29', duration: '', views: 19725 },
     { title: '끝까지 가면 유설아가 다 이겨 top 4', url: 'https://www.youtube.com/shorts/s9_74WMIoAw', thumb: 'https://i.ytimg.com/vi/s9_74WMIoAw/hqdefault.jpg', date: '2026.03.28', duration: '', views: 23784 },
   ],
