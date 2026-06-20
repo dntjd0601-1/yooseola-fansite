@@ -4,7 +4,7 @@ netlify-deploy/
 # Function deps (installed by install-function-deps.ps1 during pack)
 netlify/functions/node_modules/
 
-# Rolling paper admin password (copy from admin-config.example.mjs)
+# Rolling paper admin password (never commit — use Netlify env ROLLING_PAPER_ADMIN_KEY)
 netlify/functions/rolling-paper/admin-config.mjs
 
 # Fetch cache / temp files

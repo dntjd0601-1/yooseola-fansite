@@ -23,15 +23,14 @@ $fnDir = Join-Path $root 'netlify/functions'
 if (Test-Path $fnDir) {
     $destFn = Join-Path $out 'netlify/functions'
     New-Item -ItemType Directory -Path $destFn -Force | Out-Null
-    Get-ChildItem -Path $fnDir -Exclude 'node_modules' | Copy-Item -Destination $destFn -Recurse -Force
+    Get-ChildItem -Path $fnDir -Exclude 'node_modules','admin-config.mjs' | Copy-Item -Destination $destFn -Recurse -Force
     $rpDir = Join-Path $destFn 'rolling-paper'
     if (Test-Path $rpDir) {
         & (Join-Path $root 'install-function-deps.ps1') -FnDir $rpDir
-        $adminCfg = Join-Path $root 'netlify/functions/rolling-paper/admin-config.mjs'
-        $adminExample = Join-Path $root 'netlify/functions/rolling-paper/admin-config.example.mjs'
-        if (-not (Test-Path $adminCfg) -and (Test-Path $adminExample)) {
-            Copy-Item $adminExample $adminCfg
-            Write-Warning 'admin-config.mjs created — set ADMIN_KEY before using admin login.'
+        $adminCfg = Join-Path $rpDir 'admin-config.mjs'
+        if (Test-Path $adminCfg) {
+            Remove-Item $adminCfg -Force
+            Write-Warning 'Removed admin-config.mjs from deploy bundle. Use ROLLING_PAPER_ADMIN_KEY env var on Netlify.'
         }
     }
 }

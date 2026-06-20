@@ -1,0 +1,8 @@
+롤링페이퍼 관리자 비밀번호는 코드/파일에 넣지 마세요.
+
+Netlify 대시보드 → Site configuration → Environment variables 에서
+변수 이름 ROLLING_PAPER_ADMIN_KEY 를 추가하고 값을 설정하세요.
+
+※ "Secret" 표시로 등록하면 빌드 스캔에 걸릴 수 있습니다.
+  문제가 있으면 일반 변수로 등록하거나 Netlify 지원 문서의
+  SECRETS_SCAN_SMART_DETECTION_OMIT_VALUES 를 참고하세요.
