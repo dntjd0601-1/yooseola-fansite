@@ -163,6 +163,7 @@ const GALLERY_DATA = [
   { src: 'https://cafeptthumb-phinf.pstatic.net/MjAyNjAzMTVfMjM5/MDAxNzczNTU2MDA4MzQ3.e13sun9DH-fh--mNS29obnhnIxVwojUn9J0s-2Njjawg.GJjoD-bNDXd-KEzs_mAcrIygcwLMVuC_QGbe8ZPiTP0g.JPEG/IMG_0826.jpeg', caption: '오늘 먹은 점심', source: 'cafe-photo', url: 'https://cafe.naver.com/yoonanana/7577' },
   { src: 'https://cafeptthumb-phinf.pstatic.net/MjAyNjAzMTVfMTI2/MDAxNzczNTUzNDQ0MDAy.JWekDRl058Guq78RzOb_6MervP10rzwDrNIfVDwrLuog.PDrdBOcD5QZnD-b-neBAMI8ZyJN3EWhrcFcy8AryUKUg.JPEG/1000069298.jpg', caption: '주말엔 피짜', source: 'cafe-photo', url: 'https://cafe.naver.com/yoonanana/7574' },
   { src: 'https://cafeptthumb-phinf.pstatic.net/MjAyNjAzMTRfODUg/MDAxNzczNDgzNDI0Mjgx.PoPMwLRmtFX55MuO7C-c2UFAw_oIjEfGWANymt6WB6wg.189svWDoB7cYmqW53oRHM2ClV6R6b-t-ShcV5Qa33rMg.JPEG/IMG_0837.jpeg', caption: '오늘 먹은 저녁', source: 'cafe-photo', url: 'https://cafe.naver.com/yoonanana/7548' },
+  { src: 'https://pub-09503bcaa330470d86e3a702b4d21bcb.r2.dev/gallery/yeveee/1781952516327-file_000000005a407207a53107d13d962aab.png', caption: 'Seola', source: 'v-company', url: 'https://v-company.xyz/gallery' },
   { src: 'https://pub-09503bcaa330470d86e3a702b4d21bcb.r2.dev/gallery/yeveee/1781893022676-B252FEA2-4A8B-4D96-89A3-7D7287869453.png', caption: 'Seola', source: 'v-company', url: 'https://v-company.xyz/gallery' },
   { src: 'https://pub-09503bcaa330470d86e3a702b4d21bcb.r2.dev/gallery/yeveee/1781873041707-___.png', caption: 'Seola', source: 'v-company', url: 'https://v-company.xyz/gallery' },
   { src: 'https://pub-09503bcaa330470d86e3a702b4d21bcb.r2.dev/gallery/yeveee/1781763266224-___.png', caption: 'Seola', source: 'v-company', url: 'https://v-company.xyz/gallery' },
@@ -312,5 +313,4 @@ const GALLERY_DATA = [
   { src: 'https://pub-09503bcaa330470d86e3a702b4d21bcb.r2.dev/gallery/yeveee/1778117561065-file_000000006d0c720bb0d3ff862dd6e746.png', caption: 'AI', source: 'v-company', url: 'https://v-company.xyz/gallery' },
   { src: 'https://pub-09503bcaa330470d86e3a702b4d21bcb.r2.dev/gallery/yeveee/1778068726996-ChatGPT_Image_2026__5__6_____08_43_00.png', caption: 'GPT', source: 'v-company', url: 'https://v-company.xyz/gallery' },
   { src: 'https://pub-09503bcaa330470d86e3a702b4d21bcb.r2.dev/gallery/yeveee/1778039611507-11538.png', caption: 'Seola', source: 'v-company', url: 'https://v-company.xyz/gallery' },
-  { src: 'https://pub-09503bcaa330470d86e3a702b4d21bcb.r2.dev/gallery/yeveee/1777908907730-_______.png', caption: 'Seola', source: 'v-company', url: 'https://v-company.xyz/gallery' },
 ];
