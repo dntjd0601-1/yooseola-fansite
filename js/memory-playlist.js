@@ -155,7 +155,7 @@ function updateMemoryPlaylistMeta() {
   const playlistTitle = memoryPlaylistMeta.title || 'YouTube 재생목록';
 
   if (descEl) {
-    descEl.innerHTML = `밤하늘 아래, <strong>${playlistTitle}</strong> 재생목록 ${count}곡을 불러옵니다.<br>곡을 누르면 유튜브 재생목록 맥락으로 재생됩니다.`;
+    descEl.innerHTML = `밤하늘 아래, <strong>${playlistTitle}</strong> 재생목록 ${count}곡을 불러옵니다.`;
   }
   if (sourceEl && memoryPlaylistMeta.url) {
     sourceEl.href = memoryPlaylistMeta.url;
