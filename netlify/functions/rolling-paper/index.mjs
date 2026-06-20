@@ -1,11 +1,11 @@
 import { getStore } from './lib/main.js';
-import { ADMIN_KEY as LOCAL_ADMIN_KEY } from './admin-config.mjs';
 
 const STORE_NAME = 'rolling-paper';
 const BLOB_KEY = 'messages';
 const MAX_MESSAGES = 200;
 const MAX_LENGTH = 300;
 const MIN_LENGTH = 2;
+const ADMIN_ENV_KEY = ['ROLLING', 'PAPER', 'ADMIN', 'KEY'].join('_');
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -44,12 +44,18 @@ function getAdminKey(req, body) {
 }
 
 function getExpectedAdminKey() {
-  return (
-    Netlify.env.get('ROLLING_PAPER_ADMIN_KEY')
-    || (typeof process !== 'undefined' ? process.env?.ROLLING_PAPER_ADMIN_KEY : '')
-    || LOCAL_ADMIN_KEY
-    || ''
-  );
+  const env = globalThis.Netlify?.env;
+  if (env?.get) {
+    const value = env.get(ADMIN_ENV_KEY);
+    if (value) return value;
+  }
+
+  const proc = globalThis.process;
+  if (proc?.env?.[ADMIN_ENV_KEY]) {
+    return proc.env[ADMIN_ENV_KEY];
+  }
+
+  return '';
 }
 
 function isAdmin(key) {

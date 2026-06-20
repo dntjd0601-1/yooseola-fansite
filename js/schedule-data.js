@@ -418,7 +418,7 @@ const SCHEDULE_EVENTS = {
   '2026-06-19': [{ type: 'live', title: '한국 vs 멕시코 + 삼연서버 연습' }],
   '2026-06-20': [{ type: 'live', title: '버컴 라이어게임 + 토요미스테리' }],
   '2026-06-21': [{ type: 'off', title: '튜방' }],
-  '2026-06-22': [{ type: 'off', title: '튜방' }],
+  '2026-06-22': [{ type: 'live', title: '버컴 합방' }],
   '2026-06-23': [{ type: 'live', title: '버컴 청문회' }],
   '2026-06-24': [{ type: 'live', title: '버컴 마크운동회 + 사슬게임 w 니니 + 달묘 킴나니' }],
   '2026-06-25': [{ type: 'live', title: '한국 vs 남아공' }],
