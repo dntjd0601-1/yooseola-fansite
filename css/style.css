@@ -3271,6 +3271,10 @@ body.is-home .footer {
 .lightbox__nav--prev { left: 24px; }
 .lightbox__nav--next { right: 24px; }
 
+.lightbox__nav[hidden] {
+  display: none;
+}
+
 .lightbox__content {
   max-width: 90vw;
   max-height: 85vh;

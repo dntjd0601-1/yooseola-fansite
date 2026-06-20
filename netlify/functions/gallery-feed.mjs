@@ -121,6 +121,7 @@ function buildCafeItems(article, source, images) {
     postId,
     imageIndex,
     imageCount: srcList.length,
+    images: srcList,
   }));
 }
 
@@ -198,6 +199,7 @@ async function fetchVCompany() {
           postId: row.id ? String(row.id) : '',
           imageIndex: 0,
           imageCount: 1,
+          images: [src],
         });
         added += 1;
       }

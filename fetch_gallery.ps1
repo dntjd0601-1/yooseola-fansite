@@ -15,6 +15,12 @@ function Escape-Js([string]$text) {
     return $text.Replace('\', '\\').Replace("'", "\'").Replace("`r", '').Replace("`n", ' ')
 }
 
+function Format-JsStringArray([string[]]$values) {
+    if (-not $values -or $values.Count -eq 0) { return '[]' }
+    $parts = foreach ($value in $values) { "'$(Escape-Js $value)'" }
+    return "[ $($parts -join ', ') ]"
+}
+
 function Test-CafeLogoThumb([string]$src) {
     return ($src -match '/image\.PNG$') -or ($src -match '/default/cafe_profile')
 }
@@ -65,6 +71,7 @@ function Add-CafeArticleItems([object]$article, [string]$source) {
             postId = $postId
             imageIndex = $imageIndex
             imageCount = $imageCount
+            images = $images
         }
         $imageIndex++
     }
@@ -84,6 +91,7 @@ function Add-VCompanyItem([string]$src, [string]$caption) {
         postId = ''
         imageIndex = 0
         imageCount = 1
+        images = @($src)
     }
     return $true
 }
@@ -176,7 +184,7 @@ $sb = New-Object System.Text.StringBuilder
 foreach ($it in $items) {
     $postId = Escape-Js $it.postId
     [void]$sb.AppendLine(
-        "  { src: '$(Escape-Js $it.src)', caption: '$(Escape-Js $it.caption)', source: '$(Escape-Js $it.source)', url: '$(Escape-Js $it.url)', postId: '$postId', imageIndex: $($it.imageIndex), imageCount: $($it.imageCount) },"
+        "  { src: '$(Escape-Js $it.src)', caption: '$(Escape-Js $it.caption)', source: '$(Escape-Js $it.source)', url: '$(Escape-Js $it.url)', postId: '$postId', imageIndex: $($it.imageIndex), imageCount: $($it.imageCount), images: $(Format-JsStringArray $it.images) },"
     )
 }
 [void]$sb.AppendLine('];')

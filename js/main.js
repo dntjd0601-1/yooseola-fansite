@@ -104,6 +104,8 @@ function initHeroLive() {
 /* ── Gallery ── */
 const GALLERY_BATCH_SIZE = 24;
 const GALLERY_FEED_API = '/.netlify/functions/gallery-feed';
+const GALLERY_DOWNLOAD_API = '/.netlify/functions/gallery-download';
+const GALLERY_ARTICLE_IMAGES_API = '/.netlify/functions/gallery-article-images';
 const gallerySourceLabel = {
   'fan-cafe': '팬카페',
   'cafe-photo': '카페 사진',
@@ -692,28 +694,6 @@ function getGalleryCaption(item) {
   return `${tag} · ${item.caption}`;
 }
 
-function getLightboxGroup(startIndex) {
-  const items = getGalleryItems();
-  const start = items[startIndex];
-  if (!start) return { indices: [], slide: 0 };
-
-  if (!start.postId) {
-    return { indices: [startIndex], slide: 0 };
-  }
-
-  const indices = [];
-  items.forEach((item, idx) => {
-    if (item.postId === start.postId) indices.push(idx);
-  });
-
-  if (!indices.length) {
-    return { indices: [startIndex], slide: 0 };
-  }
-
-  const slide = indices.indexOf(startIndex);
-  return { indices, slide: slide >= 0 ? slide : 0 };
-}
-
 function getDownloadFilename(item) {
   const extMatch = item.src.match(/\.(jpe?g|png|webp|gif)(?:$|\?)/i);
   const ext = extMatch ? extMatch[1].toLowerCase() : 'jpg';
@@ -725,22 +705,137 @@ function getDownloadFilename(item) {
   return `${base}${suffix}.${ext}`;
 }
 
+function buildSlideItem(baseItem, src, imageIndex, imageCount) {
+  return {
+    ...baseItem,
+    src,
+    imageIndex,
+    imageCount,
+    images: baseItem.images || (imageCount > 1 ? [] : [src]),
+  };
+}
+
+function buildLightboxSlides(startIndex) {
+  const items = getGalleryItems();
+  const start = items[startIndex];
+  if (!start) return { slides: [], startSlide: 0 };
+
+  const imageList = Array.isArray(start.images) && start.images.length
+    ? start.images
+    : null;
+
+  if (imageList && imageList.length > 1) {
+    const slides = imageList.map((src, imageIndex) => {
+      const slideItem = buildSlideItem(start, src, imageIndex, imageList.length);
+      return { src, item: slideItem, caption: getGalleryCaption(slideItem) };
+    });
+    const startSlide = Number.isFinite(start.imageIndex)
+      ? Math.min(Math.max(start.imageIndex, 0), slides.length - 1)
+      : 0;
+    return { slides, startSlide };
+  }
+
+  if (start.postId) {
+    const group = [];
+    items.forEach((item, idx) => {
+      if (item.postId === start.postId) group.push({ idx, item });
+    });
+    group.sort((a, b) => (a.item.imageIndex || 0) - (b.item.imageIndex || 0));
+
+    if (group.length > 1) {
+      return {
+        slides: group.map(({ item }) => ({
+          src: item.src,
+          item,
+          caption: getGalleryCaption(item),
+        })),
+        startSlide: Math.max(0, group.findIndex(({ idx }) => idx === startIndex)),
+      };
+    }
+  }
+
+  return {
+    slides: [{ src: start.src, item: start, caption: getGalleryCaption(start) }],
+    startSlide: 0,
+  };
+}
+
+async function fetchArticleImages(postId) {
+  if (!postId) return [];
+  try {
+    const res = await fetch(
+      `${GALLERY_ARTICLE_IMAGES_API}?postId=${encodeURIComponent(postId)}`,
+      { cache: 'no-store' }
+    );
+    if (!res.ok) return [];
+    const data = await res.json();
+    return Array.isArray(data.images) ? data.images : [];
+  } catch {
+    return [];
+  }
+}
+
+async function resolveLightboxSlides(startIndex) {
+  const built = buildLightboxSlides(startIndex);
+  if (built.slides.length > 1) return built;
+
+  const start = getGalleryItems()[startIndex];
+  if (!start?.postId || !(start.imageCount > 1)) return built;
+
+  const images = await fetchArticleImages(start.postId);
+  if (images.length <= 1) return built;
+
+  const slides = images.map((src, imageIndex) => {
+    const slideItem = buildSlideItem(start, src, imageIndex, images.length);
+    return { src, item: slideItem, caption: getGalleryCaption(slideItem) };
+  });
+
+  const startSlide = Number.isFinite(start.imageIndex)
+    ? Math.min(Math.max(start.imageIndex, 0), slides.length - 1)
+    : 0;
+
+  return { slides, startSlide };
+}
+
+function triggerBlobDownload(blob, filename) {
+  const blobUrl = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = blobUrl;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(blobUrl);
+}
+
 async function downloadGalleryImage(item) {
   const filename = getDownloadFilename(item);
+  const proxyUrl =
+    `${GALLERY_DOWNLOAD_API}?url=${encodeURIComponent(item.src)}` +
+    `&name=${encodeURIComponent(filename)}`;
+
+  try {
+    const res = await fetch(proxyUrl, { cache: 'no-store' });
+    if (res.ok) {
+      triggerBlobDownload(await res.blob(), filename);
+      return;
+    }
+  } catch {
+    /* try direct fetch below */
+  }
+
   try {
     const res = await fetch(item.src, { referrerPolicy: 'no-referrer' });
     if (!res.ok) throw new Error('fetch failed');
-    const blob = await res.blob();
-    const blobUrl = URL.createObjectURL(blob);
+    triggerBlobDownload(await res.blob(), filename);
+  } catch {
     const link = document.createElement('a');
-    link.href = blobUrl;
+    link.href = proxyUrl;
     link.download = filename;
+    link.rel = 'noopener';
     document.body.appendChild(link);
     link.click();
     link.remove();
-    URL.revokeObjectURL(blobUrl);
-  } catch {
-    window.open(item.src, '_blank', 'noopener,noreferrer');
   }
 }
 
@@ -757,13 +852,41 @@ function initGalleryLightbox() {
 
   if (!lightbox || !grid || !getGalleryItems().length) return;
 
-  let groupIndices = [];
+  let slides = [];
   let slideIndex = 0;
+  let touchStartX = 0;
 
-  function openLightbox(index) {
-    const group = getLightboxGroup(index);
-    groupIndices = group.indices;
-    slideIndex = group.slide;
+  function updateNavButtons() {
+    const hasMultiple = slides.length > 1;
+    if (prevBtn) prevBtn.hidden = !hasMultiple;
+    if (nextBtn) nextBtn.hidden = !hasMultiple;
+  }
+
+  function renderLightbox() {
+    const slide = slides[slideIndex];
+    if (!slide) return;
+
+    lightboxImage.src = slide.src;
+    lightboxImage.alt = slide.caption;
+    lightboxCaption.textContent = slide.caption;
+
+    if (slides.length > 1) {
+      lightboxCounter.textContent = `${slideIndex + 1} / ${slides.length}`;
+      lightboxCounter.hidden = false;
+    } else {
+      lightboxCounter.textContent = '';
+      lightboxCounter.hidden = true;
+    }
+
+    updateNavButtons();
+  }
+
+  async function openLightbox(index) {
+    const resolved = await resolveLightboxSlides(index);
+    slides = resolved.slides;
+    slideIndex = resolved.startSlide;
+    if (!slides.length) return;
+
     renderLightbox();
     lightbox.classList.add('active');
     lightbox.setAttribute('aria-hidden', 'false');
@@ -776,28 +899,9 @@ function initGalleryLightbox() {
     document.body.style.overflow = '';
   }
 
-  function renderLightbox() {
-    const items = getGalleryItems();
-    const itemIndex = groupIndices[slideIndex];
-    const item = items[itemIndex];
-    if (!item) return;
-
-    lightboxImage.src = item.src;
-    lightboxImage.alt = getGalleryCaption(item);
-    lightboxCaption.textContent = getGalleryCaption(item);
-
-    if (groupIndices.length > 1) {
-      lightboxCounter.textContent = `${slideIndex + 1} / ${groupIndices.length}`;
-      lightboxCounter.hidden = false;
-    } else {
-      lightboxCounter.textContent = '';
-      lightboxCounter.hidden = true;
-    }
-  }
-
   function navigate(direction) {
-    if (!groupIndices.length) return;
-    slideIndex = (slideIndex + direction + groupIndices.length) % groupIndices.length;
+    if (slides.length <= 1) return;
+    slideIndex = (slideIndex + direction + slides.length) % slides.length;
     renderLightbox();
   }
 
@@ -809,18 +913,42 @@ function initGalleryLightbox() {
     openLightbox(index);
   });
 
-  closeBtn.addEventListener('click', closeLightbox);
-  prevBtn.addEventListener('click', () => navigate(-1));
-  nextBtn.addEventListener('click', () => navigate(1));
-  downloadBtn?.addEventListener('click', () => {
-    const items = getGalleryItems();
-    const item = items[groupIndices[slideIndex]];
-    if (item) downloadGalleryImage(item);
+  closeBtn?.addEventListener('click', (event) => {
+    event.stopPropagation();
+    closeLightbox();
+  });
+
+  prevBtn?.addEventListener('click', (event) => {
+    event.stopPropagation();
+    navigate(-1);
+  });
+
+  nextBtn?.addEventListener('click', (event) => {
+    event.stopPropagation();
+    navigate(1);
+  });
+
+  downloadBtn?.addEventListener('click', (event) => {
+    event.stopPropagation();
+    const slide = slides[slideIndex];
+    if (slide?.item) downloadGalleryImage(slide.item);
   });
 
   lightbox.addEventListener('click', (e) => {
     if (e.target === lightbox) closeLightbox();
   });
+
+  lightboxImage?.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0]?.clientX || 0;
+  }, { passive: true });
+
+  lightboxImage?.addEventListener('touchend', (e) => {
+    if (slides.length <= 1) return;
+    const touchEndX = e.changedTouches[0]?.clientX || 0;
+    const delta = touchEndX - touchStartX;
+    if (Math.abs(delta) < 40) return;
+    navigate(delta > 0 ? -1 : 1);
+  }, { passive: true });
 
   document.addEventListener('keydown', (e) => {
     if (!lightbox.classList.contains('active')) return;
