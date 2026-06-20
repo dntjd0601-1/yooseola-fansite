@@ -38,7 +38,7 @@ const VOD_DATA = {
     { title: 'GTA 인생모드 수상한 피자집, 모슈 [요양타운]', url: 'https://www.youtube.com/watch?v=BLRcHNBVI1M', thumb: 'https://i.ytimg.com/vi/BLRcHNBVI1M/hqdefault.jpg', date: '', duration: '', views: 0 },
   ],
   shorts: [
-    { title: '진짜 경찰 선배님 맞아요? #김민교 #유설아 #고래시티', url: 'https://www.youtube.com/shorts/MJv9fU4bqik', thumb: 'https://i.ytimg.com/vi/MJv9fU4bqik/hqdefault.jpg', date: '2026.06.19', duration: '', views: 20784 },
+    { title: '진짜 경찰 선배님 맞아요? #김민교 #유설아 #고래시티', url: 'https://www.youtube.com/shorts/MJv9fU4bqik', thumb: 'https://i.ytimg.com/vi/MJv9fU4bqik/hqdefault.jpg', date: '2026.06.19', duration: '', views: 20799 },
     { title: '롯데리아 양념감자 최애 시즈닝은?', url: 'https://www.youtube.com/shorts/eG8r_hGR1Rc', thumb: 'https://i.ytimg.com/vi/eG8r_hGR1Rc/hqdefault.jpg', date: '2026.06.17', duration: '', views: 12414 },
     { title: '그시절 싸이월드 감성 #유설아', url: 'https://www.youtube.com/shorts/xsxaKV7WZhs', thumb: 'https://i.ytimg.com/vi/xsxaKV7WZhs/hqdefault.jpg', date: '2026.06.15', duration: '', views: 2916 },
     { title: '누가 진짜고 누가 가짜야! #감스트 #미메시스 #니니', url: 'https://www.youtube.com/shorts/WO7Wbp7Ah7I', thumb: 'https://i.ytimg.com/vi/WO7Wbp7Ah7I/hqdefault.jpg', date: '2026.04.24', duration: '', views: 14753 },
