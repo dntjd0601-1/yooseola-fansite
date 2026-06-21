@@ -22,28 +22,29 @@ function initMarbleRoulette() {
   if (!canvas || !minimap || !rootEl || !panel) return;
 
   const MAP_NAMES_KO = {
-    'Wheel of fortune': '행운의 바퀴',
-    BubblePop: '버블팝',
-    'Pot of greed': '욕망의 항아리',
-    'Yoru ni Kakeru': '밤을 건너',
+    'Classic Plinko': '클래식 플링코',
+    'Wide Cascade': '와이드 폭포',
+    'Star Lane': '별빛 코스',
   };
 
   const INITIAL_ZOOM = 30;
   const ZOOM_THRESHOLD = 5;
-  const MARBLE_RADIUS = 0.48;
+  const MARBLE_RADIUS = 0.4;
   const STEP_MS = 10;
-  const STUCK_MS = 450;
-  const STUCK_MOVE_THRESH = 0.006;
-  const STUCK_SPEED_THRESH = 0.3;
-  const CHANNEL_CENTER_X = 16;
+  const STUCK_MS = 250;
+  const STUCK_MOVE_THRESH = 0.008;
+  const STUCK_SPEED_THRESH = 0.35;
+  const CHANNEL_CENTER_X = 14;
+  const FORCE_FINISH_Y_OFFSET = 1.2;
   const STORAGE_KEY = 'churudan_marble_names';
 
   const THEME = {
-    bg: '#000000',
+    bgTop: '#0b1224',
+    bgBottom: '#050810',
     entity: {
-      polyline: { stroke: '#ffffff', glow: '#00ffff', glowR: 12 },
-      box: { fill: '#00ffff', stroke: '#00ffff', glow: '#00ffff', glowR: 10 },
-      circle: { fill: '#ffff00', stroke: '#ffff00', glow: '#ffff00', glowR: 10 },
+      polyline: { stroke: 'rgba(120, 175, 255, 0.9)', glow: '#6ec4f5', glowR: 10 },
+      box: { fill: 'rgba(110, 196, 245, 0.85)', stroke: '#9edcff', glow: '#6ec4f5', glowR: 8 },
+      circle: { fill: '#ffe08a', stroke: '#fff6cc', glow: '#ffd966', glowR: 14 },
     },
   };
 
@@ -165,21 +166,25 @@ function initMarbleRoulette() {
         if (ent.props.angularVelocity) body.setAngularVelocity(ent.props.angularVelocity);
 
         const fixDef = {
-          friction: 0.12,
-          restitution: ent.props.restitution ?? 0,
+          friction: 0.05,
+          restitution: ent.props.restitution ?? 0.08,
           density: ent.props.density ?? 1,
         };
 
         if (ent.shape.type === 'box') {
           body.createFixture(pl.Box(ent.shape.width, ent.shape.height), fixDef);
         } else if (ent.shape.type === 'circle') {
-          body.createFixture(pl.Circle(ent.shape.radius), fixDef);
+          body.createFixture(pl.Circle(ent.shape.radius), {
+            friction: 0.04,
+            restitution: ent.props.restitution ?? 0.72,
+            density: 1,
+          });
         } else if (ent.shape.type === 'polyline') {
           const pts = ent.shape.points;
           for (let i = 0; i < pts.length - 1; i++) {
             body.createFixture(
               pl.Edge(pl.Vec2(pts[i][0], pts[i][1]), pl.Vec2(pts[i + 1][0], pts[i + 1][1])),
-              { friction: 0.08, restitution: ent.props.restitution ?? 0.05 },
+              { friction: 0.03, restitution: ent.props.restitution ?? 0.12 },
             );
           }
         }
@@ -200,9 +205,9 @@ function initMarbleRoulette() {
       createMarble(id, x, y) {
         const body = world.createBody({ type: 'dynamic', position: pl.Vec2(x, y) });
         body.createFixture(pl.Circle(MARBLE_RADIUS), {
-          density: 1 + Math.random() * 0.5,
-          friction: 0.01,
-          restitution: 0.35,
+          density: 1.1 + Math.random() * 0.3,
+          friction: 0.002,
+          restitution: 0.42,
         });
         body.setSleepingAllowed(false);
         body.setBullet(true);
@@ -224,10 +229,29 @@ function initMarbleRoulette() {
         b.setAwake(true);
         const pos = b.getPosition();
         const vel = b.getLinearVelocity();
-        const pullX = (CHANNEL_CENTER_X - pos.x) * 1.2;
-        if (vel.y < 1.2) {
-          b.applyForce(pl.Vec2(pullX, 5.5), b.getWorldCenter(), true);
+        const pullX = (CHANNEL_CENTER_X - pos.x) * 1.6;
+        if (vel.y < 2) {
+          b.applyForce(pl.Vec2(pullX, 8), b.getWorldCenter(), true);
         }
+      },
+      funnelAssist(id) {
+        const b = marbleMap[id];
+        if (!b) return;
+        b.setAwake(true);
+        const pos = b.getPosition();
+        const vel = b.getLinearVelocity();
+        const pullX = (CHANNEL_CENTER_X - pos.x) * 3.5;
+        b.applyForce(pl.Vec2(pullX, 14), b.getWorldCenter(), true);
+        if (vel.y < 3) {
+          b.setLinearVelocity(pl.Vec2(vel.x * 0.5 + pullX * 0.08, Math.max(vel.y, 4)));
+        }
+      },
+      forceFinish(id, goalY) {
+        const b = marbleMap[id];
+        if (!b) return;
+        b.setAwake(true);
+        b.setLinearVelocity(pl.Vec2(0, 0));
+        b.setTransform(pl.Vec2(CHANNEL_CENTER_X, goalY + FORCE_FINISH_Y_OFFSET), 0);
       },
       unstickMarble(id) {
         const b = marbleMap[id];
@@ -235,10 +259,9 @@ function initMarbleRoulette() {
         b.setAwake(true);
         const pos = b.getPosition();
         const vel = b.getLinearVelocity();
-        const pullX = Math.max(-14, Math.min(14, (CHANNEL_CENTER_X - pos.x) * 4));
-        const impulseY = 10 + Math.random() * 3;
-        b.setLinearVelocity(pl.Vec2(vel.x * 0.25 + pullX * 0.15, Math.max(vel.y, 3)));
-        b.applyLinearImpulse(pl.Vec2(pullX, impulseY), b.getWorldCenter(), true);
+        const pullX = Math.max(-10, Math.min(10, (CHANNEL_CENTER_X - pos.x) * 5));
+        b.setLinearVelocity(pl.Vec2(vel.x * 0.15 + pullX * 0.12, Math.max(vel.y, 5)));
+        b.applyLinearImpulse(pl.Vec2(pullX, 12 + Math.random() * 4), b.getWorldCenter(), true);
       },
       removeMarble(id) {
         if (marbleMap[id]) {
@@ -253,7 +276,7 @@ function initMarbleRoulette() {
         return { x: p.x, y: p.y, angle: b.getAngle() };
       },
       step(dt) {
-        world.step(dt, 12, 4);
+        world.step(dt, 18, 8);
       },
       getEntities() {
         return entities.map((e) => ({
@@ -268,7 +291,7 @@ function initMarbleRoulette() {
 
   /* ───────── Camera ───────── */
   function setCamera(center, zoom) {
-    camera.x = camera.tx = center?.x ?? 12.95;
+    camera.x = camera.tx = center?.x ?? 14;
     camera.y = camera.ty = center?.y ?? 2;
     camera.zoom = camera.tz = zoom ?? 1.5;
     camera.follow = false;
@@ -390,6 +413,8 @@ function initMarbleRoulette() {
   }
 
   function updateMarbles(dt) {
+    const funnelY = stage.funnelY ?? stage.goalY - 18;
+
     marbles.forEach((m) => {
       const p = physics.getMarble(m.id);
       m.x = p.x;
@@ -401,17 +426,35 @@ function initMarbleRoulette() {
         const speed = Math.hypot(vel.x, vel.y);
         const moved = Math.hypot(m.x - m.lx, m.y - m.ly);
 
-        if (speed < 0.45 && vel.y < 1) {
+        if (m.y >= funnelY) {
+          physics.funnelAssist(m.id);
+        } else if (speed < 0.55 && vel.y < 1.5) {
           physics.nudgeMarble(m.id);
         }
 
         if (speed < STUCK_SPEED_THRESH && moved < STUCK_MOVE_THRESH) {
           m.stuck += dt;
           if (m.stuck > STUCK_MS) {
-            physics.unstickMarble(m.id);
-            m.stuck = 0;
+            if (m.y >= funnelY - 4) {
+              physics.forceFinish(m.id, stage.goalY);
+              const forced = physics.getMarble(m.id);
+              m.x = forced.x;
+              m.y = forced.y;
+              m.stuck = 0;
+            } else {
+              physics.unstickMarble(m.id);
+              m.stuck = 0;
+            }
           }
         } else {
+          m.stuck = 0;
+        }
+
+        if (m.y >= stage.goalY - 6 && speed < 0.25 && m.stuck > STUCK_MS * 0.6) {
+          physics.forceFinish(m.id, stage.goalY);
+          const forced = physics.getMarble(m.id);
+          m.x = forced.x;
+          m.y = forced.y;
           m.stuck = 0;
         }
 
@@ -646,7 +689,10 @@ function initMarbleRoulette() {
   function draw() {
     if (!ctx || canvas.width < 2 || canvas.height < 2) return;
 
-    ctx.fillStyle = THEME.bg;
+    const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+    grad.addColorStop(0, THEME.bgTop);
+    grad.addColorStop(1, THEME.bgBottom);
+    ctx.fillStyle = grad;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     ctx.save();
@@ -780,7 +826,7 @@ function initMarbleRoulette() {
     stage = stages[stageIndex];
     ctx = canvas.getContext('2d', { alpha: false });
     mctx = minimap.getContext('2d');
-    physics = createPhysics(pl.World(pl.Vec2(0, 10)));
+    physics = createPhysics(pl.World(pl.Vec2(0, 16)));
 
     stages.forEach((s, i) => {
       const opt = document.createElement('option');
