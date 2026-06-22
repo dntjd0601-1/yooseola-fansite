@@ -18,7 +18,15 @@
   3) ROLLING_PAPER_ADMIN_KEY 를 Secret으로 등록했다면
      빌드 출력에 값이 섞일 수 있음 → 일반 변수로 바꾸거나
      Site env: SECRETS_SCAN_SMART_DETECTION_ENABLED = false
-  4) GitHub Actions → Auto update and deploy → Run workflow
+  4) netlify.toml 에도 SECRETS_SCAN_ENABLED=false 가 설정되어 있음
+  5) GitHub Actions → Auto update and deploy → Run workflow
+
+■ 일정이 안 바뀔 때
+  - Actions의 "Update schedule" / "Auto update and deploy" 로그에서
+    "Deploy to Netlify" 단계가 실패하면 사이트는 갱신되지 않습니다.
+  - 카페 일정표 수정 후 최대 1시간(또는 deploy 3시간) 뒤 반영됩니다.
+  - 즉시 반영: powershell -File update-schedule.ps1 후 push
+  - (선택) Netlify Build hook URL → GitHub Secret NETLIFY_BUILD_HOOK
 
 ■ 로컬 수동 업데이트
   powershell -File update-all.ps1

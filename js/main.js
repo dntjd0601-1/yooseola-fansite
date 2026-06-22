@@ -364,6 +364,8 @@ function initPageViews() {
       link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
     });
 
+    const wasMemoryPlaylist = document.body.classList.contains('is-memory-playlist');
+
     document.body.classList.toggle('is-home', id === 'home');
     document.body.classList.toggle('is-memory-playlist', id === 'memory-playlist');
 
@@ -375,6 +377,8 @@ function initPageViews() {
 
     if (id === 'memory-playlist') {
       document.dispatchEvent(new CustomEvent('memory-playlist:show'));
+    } else if (wasMemoryPlaylist) {
+      document.dispatchEvent(new CustomEvent('memory-playlist:hide'));
     }
 
     window.scrollTo(0, 0);
@@ -669,7 +673,7 @@ let revealObserver = null;
 /* ── Scroll Reveal ── */
 function initScrollReveal() {
   const targets = document.querySelectorAll(
-    '.profile__main, .profile__card, .profile__overview, .profile__history, .profile__content, .schedule-board, .timeline__item, .churudan-hub, .minigame, .rolling-paper, .section__header, .memory-playlist__header, .memory-playlist__picker, .memory-playlist__layout, .memory-playlist__player-wrap, .memory-playlist__tracks, .memory-playlist__source'
+    '.profile__main, .profile__card, .profile__overview, .profile__history, .profile__content, .schedule-board, .timeline__item, .churudan-hub, .minigame, .rolling-paper, .section__header, .memory-playlist__header, .memory-playlist__picker, .memory-playlist__player-wrap, .memory-playlist__sidebar, .memory-playlist__source'
   );
 
   targets.forEach((el) => el.classList.add('reveal'));

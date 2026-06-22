@@ -1,0 +1,163 @@
+/**
+ * 프로필 연혁 — 나무위키「유설아(인터넷 방송인)」방송 역사·참여 콘텐츠 기준
+ * https://namu.wiki/w/유설아(인터넷%20방송인)
+ */
+const PROFILE_HISTORY = [
+  { date: '2018. 01. 16', title: '첫 데뷔 방송', text: '노캠 배틀그라운드 방송으로 활동을 시작했습니다.', icon: 'soop.svg' },
+  { date: '2019. 12. 30', title: '베스트 BJ 선정', text: 'SOOP 베스트 BJ에 선정되었습니다.', icon: 'best-bj.webp' },
+  { date: '2023. 01. 15', title: '퐁퐁랜드 2차 입주', text: '퐁퐁랜드 2차 입주민 및 츠기오때 멤버.', icon: 'pongland.webp' },
+  { date: '2023. 07. 08', title: '로나월드 시즌 2', text: '로나월드 시즌 2 벛꽃단 멤버.', icon: 'ronaworld.webp' },
+  { date: '2023. 11. 25', title: '마카오톡 감체스터', text: '마카오톡 감체스터 멤버(군기반장).', icon: 'gamchester.webp' },
+  { date: '2024. 08. 05', title: 'FC24 감월드컵', text: 'FC24 감월드컵 감바쓰야 FC RCB.', icon: 'gambasya.webp' },
+  { date: '2024. 08. 20', title: '마병대 시즌 1', text: '마병대 시즌 1 특별소대 소대장.', icon: 'mabyeong.png' },
+  { date: '2024. 09. 05', title: '마카오톡 1.5', text: '마카오톡 1.5 발사대장간 멤버.', icon: 'macaotalk.svg' },
+  { date: '2024. 09. 15', title: '해초서버 갑질단', text: '해초서버 갑질단 멤버.', icon: 'gapjildan.webp' },
+  { date: '2024. 10. 16', title: '요양타운', text: '요양타운 모슈 — 유끼사보루.', icon: 'yoyang.webp' },
+  { date: '2024. 11. 04', title: '코창서버 북해빙궁', text: '코창서버 북해빙궁 멤버.', icon: 'group.svg' },
+  { date: '2025. 01. 24', title: '마병대 시즌 2', text: '마병대 시즌 2 특별소대 훈련병.', icon: 'mabyeong.png' },
+  { date: '2025. 03. 01', title: '오함마 시즌 2', text: '오함마 시즌 2 유유울따 멤버.', icon: 'ohamma.webp' },
+  { date: '2025. 03. 08', title: '퍼켓몬 포연동', text: '퍼켓몬 포연동 멤버.', icon: 'minecraft.svg' },
+  { date: '2025. 04. 01', title: '종달새 창립', text: '종달새 크루 창립 멤버.', icon: 'jongdalsae.webp' },
+  { date: '2025. 04. 19', title: '전쟁중 서버', text: '전쟁중 서버 썩었수당 멤버.', icon: 'jeonjaeng.svg' },
+  { date: '2025. 06. 19', title: '감스트 메써티', text: '감스트 메써티 멤버.', icon: 'gamst.webp' },
+  { date: '2025. 07. 09', title: '버컴퍼니 창립', text: '버컴퍼니 창립 멤버.', icon: 'vcompany.webp' },
+  { date: '2025. 07. 21', title: '두아온', text: '마인크래프트 두아온 서버 썩썩두두 멤버.', icon: 'duaon.webp' },
+  { date: '2025. 07. 28', title: '스타크래프트 버스포드', text: '스타크래프트 버스포드 멤버.', icon: 'star.svg' },
+  { date: '2025. 08. 13', title: '버컴 친해지길 바래', text: '버컴퍼니 LoL 대회 — 유연서 팀 원딜 출전.', icon: 'lol.webp' },
+  { date: '2025. 08. 16', title: '여우도시', text: 'GTA5 여우도시 참여.', icon: 'gta.svg' },
+  { date: '2025. 08. 25', title: 'RPG 연습 서버', text: 'RPG 연습 서버 버컴 멤버.', icon: 'rpg.svg' },
+  { date: '2025. 09. 01', title: '오함마 시즌 3', text: '오함마 시즌 3 샘컴퍼니 멤버.', icon: 'ohamma.webp' },
+  { date: '2025. 11. 02', title: '밍친서버: 더 다이노', text: '밍친서버: 더 다이노 초원 부족 멤버.', icon: 'mingchin.webp' },
+  { date: '2025. 11. 04', title: '돌발서버', text: '돌발서버 단츄왕국 멤버.', icon: 'group.svg' },
+  { date: '2025. 12. 19', title: '버드컵', text: '버드컵 준우승.', icon: 'bird.svg' },
+  { date: '2025. 12. 28', title: '메컴퍼니 길드', text: '메컴퍼니 길드 멤버.', icon: 'vcompany.webp' },
+  { date: '2026. 01. 13', title: '감왁대전', text: '감왁대전 LoL 종목 원딜(장카유설아) — 우승.', icon: 'gamwak.webp' },
+  { date: '2026. 03. 20', title: '로기다배 로뚱옥션', text: '로기다 주최 LoL 경매·드래프트 대회 원딜 출전.', icon: 'lol.webp' },
+  { date: '2026. 04. 01', title: 'RPG 충동 서버', text: 'RPG 충동 서버 버컴 멤버.', icon: 'chungdong.webp' },
+  { date: '2026. 05. 11', title: '버컴퍼니 2인자 선거', text: '제 1회 버컴퍼니 2인자 선거 당선.', icon: 'vcompany.webp' },
+  { date: '2026. 05. 20', title: '고래시티', text: '고래시티 경찰 — 토순희.', icon: 'goraecity.webp' },
+];
+
+const PROFILE_CONTENT_GROUPS = [
+  {
+    title: '소속 크루',
+    items: [
+      {
+        name: '종달새',
+        meta: '2025. 04 ~ · 창립 멤버',
+        note: '윤이샘·영쨩·야무지와 함께 종겜 크루를 운영합니다.',
+        icon: 'jongdalsae.webp',
+      },
+      {
+        name: '버컴퍼니',
+        meta: '2025. 07 ~ · 창립 멤버 · 2인자',
+        note: '감스트 종합게임 크루. 프리패스 합류, 2026년 2인자 당선. 종겜 합방·감스터콜·LoL 내전 등 크루 콘텐츠 중심 활동.',
+        icon: 'vcompany.webp',
+      },
+      {
+        name: '감체스터',
+        meta: '2023. 11 ~ · 마카오톡',
+        note: '감스트 마크 크루. 군기반장 캐릭터로 활동.',
+        icon: 'gamchester.webp',
+      },
+      {
+        name: '유유울따',
+        meta: '마크 합동 크루',
+        note: '유설아·유연서·울산큰고래·따스히. 감체스터·갑질단·북해빙궁 등에 함께 참여.',
+        icon: 'yuyuuldda.webp',
+      },
+    ],
+  },
+  {
+    title: '버컴퍼니 합방 · 콘텐츠',
+    items: [
+      {
+        name: '종겜 합방 · 감스터콜',
+        meta: '2025. 07 ~',
+        note: '출범 직후 종겜 합방 1·2회차(7.11·13), 테트리스 내전(7.9) 등. 이후 정기 감스터콜·종겜 CK 내전·전체 소집 합방.',
+        icon: 'vcompany.webp',
+      },
+      {
+        name: '스타크래프트 · 버스포드',
+        meta: '2025. 07 ~ 08',
+        note: '버컴 스타부 버스포드 학생(프로토스). 버튜버 스타 종겜크루 대전 준결승 진출, 4강 탈락 후 해체.',
+        icon: 'star.svg',
+      },
+      {
+        name: '사슬게임 · 서바이벌 · 공포 합방',
+        meta: '2025. 07 ~ 10',
+        note: '두아온 연계 사슬게임(7.23), The Forest(9.15), 더 헌터·DEVOUR(9~10) 등 유닛·단체 합방.',
+        icon: 'group.svg',
+      },
+      {
+        name: '93즈 VS 00즈 · 친해지길 바래',
+        meta: '2025. 09 ~ 11',
+        note: '93즈 종겜내전(9.20), 감컴·버컴 친해지길 바래(11.26), 감컴·버컴·왁타버스 교류회(11.23) 등.',
+        icon: 'vcompany.webp',
+      },
+      {
+        name: '버컴 연말 · 메컴퍼니',
+        meta: '2025. 12',
+        note: '아크 서바이벌(12.2), 종겜 내전·연말 캐롤 커버곡(12.28), 버드컵 운동회(12.19), 메컴퍼니 길드 창립.',
+        icon: 'vcompany.webp',
+      },
+      {
+        name: '2기 재편 · 2인자 선거',
+        meta: '2026. 04 ~ 05',
+        note: '버컴 2기 공식 출범(4.27), 2인자 선거 당선(5.11), 스캠라인 합방(5.16), 종겜올림픽·종겜내전.',
+        icon: 'vcompany.webp',
+      },
+    ],
+  },
+  {
+    title: '마인크래프트 · 서버 RP',
+    items: [
+      { name: '퐁퐁랜드 2차', meta: '2023. 01 · 입주민', note: '유소나 퐁퐁랜드 2차 입주. 츠기오때 멤버.', icon: 'pongland.webp' },
+      { name: '로나월드 시즌 2', meta: '2023. 07 · 벛꽃단', note: '로나월드 시즌 2 벛꽃단 멤버.', icon: 'ronaworld.webp' },
+      { name: '마병대 시즌 1', meta: '2024. 08 · 특별소대 소대장', note: '감스트·유소나 서버. 특별소대 소대장.', icon: 'mabyeong.png' },
+      { name: '마병대 시즌 2', meta: '2025. 01 · 특별소대 훈련병', note: '마병대 시즌 2 특별소대 훈련병.', icon: 'mabyeong.png' },
+      { name: '마카오톡 1.5', meta: '2024. 09 · 발사대장간', note: '마카오톡 1.5 발사대장간 멤버.', icon: 'macaotalk.svg' },
+      { name: '해초서버 갑질단', meta: '2024. 09 · 멤버', note: '유유울따 멤버들과 함께 참여한 마크 서버.', icon: 'gapjildan.webp' },
+      { name: '코창서버 북해빙궁', meta: '2024. 11 · 멤버', note: '코창서버 북해빙궁 멤버.', icon: 'group.svg' },
+      { name: '오함마 시즌 2 · 3', meta: '2025 · 유유울따 · 샘컴퍼니', note: '오함마 시즌 2 유유울따, 시즌 3 샘컴퍼니 멤버.', icon: 'ohamma.webp' },
+      { name: '전쟁중 서버', meta: '2025. 04 · 썩었수당', note: '전쟁중 서버 썩었수당 멤버.', icon: 'jeonjaeng.svg' },
+      { name: '두아온', meta: '2025. 07 · 썩썩두두', note: '마인크래프트 두아온 서버 썩썩두두 멤버.', icon: 'duaon.webp' },
+      { name: 'RPG 연습 · 충동 서버', meta: '2025 ~ · 버컴', note: 'RPG 연습 서버·충동 서버 버컴 길드 멤버.', icon: 'chungdong.webp' },
+      { name: '밍친서버: 더 다이노', meta: '2025. 11 · 초원 부족', note: '밍친서버: 더 다이노 초원 부족 멤버.', icon: 'mingchin.webp' },
+      { name: '돌발서버', meta: '2025. 11 · 단츄왕국', note: '돌발서버 단츄왕국 멤버.', icon: 'group.svg' },
+      { name: '퍼켓몬 포연동', meta: '2025. 03 · 멤버', note: '퍼켓몬: PERKeMON 포연동 멤버.', icon: 'minecraft.svg' },
+      { name: '메컴퍼니 길드', meta: '2025. 12 · 멤버', note: '메컴퍼니 길드 멤버.', icon: 'vcompany.webp' },
+    ],
+  },
+  {
+    title: 'GTA · 기타 RP',
+    items: [
+      { name: '요양타운', meta: '2024. 10 · 모슈', note: '캐릭터 유끼사보루로 참여.', icon: 'yoyang.webp' },
+      { name: '여우도시', meta: '2025. 08 · GTA RP', note: 'GTA5 여우도시 참여.', icon: 'gta.svg' },
+      { name: '고래시티', meta: '2026. 05 · GTA RP', note: '경찰 RP 캐릭터 토순희.', icon: 'goraecity.webp' },
+      { name: '염병서버', meta: '2026. 06 · 제주 수학여행', note: '염병고등학교 제주도 수학여행 콘텐츠.', icon: 'yeombyeong.webp' },
+    ],
+  },
+  {
+    title: 'e스포츠 · 대회 · 합방',
+    items: [
+      { name: 'FC24 감월드컵', meta: '2024. 08 · 감바쓰야 FC', note: 'FC24 감월드컵 감바쓰야 FC RCB.', icon: 'gambasya.webp' },
+      { name: '감왁대전', meta: '2026. 01 · LoL · 우승', note: '감왁대전 LoL 종목 원딜(장카유설아). 버컴퍼니 3-2 승리.', icon: 'gamwak.webp' },
+      { name: '버드컵', meta: '2025. 12 · 준우승', note: '버드컵 준우승.', icon: 'bird.svg' },
+      { name: '스타크래프트 버스포드', meta: '2025. 07 · 멤버', note: '스타크래프트 버스포드 멤버.', icon: 'star.svg' },
+      { name: '감스트 메써티', meta: '2025. 06 · 멤버', note: '감스트 메써티 멤버.', icon: 'gamst.webp' },
+      {
+        name: '버컴퍼니 LoL',
+        meta: '2025 ~ · 원딜 대표',
+        note: '버컴 LoL부 원딜 대표. 주 챔피언 직스·미스 포츈. 친해지길 바래(2025.08.13) 유연서 팀 원딜, 감컴 vs 버컴 롤 내전(2025.09.22) 1세트 POG, 감왁대전 원딜 출전.',
+        icon: 'lol.webp',
+      },
+      {
+        name: '로기다배 로뚱옥션',
+        meta: '2026. 03 · LoL 경매 대회',
+        note: '로기다 주최 LoL 경매·드래프트 대회(3.19 드래프트, 3.20 본선). 팀장 경매로 팀을 구성하는 방식. 유설아 원딜 포지션 출전.',
+        icon: 'lol.webp',
+      },
+    ],
+  },
+];

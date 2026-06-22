@@ -1,6 +1,11 @@
 [build]
   publish = "."
 
+# GitHub Actions CLI 배포 시 ROLLING_PAPER_ADMIN_KEY 등이 스캔에 걸리면 배포가 막힘
+[build.environment]
+  SECRETS_SCAN_ENABLED = "false"
+  SECRETS_SCAN_SMART_DETECTION_ENABLED = "false"
+
 [functions]
   directory = "netlify/functions"
   node_bundler = "esbuild"

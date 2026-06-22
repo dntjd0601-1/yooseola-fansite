@@ -1,7 +1,10 @@
 # Bump ?v= query strings in index.html so data file updates bypass browser cache.
 $ErrorActionPreference = 'Stop'
 $root = $PSScriptRoot
-$indexPath = Join-Path $root 'index.html'
+$htmlTargets = @(
+    (Join-Path $root 'index.html'),
+    (Join-Path $root 'live-check.html')
+)
 $dateStamp = (Get-Date).ToUniversalTime().AddHours(9).ToString('yyyyMMdd')
 
 $dataFiles = @(
@@ -25,22 +28,36 @@ function Get-CacheVersion([string]$relativePath, [string]$mode) {
     return $dateStamp
 }
 
-$html = [System.IO.File]::ReadAllText($indexPath, [System.Text.Encoding]::UTF8)
-$changed = $false
+$anyChanged = $false
 
-foreach ($file in $dataFiles) {
-    $version = Get-CacheVersion $file.path $file.mode
-    $pattern = "($([regex]::Escape($file.path))\?v=)[^""']+"
-    if ($html -match $pattern) {
-        $html = [regex]::Replace($html, $pattern, "`${1}$version")
-        $changed = $true
-        Write-Host "$($file.path) -> v=$version" -ForegroundColor DarkGray
+foreach ($indexPath in $htmlTargets) {
+    if (-not (Test-Path $indexPath)) { continue }
+
+    $html = [System.IO.File]::ReadAllText($indexPath, [System.Text.Encoding]::UTF8)
+    $changed = $false
+
+    foreach ($file in $dataFiles) {
+        $version = Get-CacheVersion $file.path $file.mode
+        $withVersion = "($([regex]::Escape($file.path))\?v=)[^""']+"
+        if ($html -match $withVersion) {
+            $html = [regex]::Replace($html, $withVersion, "`${1}$version")
+            $changed = $true
+            Write-Host "$(Split-Path $indexPath -Leaf): $($file.path) -> v=$version" -ForegroundColor DarkGray
+        } elseif ($html -match [regex]::Escape($file.path)) {
+            $html = [regex]::Replace($html, "($([regex]::Escape($file.path)))(?!\?v=)", "`${1}?v=$version")
+            $changed = $true
+            Write-Host "$(Split-Path $indexPath -Leaf): $($file.path) -> v=$version (added)" -ForegroundColor DarkGray
+        }
+    }
+
+    if ($changed) {
+        [System.IO.File]::WriteAllText($indexPath, $html, [System.Text.Encoding]::UTF8)
+        $anyChanged = $true
     }
 }
 
-if ($changed) {
-    [System.IO.File]::WriteAllText($indexPath, $html, [System.Text.Encoding]::UTF8)
-    Write-Host 'Bumped data cache versions in index.html' -ForegroundColor Green
+if ($anyChanged) {
+    Write-Host 'Bumped data cache versions in HTML entrypoints' -ForegroundColor Green
 } else {
-    Write-Host 'No data cache tags found in index.html' -ForegroundColor Yellow
+    Write-Host 'No data cache tags found in HTML entrypoints' -ForegroundColor Yellow
 }

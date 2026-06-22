@@ -113,17 +113,30 @@ function updateNavMusicTitle(title) {
 
 function showNavMusicPlayer() {
   const playerEl = document.getElementById('navMusicPlayer');
-  if (playerEl) playerEl.hidden = false;
+  if (!playerEl || document.body.classList.contains('is-memory-playlist')) return;
+  playerEl.hidden = false;
   updateNavMusicControls();
+}
+
+function hideNavMusicPlayer() {
+  const playerEl = document.getElementById('navMusicPlayer');
+  if (playerEl) playerEl.hidden = true;
 }
 
 function updateNavMusicControls() {
   const playBtn = document.getElementById('navMusicPlay');
   const pauseBtn = document.getElementById('navMusicPause');
+  const sidebarPlayBtn = document.getElementById('sidebarMusicPlay');
+  const sidebarPauseBtn = document.getElementById('sidebarMusicPause');
+  const sidebarNextBtn = document.getElementById('sidebarMusicNext');
   const hasTrack = memoryPlaylistActiveIndex >= 0;
+  const isPlaying = memoryPlaylistPlaying;
 
-  if (playBtn) playBtn.disabled = !hasTrack || memoryPlaylistPlaying;
-  if (pauseBtn) pauseBtn.disabled = !hasTrack || !memoryPlaylistPlaying;
+  if (playBtn) playBtn.disabled = !hasTrack || isPlaying;
+  if (pauseBtn) pauseBtn.disabled = !hasTrack || !isPlaying;
+  if (sidebarPlayBtn) sidebarPlayBtn.disabled = !hasTrack || isPlaying;
+  if (sidebarPauseBtn) sidebarPauseBtn.disabled = !hasTrack || !isPlaying;
+  if (sidebarNextBtn) sidebarNextBtn.disabled = !hasTrack;
 }
 
 function onMemoryPlayerStateChange(event) {
@@ -394,6 +407,9 @@ function initNavMusicPlayer() {
   document.getElementById('navMusicPlay')?.addEventListener('click', resumeMemoryTrack);
   document.getElementById('navMusicPause')?.addEventListener('click', pauseMemoryTrack);
   document.getElementById('navMusicNext')?.addEventListener('click', nextMemoryTrack);
+  document.getElementById('sidebarMusicPlay')?.addEventListener('click', resumeMemoryTrack);
+  document.getElementById('sidebarMusicPause')?.addEventListener('click', pauseMemoryTrack);
+  document.getElementById('sidebarMusicNext')?.addEventListener('click', nextMemoryTrack);
   updateNavMusicControls();
 }
 
@@ -407,8 +423,15 @@ async function initMemoryPlaylist() {
   await switchMemoryPlaylist(memoryPlaylistActiveKey, false);
 
   document.addEventListener('memory-playlist:show', () => {
+    hideNavMusicPlayer();
     if (memoryPlaylistActiveIndex < 0) {
       playMemoryTrack(getMemoryStartIndex(memoryPlaylistItems));
+    }
+  });
+
+  document.addEventListener('memory-playlist:hide', () => {
+    if (memoryPlaylistActiveIndex >= 0) {
+      showNavMusicPlayer();
     }
   });
 
