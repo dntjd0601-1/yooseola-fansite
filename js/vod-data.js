@@ -4,7 +4,7 @@
  */
 const VOD_DATA = {
   replay: [
-    { title: '후열 [버컴]', url: 'https://vod.sooplive.com/player/199413811', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260622_1699CE9C_295015527_1_r', date: '2026.06.22', duration: '4:40:22', views: 33 },
+    { title: '후열 [버컴]', url: 'https://vod.sooplive.com/player/199413811', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260622_1699CE9C_295015527_1_r', date: '2026.06.22', duration: '4:40:22', views: 34 },
     { title: '라이어게임 + 토요미스테리', url: 'https://vod.sooplive.com/player/199246725', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260620_E9DA742F_294961437_2_r', date: '2026.06.21', duration: '12:09:24', views: 637 },
     { title: '버컴 vs 꾸한성 삼연서버', url: 'https://vod.sooplive.com/player/199137559', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260619_07A39D72_294939655_2_r', date: '2026.06.20', duration: '6:08:09', views: 372 },
     { title: '대한민국 vs 멕시코 월드컵 응원', url: 'https://vod.sooplive.com/player/199076123', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260619_0201DED5_294930033_2_r', date: '2026.06.19', duration: '2:48:53', views: 216 },
@@ -16,7 +16,7 @@ const VOD_DATA = {
     { title: '버컴의놀이터', url: 'https://vod.sooplive.com/player/198793797', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260615_15C8675A_294831741_4_r', date: '2026.06.16', duration: '6:35:03', views: 286 },
     { title: '버컴 vs 버블란 + 버컴놀이터', url: 'https://vod.sooplive.com/player/198752771', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260615_58AD3637_294831741_2_r', date: '2026.06.15', duration: '5:22:23', views: 467 },
     { title: '버컴 모임 + 심야버스', url: 'https://vod.sooplive.com/player/198689657', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260614_4E33D802_294817541_1_r', date: '2026.06.15', duration: '3:21:04', views: 559 },
-    { title: '토요미스테리', url: 'https://vod.sooplive.com/player/198617403', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260613_24EC7ECC_294783219_1_r', date: '2026.06.14', duration: '7:50:38', views: 1044 },
+    { title: '토요미스테리', url: 'https://vod.sooplive.com/player/198617403', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260613_24EC7ECC_294783219_1_r', date: '2026.06.14', duration: '7:50:38', views: 1045 },
     { title: '월드컵 응원 + 설창샵', url: 'https://vod.sooplive.com/player/198492273', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260612_5853BC53_294750807_3_r', date: '2026.06.12', duration: '13:20:57', views: 1079 },
     { title: '삼연서버 연습!', url: 'https://vod.sooplive.com/player/198420295', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260611_50666400_294735945_2_r', date: '2026.06.12', duration: '7:05:06', views: 326 },
   ],
@@ -38,7 +38,7 @@ const VOD_DATA = {
     { title: 'GTA 인생모드 수상한 피자집, 모슈 [요양타운]', url: 'https://www.youtube.com/watch?v=BLRcHNBVI1M', thumb: 'https://i.ytimg.com/vi/BLRcHNBVI1M/hqdefault.jpg', date: '', duration: '', views: 0 },
   ],
   shorts: [
-    { title: '쉬 이즈 근근두두 설창맨 #유설아 #감스트 #스캠라인', url: 'https://www.youtube.com/shorts/N09B8M7ghno', thumb: 'https://i.ytimg.com/vi/N09B8M7ghno/hqdefault.jpg', date: '2026.06.21', duration: '', views: 4488 },
+    { title: '쉬 이즈 근근두두 설창맨 #유설아 #감스트 #스캠라인', url: 'https://www.youtube.com/shorts/N09B8M7ghno', thumb: 'https://i.ytimg.com/vi/N09B8M7ghno/hqdefault.jpg', date: '2026.06.21', duration: '', views: 4490 },
     { title: '진짜 경찰 선배님 맞아요? #김민교 #유설아 #고래시티', url: 'https://www.youtube.com/shorts/MJv9fU4bqik', thumb: 'https://i.ytimg.com/vi/MJv9fU4bqik/hqdefault.jpg', date: '2026.06.19', duration: '', views: 22825 },
     { title: '롯데리아 양념감자 최애 시즈닝은?', url: 'https://www.youtube.com/shorts/eG8r_hGR1Rc', thumb: 'https://i.ytimg.com/vi/eG8r_hGR1Rc/hqdefault.jpg', date: '2026.06.17', duration: '', views: 15555 },
     { title: '그시절 싸이월드 감성 #유설아', url: 'https://www.youtube.com/shorts/xsxaKV7WZhs', thumb: 'https://i.ytimg.com/vi/xsxaKV7WZhs/hqdefault.jpg', date: '2026.06.15', duration: '', views: 3128 },
