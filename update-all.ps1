@@ -14,11 +14,7 @@ Write-Host '=== [2/5] Gallery data ===' -ForegroundColor Cyan
 & (Join-Path $root 'fetch_gallery.ps1')
 
 Write-Host '=== [3/5] Schedule data ===' -ForegroundColor Cyan
-try {
-    & (Join-Path $root 'fetch_and_parse_schedule.ps1') -ForceRefresh
-} catch {
-    Write-Warning "Schedule fetch failed, keeping existing schedule-data.js: $($_.Exception.Message)"
-}
+& (Join-Path $root 'fetch_and_parse_schedule.ps1') -ForceRefresh
 
 Write-Host '=== [4/5] Memory playlist data ===' -ForegroundColor Cyan
 try {

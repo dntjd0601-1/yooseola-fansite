@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Jua&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=20260627">
 </head>
 <body>
 
@@ -211,28 +211,34 @@
           </div>
         </div>
 
-        <div class="profile__overview reveal">
-          <h3 class="profile__history-title">개요</h3>
-          <p class="profile__overview-text">
-            SOOP과 YouTube를 중심으로 활동하는 버츄얼 스트리머이자 크리에이터, 유설아의 공간입니다.
-          </p>
-          <p class="profile__overview-text">
-            종합 게임과 다채로운 일상 소통을 바탕으로 시청자들과 긴밀하게 호흡하고 있으며, 특유의 타격감 넘치는 리액션과 어떤 크리에이터와도 자연스럽게 어우러지는 환상의 케미로 많은 사랑을 받고 있습니다.
-          </p>
-          <p class="profile__overview-text">
-            2018년 노캠 배틀그라운드 방송으로 활동을 시작했으며, 퐁퐁랜드 2차 입주를 계기로 마인크래프트·버츄얼 스트리머 교류로 인지도를 넓혔습니다. 퐁퐁랜드 종료 후 감체스터에 합격했고, 2025년 7월 버컴퍼니 창립 멤버로 합류해 현재 크루 활동을 이어가고 있습니다.
-          </p>
-        </div>
+        <div class="profile__detail reveal">
+          <div class="profile__tabs" role="tablist" aria-label="프로필 상세">
+            <button type="button" class="profile__tab active" role="tab" aria-selected="true" aria-controls="profileTabOverview" id="profileTabBtnOverview" data-profile-tab="overview">개요</button>
+            <button type="button" class="profile__tab" role="tab" aria-selected="false" aria-controls="profileTabHistory" id="profileTabBtnHistory" data-profile-tab="history">방송 역사</button>
+            <button type="button" class="profile__tab" role="tab" aria-selected="false" aria-controls="profileTabContent" id="profileTabBtnContent" data-profile-tab="content">참여 컨텐츠</button>
+          </div>
 
-        <div class="profile__history">
-          <h3 class="profile__history-title">방송 역사</h3>
-          <div class="timeline" id="profileTimeline"></div>
-        </div>
+          <div class="profile__tabpanels">
+            <div class="profile__tabpanel active" role="tabpanel" id="profileTabOverview" aria-labelledby="profileTabBtnOverview">
+              <p class="profile__overview-text">
+                SOOP과 YouTube를 중심으로 활동하는 버츄얼 스트리머이자 크리에이터, 유설아의 공간입니다.
+              </p>
+              <p class="profile__overview-text">
+                종합 게임과 다채로운 일상 소통을 바탕으로 시청자들과 긴밀하게 호흡하고 있으며, 특유의 타격감 넘치는 리액션과 어떤 크리에이터와도 자연스럽게 어우러지는 환상의 케미로 많은 사랑을 받고 있습니다.
+              </p>
+              <p class="profile__overview-text">
+                2018년 노캠 배틀그라운드 방송으로 활동을 시작했으며, 퐁퐁랜드 2차 입주를 계기로 마인크래프트·버츄얼 스트리머 교류로 인지도를 넓혔습니다. 퐁퐁랜드 종료 후 감체스터에 합격했고, 2025년 7월 버컴퍼니 창립 멤버로 합류해 현재 크루 활동을 이어가고 있습니다.
+              </p>
+            </div>
 
-        <div class="profile__content">
-          <h3 class="profile__history-title">참여 컨텐츠</h3>
+            <div class="profile__tabpanel" role="tabpanel" id="profileTabHistory" aria-labelledby="profileTabBtnHistory" hidden>
+              <div class="timeline" id="profileTimeline"></div>
+            </div>
 
-          <div class="profile__content-groups" id="profileContentGroups"></div>
+            <div class="profile__tabpanel" role="tabpanel" id="profileTabContent" aria-labelledby="profileTabBtnContent" hidden>
+              <div class="profile__content-groups" id="profileContentGroups"></div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -377,6 +383,11 @@
               <span class="churudan__title">핀볼타기</span>
               <span class="churudan__desc">마블 룰렛으로 당첨자를 뽑아 보세요</span>
             </button>
+            <button type="button" class="churudan__card" data-churudan="stork">
+              <span class="churudan__icon" aria-hidden="true">🦩</span>
+              <span class="churudan__title">황새 오래 걷기</span>
+              <span class="churudan__desc">추억의 균형 게임 · 좌우키로 버텨 보세요</span>
+            </button>
             <button type="button" class="churudan__card" data-churudan="rolling">
               <span class="churudan__icon" aria-hidden="true">💌</span>
               <span class="churudan__title">롤링페이퍼</span>
@@ -481,6 +492,22 @@
             </div>
           </div>
 
+          <!-- 황새 오래 걷기 -->
+          <div class="minigame__panel" id="gameStork" role="tabpanel" hidden>
+            <div class="stork-walk">
+              <div class="stork-walk__header">
+                <div>
+                  <h3 class="stork-walk__title">황새 오래 걷기</h3>
+                  <p class="stork-walk__desc">스페이스바로 시작 · ← → 로 균형을 잡으며 최대한 멀리 걸어 보세요. (게임 화면을 클릭한 뒤 키보드로 조작)</p>
+                </div>
+              </div>
+              <div class="stork-walk__stage">
+                <div id="storkRuffleHost" class="stork-walk__host" tabindex="0" aria-label="황새 오래 걷기 게임"></div>
+              </div>
+              <p class="stork-walk__credit">원작 <a href="https://vidkidz.tistory.com/2825" target="_blank" rel="noopener noreferrer">Walk the Stork</a> · Damien Clarke</p>
+            </div>
+          </div>
+
           <div class="minigame__panel rolling-paper" id="gameRolling" role="tabpanel" hidden>
           <div class="rolling-paper__header">
             <div>
@@ -568,17 +595,18 @@
     </div>
   </div>
 
-  <script src="js/schedule-data.js?v=f4f1cdbb"></script>
+  <script src="js/schedule-data.js?v=7fdeec0e"></script>
   <script src="js/gallery-data.js?v=20260624"></script>
   <script src="js/vod-data.js?v=20260624"></script>
   <script src="js/vod.js"></script>
   <script src="js/vendor/planck.min.js"></script>
   <script src="js/marble-maps-data.js"></script>
   <script src="js/marble-roulette.js"></script>
-  <script src="js/minigames.js"></script>
+  <script src="js/stork-ruffle.js?v=20260627"></script>
+  <script src="js/minigames.js?v=20260627"></script>
   <script src="js/rolling-paper.js"></script>
   <script src="js/profile-history-data.js?v=20260610b"></script>
-  <script src="js/profile-history.js?v=20260610b"></script>
+  <script src="js/profile-history.js?v=20260626"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

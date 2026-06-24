@@ -15,6 +15,12 @@ if (Test-Path $vendorDir) {
     Copy-Item (Join-Path $vendorDir '*') (Join-Path $out 'js/vendor')
 }
 $imagesDir = Join-Path $root 'images'
+$gamesDir = Join-Path $root 'games'
+if (Test-Path $gamesDir) {
+    New-Item -ItemType Directory -Path (Join-Path $out 'games') -Force | Out-Null
+    Copy-Item (Join-Path $gamesDir '*') (Join-Path $out 'games') -Recurse -Force
+}
+
 if (Test-Path $imagesDir) {
     $destImages = Join-Path $out 'images'
     Get-ChildItem -Path $imagesDir | Copy-Item -Destination $destImages -Recurse -Force

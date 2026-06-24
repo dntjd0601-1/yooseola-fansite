@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Walk the Stork</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #87ceeb;
+      font-family: system-ui, sans-serif;
+    }
+    #stage {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px;
+    }
+    #playerHost {
+      width: min(100%, 550px);
+      aspect-ratio: 550 / 400;
+      max-height: 100%;
+    }
+    #playerHost ruffle-player,
+    #playerHost object,
+    #playerHost canvas {
+      width: 100% !important;
+      height: 100% !important;
+      display: block;
+    }
+    .stork-fallback {
+      margin: 0;
+      padding: 24px;
+      text-align: center;
+      color: #1a2a3a;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div id="stage">
+    <div id="playerHost">
+      <object
+        id="storkSwf"
+        type="application/x-shockwave-flash"
+        data="walk-the-stork.swf"
+        width="550"
+        height="400"
+      >
+        <param name="movie" value="walk-the-stork.swf">
+        <param name="quality" value="high">
+        <p class="stork-fallback">게임을 불러오는 중…</p>
+      </object>
+    </div>
+  </div>
+  <script src="https://unpkg.com/@ruffle-rs/ruffle@0.2.0/ruffle.js"></script>
+  <script>
+    window.RufflePlayer = window.RufflePlayer || {};
+    window.RufflePlayer.config = {
+      autoplay: 'on',
+      unmuteOverlay: 'hidden',
+      letterbox: 'off',
+      warnOnUnsupportedContent: false,
+    };
+
+    function showError(message) {
+      const host = document.getElementById('playerHost');
+      if (host) {
+        host.innerHTML = `<p class="stork-fallback">${message}</p>`;
+      }
+    }
+
+    window.addEventListener('load', () => {
+      if (!window.RufflePlayer?.newest) {
+        showError('게임 플레이어를 불러오지 못했습니다.<br>인터넷 연결 후 새로고침해 주세요.');
+        return;
+      }
+
+      try {
+        const ruffle = window.RufflePlayer.newest();
+        const player = ruffle.createPlayer();
+        player.style.width = '100%';
+        player.style.height = '100%';
+        player.load('walk-the-stork.swf');
+
+        const host = document.getElementById('playerHost');
+        host.replaceChildren(player);
+      } catch {
+        showError('게임을 시작하지 못했습니다.<br>새로고침 후 다시 시도해 주세요.');
+      }
+    });
+  </script>
+</body>
+</html>

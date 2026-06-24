@@ -16,7 +16,11 @@ $listUrl = 'https://apis.naver.com/cafe-web/cafe-boardlist-api/v1/cafes/31396984
 $listPath = Join-Path $root 'schedule_boardlist.json'
 curl.exe -sL -A $ua -H "Referer: $ref" $listUrl --max-time 25 -o $listPath | Out-Null
 $listRaw = [System.IO.File]::ReadAllText($listPath, [System.Text.Encoding]::UTF8)
-$list = ($listRaw | ConvertFrom-Json).result.articleList
+$listJson = $listRaw | ConvertFrom-Json
+$list = $listJson.result.articleList
+if (-not $list -or $list.Count -eq 0) {
+    throw "Failed to fetch schedule board list from Naver cafe (menu 11)."
+}
 
 $targets = @()
 foreach ($entry in $list) {

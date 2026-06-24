@@ -22,10 +22,13 @@
   5) GitHub Actions → Auto update and deploy → Run workflow
 
 ■ 일정이 안 바뀔 때
+  - deploy.yml 은 갤러리·VOD·플레이리스트·일정을 순서대로 갱신합니다.
+    중간 스크립트(fetch_gallery.ps1 등)가 실패하면 일정까지 진행되지 않습니다.
   - Actions의 "Update schedule" / "Auto update and deploy" 로그에서
     "Deploy to Netlify" 단계가 실패하면 사이트는 갱신되지 않습니다.
   - 카페 일정표 수정 후 최대 1시간(또는 deploy 3시간) 뒤 반영됩니다.
   - 즉시 반영: powershell -File update-schedule.ps1 후 push
+  - GitHub → Actions → "Update schedule" → Run workflow (수동 실행)
   - (선택) Netlify Build hook URL → GitHub Secret NETLIFY_BUILD_HOOK
 
 ■ 로컬 수동 업데이트

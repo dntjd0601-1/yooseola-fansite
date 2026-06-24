@@ -1,3 +1,34 @@
+function initProfileTabs() {
+  const tablist = document.querySelector('.profile__tabs');
+  if (!tablist || tablist.__ready) return;
+
+  const tabs = [...tablist.querySelectorAll('.profile__tab')];
+  const panels = [...document.querySelectorAll('.profile__tabpanel')];
+  if (!tabs.length || !panels.length) return;
+
+  function activate(tabName) {
+    tabs.forEach((tab) => {
+      const active = tab.dataset.profileTab === tabName;
+      tab.classList.toggle('active', active);
+      tab.setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+
+    panels.forEach((panel) => {
+      const active = panel.id === `profileTab${tabName.charAt(0).toUpperCase()}${tabName.slice(1)}`;
+      panel.classList.toggle('active', active);
+      panel.hidden = !active;
+    });
+  }
+
+  tablist.addEventListener('click', (event) => {
+    const tab = event.target.closest('.profile__tab');
+    if (!tab || !tablist.contains(tab)) return;
+    activate(tab.dataset.profileTab);
+  });
+
+  tablist.__ready = true;
+}
+
 function renderProfileHistory() {
   const timelineEl = document.getElementById('profileTimeline');
   const contentEl = document.getElementById('profileContentGroups');
@@ -62,4 +93,7 @@ function renderProfileHistory() {
   contentEl.appendChild(contentFragment);
 }
 
-document.addEventListener('DOMContentLoaded', renderProfileHistory);
+document.addEventListener('DOMContentLoaded', () => {
+  initProfileTabs();
+  renderProfileHistory();
+});

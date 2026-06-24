@@ -25,6 +25,38 @@ function Test-CafeLogoThumb([string]$src) {
     return ($src -match '/image\.PNG$') -or ($src -match '/default/cafe_profile')
 }
 
+function Unwrap-CafeImageUrl([string]$raw) {
+    if (-not $raw) { return '' }
+    $url = [uri]::UnescapeDataString($raw.Trim().Trim('"').Trim("'"))
+    if ($url -match 'dthumb-phinf\.pstatic\.net') {
+        try {
+            $parsed = [uri]$url
+            $query = $parsed.Query.TrimStart('?')
+            foreach ($part in $query.Split('&')) {
+                if ($part -match '^src=(.+)$') {
+                    $url = [uri]::UnescapeDataString($matches[1])
+                    break
+                }
+            }
+        } catch {
+            # keep original url
+        }
+    }
+    $url = $url.Trim().Trim('"').Trim("'")
+    $url = $url -replace '^"+|"+$', ''
+    $url = $url -replace '\?type=w\d+"?$', ''
+    return $url
+}
+
+function Add-CafeImageUrl([System.Collections.Generic.List[string]]$urls, [hashtable]$localSeen, [string]$raw) {
+    $src = Unwrap-CafeImageUrl $raw
+    if (-not $src -or $localSeen.ContainsKey($src)) { return }
+    if ($src -match '\.gif($|\?)') { return }
+    if (Test-CafeLogoThumb $src) { return }
+    $localSeen[$src] = $true
+    [void]$urls.Add($src)
+}
+
 function Get-ArticleImages([int]$articleId) {
     $path = Join-Path $root "article_$articleId.json"
     curl.exe -s -H "Referer: $CafeReferer" "$ArticleApi/$articleId" -o $path | Out-Null
@@ -36,13 +68,21 @@ function Get-ArticleImages([int]$articleId) {
     $urls = New-Object System.Collections.Generic.List[string]
     $localSeen = @{}
 
-    foreach ($match in [regex]::Matches($raw, 'https://cafeptthumb-phinf\.pstatic\.net/[^"\\]+')) {
-        $src = [uri]::UnescapeDataString($match.Value)
-        if (-not $src -or $localSeen.ContainsKey($src)) { continue }
-        if ($src -match '\.gif($|\?)') { continue }
-        if (Test-CafeLogoThumb $src) { continue }
-        $localSeen[$src] = $true
-        [void]$urls.Add($src)
+    try {
+        $obj = $raw | ConvertFrom-Json
+        foreach ($list in @($obj.contentElements, $obj.article.contentElements)) {
+            if (-not $list) { continue }
+            foreach ($el in $list) {
+                if ($el.type -ne 'IMAGE') { continue }
+                Add-CafeImageUrl $urls $localSeen $el.json.image.url
+            }
+        }
+    } catch {}
+
+    if ($urls.Count -eq 0) {
+        foreach ($match in [regex]::Matches($raw, 'https://cafeptthumb-phinf\.pstatic\.net/[^"\\]+')) {
+            Add-CafeImageUrl $urls $localSeen $match.Value
+        }
     }
 
     return $urls.ToArray()
@@ -57,26 +97,25 @@ function Add-CafeArticleItems([object]$article, [string]$source) {
     $link = "https://cafe.naver.com/yoonanana/$($article.articleId)"
     $caption = $article.subject
     $postId = [string]$article.articleId
-    $imageCount = $images.Count
-    $imageIndex = 0
+    $postKey = "$source`:$postId"
+    if ($seen.ContainsKey($postKey)) { return $false }
 
-    foreach ($img in $images) {
-        if (-not $img -or $seen.ContainsKey($img)) { continue }
-        $seen[$img] = $true
-        $script:items += ,@{
-            src = $img
-            caption = $caption
-            source = $source
-            url = $link
-            postId = $postId
-            imageIndex = $imageIndex
-            imageCount = $imageCount
-            images = $images
-        }
-        $imageIndex++
+    $src = $images[0]
+    if (-not $src) { return $false }
+
+    $seen[$postKey] = $true
+    $script:items += ,@{
+        src = $src
+        caption = $caption
+        source = $source
+        url = $link
+        postId = $postId
+        imageIndex = 0
+        imageCount = $images.Count
+        images = $images
     }
 
-    return ($imageIndex -gt 0)
+    return $true
 }
 
 function Add-VCompanyItem([string]$src, [string]$caption) {

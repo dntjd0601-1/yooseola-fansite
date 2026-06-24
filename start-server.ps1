@@ -19,6 +19,7 @@ function Get-MimeType([string]$path) {
         '.webp' { return 'image/webp' }
         '.svg'  { return 'image/svg+xml' }
         '.ico'  { return 'image/x-icon' }
+        '.swf'  { return 'application/x-shockwave-flash' }
         default { return 'application/octet-stream' }
     }
 }
