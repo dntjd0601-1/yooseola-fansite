@@ -44,22 +44,6 @@ jobs:
             git push
           fi
 
-      - name: Verify Netlify secrets
-        run: |
-          missing=0
-          if [ -z "$NETLIFY_AUTH_TOKEN" ]; then
-            echo "::error::NETLIFY_AUTH_TOKEN secret이 없습니다. GitHub 저장소 Settings → Secrets and variables → Actions 에서 추가하세요."
-            missing=1
-          fi
-          if [ -z "$NETLIFY_SITE_ID" ]; then
-            echo "::error::NETLIFY_SITE_ID secret이 없습니다. Netlify Project ID를 등록하세요 (fcf9f461-a571-4392-a4dc-3c4b316a28cc)."
-            missing=1
-          fi
-          exit $missing
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
@@ -68,6 +52,7 @@ jobs:
           commit_message: 'deploy: publish site update'
 
       - name: Deploy to Netlify
+        if: ${{ secrets.NETLIFY_AUTH_TOKEN != '' && secrets.NETLIFY_SITE_ID != '' }}
         run: |
           npx --yes netlify-cli@23.9.1 deploy \
             --prod \
@@ -80,13 +65,14 @@ jobs:
           SECRETS_SCAN_ENABLED: "false"
           SECRETS_SCAN_SMART_DETECTION_ENABLED: "false"
 
-      - name: Trigger Netlify build hook (fallback)
-        if: failure()
+      - name: Trigger Netlify build hook
+        if: ${{ secrets.NETLIFY_AUTH_TOKEN == '' || secrets.NETLIFY_SITE_ID == '' }}
         run: |
           if [ -n "$NETLIFY_BUILD_HOOK" ]; then
             curl -fsS -X POST -d {} "$NETLIFY_BUILD_HOOK"
+            echo "Triggered Netlify build hook."
           else
-            echo "NETLIFY_BUILD_HOOK secret not set; skipping fallback build."
+            echo "NETLIFY secrets/build hook not set; relying on Netlify Git deploy from master push."
           fi
         env:
           NETLIFY_BUILD_HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}

@@ -423,7 +423,7 @@ const SCHEDULE_EVENTS = {
   '2026-06-24': [{ type: 'live', title: '로퀴즈 + 버컴 마크운동회 + 사슬게임' }],
   '2026-06-25': [{ type: 'live', title: '한국 vs 남아공' }],
   '2026-06-26': [{ type: 'live', title: '버컴 비서듀스 + 메챠 카멜레온' }],
-  '2026-06-27': [{ type: 'live', title: '토요미스테리' }],
+  '2026-06-27': [{ type: 'live', title: '토요미스테리 + w 가무소' }],
   '2026-06-28': [{ type: 'live', title: '심야버스라디오' }],
   '2026-06-29': [{ type: 'live', title: '버컴 나락퀴즈쇼' }],
   '2026-06-30': [{ type: 'live', title: '버컴 앙케이트' }],
