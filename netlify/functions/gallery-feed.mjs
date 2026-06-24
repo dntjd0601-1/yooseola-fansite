@@ -1,3 +1,5 @@
+import { extractImagesFromArticlePayload } from './_lib/cafe-article-images.mjs';
+
 const CAFE_ID = '31396984';
 const CAFE_REFERER = 'https://cafe.naver.com/yoonanana';
 const ARTICLE_API = `https://apis.naver.com/cafe-web/cafe-articleapi/cafes/${CAFE_ID}/articles`;
@@ -30,14 +32,6 @@ function json(body, status = 200) {
   });
 }
 
-function isGif(url = '') {
-  return /\.gif($|\?)/i.test(url);
-}
-
-function isCafeLogoThumb(url = '') {
-  return /\/image\.PNG$/i.test(url) || url.includes('/default/cafe_profile');
-}
-
 function normalizeImageUrl(url = '') {
   if (!url) return '';
   try {
@@ -47,29 +41,8 @@ function normalizeImageUrl(url = '') {
   }
 }
 
-function extractImagesFromArticlePayload(data) {
-  const urls = [];
-  const seen = new Set();
-  const html = data?.article?.content || '';
-
-  const pushUrl = (raw) => {
-    const src = normalizeImageUrl(raw);
-    if (!src || seen.has(src) || isGif(src) || isCafeLogoThumb(src)) return;
-    seen.add(src);
-    urls.push(src);
-  };
-
-  const thumbRe = /https:\/\/cafeptthumb-phinf\.pstatic\.net\/[^"'\\<\s]+/gi;
-  for (const match of html.matchAll(thumbRe)) {
-    pushUrl(match[0]);
-  }
-
-  const attachList = data?.attaches || data?.article?.attaches || [];
-  for (const attach of attachList) {
-    pushUrl(attach.imageUrl || attach.image?.url || attach.thumbnailUrl || attach.url);
-  }
-
-  return urls;
+function isGif(url = '') {
+  return /\.gif($|\?)/i.test(url);
 }
 
 async function fetchArticleImages(articleId) {
@@ -113,16 +86,18 @@ function buildCafeItems(article, source, images) {
     ? images
     : [normalizeImageUrl(article.representImage || '')].filter(Boolean);
 
-  return srcList.map((src, imageIndex) => ({
-    src,
+  if (!srcList.length) return [];
+
+  return [{
+    src: srcList[0],
     caption,
     source,
     url: link,
     postId,
-    imageIndex,
+    imageIndex: 0,
     imageCount: srcList.length,
     images: srcList,
-  }));
+  }];
 }
 
 async function fetchCafeMenu(menuId, source) {

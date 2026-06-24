@@ -122,6 +122,91 @@ function getGalleryItems() {
   return galleryItems;
 }
 
+function isCafeGallerySource(source) {
+  return source === 'fan-cafe' || source === 'cafe-photo';
+}
+
+function sanitizeGalleryUrl(url) {
+  if (!url) return '';
+  return String(url)
+    .trim()
+    .replace(/^["']+|["']+$/g, '')
+    .replace(/\?type=w\d+"?$/i, '');
+}
+
+function normalizeGalleryItem(item) {
+  const images = Array.isArray(item.images)
+    ? item.images.map(sanitizeGalleryUrl).filter(Boolean)
+    : item.images;
+  const src = sanitizeGalleryUrl(item.src) || (images?.[0] || '');
+  const imageCount = Math.max(item.imageCount || 0, images?.length || 0, src ? 1 : 0);
+
+  return {
+    ...item,
+    src,
+    imageCount: images?.length || imageCount,
+    images: images?.length ? images : (src ? [src] : []),
+  };
+}
+
+function mergeGalleryImageList(items) {
+  const images = [];
+  const seen = new Set();
+  for (const item of items) {
+    const list = Array.isArray(item.images) && item.images.length ? item.images : [item.src];
+    for (const src of list) {
+      if (!src || seen.has(src)) continue;
+      seen.add(src);
+      images.push(src);
+    }
+  }
+  return images;
+}
+
+/** 그리드에는 글(post)당 대표 썸네일 1장만 표시 */
+function getGalleryGridEntries() {
+  const items = getGalleryItems();
+  const entries = [];
+  const seenPosts = new Set();
+
+  for (let i = 0; i < items.length; i += 1) {
+    const item = items[i];
+    if (!item.postId || !isCafeGallerySource(item.source)) {
+      entries.push({ index: i, item });
+      continue;
+    }
+
+    const key = `${item.source}:${item.postId}`;
+    if (seenPosts.has(key)) continue;
+    seenPosts.add(key);
+
+    const group = items.filter(
+      (candidate) =>
+        candidate.postId === item.postId && candidate.source === item.source
+    );
+    group.sort((a, b) => (a.imageIndex || 0) - (b.imageIndex || 0));
+
+    const images = mergeGalleryImageList(group);
+    const imageCount = Math.max(
+      images.length,
+      ...group.map((entry) => entry.imageCount || 0)
+    );
+
+    entries.push({
+      index: i,
+      item: {
+        ...item,
+        src: images[0] || item.src,
+        imageIndex: 0,
+        imageCount,
+        images: images.length ? images : item.images,
+      },
+    });
+  }
+
+  return entries;
+}
+
 async function fetchGalleryFeed() {
   const statusEl = document.getElementById('galleryStatus');
   if (statusEl) statusEl.textContent = '최신 사진을 불러오는 중…';
@@ -131,7 +216,7 @@ async function fetchGalleryFeed() {
     if (res.ok) {
       const data = await res.json();
       if (Array.isArray(data.items) && data.items.length) {
-        return data.items;
+        return data.items.map(normalizeGalleryItem);
       }
     }
   } catch {
@@ -139,7 +224,7 @@ async function fetchGalleryFeed() {
   }
 
   if (typeof GALLERY_DATA !== 'undefined' && GALLERY_DATA.length) {
-    return [...GALLERY_DATA];
+    return GALLERY_DATA.map(normalizeGalleryItem);
   }
 
   return [];
@@ -170,10 +255,11 @@ function createGalleryItem(item, index) {
   const tag = gallerySourceLabel[item.source] || item.source;
   caption.textContent = `${tag} · ${item.caption}`;
 
-  if (item.imageCount > 1 && item.imageIndex === 0) {
+  const photoCount = Math.max(item.imageCount || 0, item.images?.length || 0);
+  if (photoCount > 1) {
     const badge = document.createElement('span');
     badge.className = 'gallery__badge';
-    badge.textContent = `${item.imageCount}장`;
+    badge.textContent = `${photoCount}장`;
     figure.appendChild(badge);
   }
 
@@ -183,8 +269,7 @@ function createGalleryItem(item, index) {
 }
 
 function updateGalleryMeta() {
-  const items = getGalleryItems();
-  const total = items.length;
+  const total = getGalleryGridEntries().length;
   const countEl = document.getElementById('galleryCount');
   const statusEl = document.getElementById('galleryStatus');
   if (countEl) {
@@ -205,16 +290,17 @@ function updateGalleryMeta() {
 
 function appendGalleryBatch() {
   const grid = document.getElementById('galleryGrid');
-  const items = getGalleryItems();
-  if (!grid || !items.length) return false;
-  if (galleryLoading || galleryRendered >= items.length) return false;
+  const entries = getGalleryGridEntries();
+  if (!grid || !entries.length) return false;
+  if (galleryLoading || galleryRendered >= entries.length) return false;
 
   galleryLoading = true;
-  const end = Math.min(galleryRendered + GALLERY_BATCH_SIZE, items.length);
+  const end = Math.min(galleryRendered + GALLERY_BATCH_SIZE, entries.length);
   const fragment = document.createDocumentFragment();
 
   for (let i = galleryRendered; i < end; i++) {
-    fragment.appendChild(createGalleryItem(items[i], i));
+    const { item, index } = entries[i];
+    fragment.appendChild(createGalleryItem(item, index));
   }
 
   grid.appendChild(fragment);
@@ -227,18 +313,18 @@ function appendGalleryBatch() {
     newItems.forEach((el) => revealObserver.observe(el));
   }
 
-  if (galleryRendered >= items.length && galleryObserver) {
+  if (galleryRendered >= entries.length && galleryObserver) {
     const sentinel = document.getElementById('gallerySentinel');
     if (sentinel) galleryObserver.unobserve(sentinel);
   }
 
-  return galleryRendered < items.length;
+  return galleryRendered < entries.length;
 }
 
 function initGalleryInfiniteScroll() {
   const sentinel = document.getElementById('gallerySentinel');
-  const items = getGalleryItems();
-  if (!sentinel || !items.length) return;
+  const entries = getGalleryGridEntries();
+  if (!sentinel || !entries.length) return;
 
   if (galleryObserver) galleryObserver.disconnect();
   galleryObserver = new IntersectionObserver(
@@ -250,6 +336,21 @@ function initGalleryInfiniteScroll() {
     { rootMargin: '320px 0px' }
   );
   galleryObserver.observe(sentinel);
+}
+
+function refreshGallerySection() {
+  const gallery = document.getElementById('gallery');
+  if (!gallery || !galleryFeedLoaded) return;
+
+  gallery.querySelectorAll('.gallery__item.reveal').forEach((el) => {
+    el.classList.add('visible');
+  });
+
+  if (getGalleryItems().length && galleryRendered === 0) {
+    appendGalleryBatch();
+  }
+
+  initGalleryInfiniteScroll();
 }
 
 function initGalleryGrid() {
@@ -379,6 +480,10 @@ function initPageViews() {
       document.dispatchEvent(new CustomEvent('memory-playlist:show'));
     } else if (wasMemoryPlaylist) {
       document.dispatchEvent(new CustomEvent('memory-playlist:hide'));
+    }
+
+    if (id === 'gallery') {
+      refreshGallerySection();
     }
 
     window.scrollTo(0, 0);
@@ -673,7 +778,7 @@ let revealObserver = null;
 /* ── Scroll Reveal ── */
 function initScrollReveal() {
   const targets = document.querySelectorAll(
-    '.profile__main, .profile__card, .profile__overview, .profile__history, .profile__content, .schedule-board, .timeline__item, .churudan-hub, .minigame, .rolling-paper, .section__header, .memory-playlist__header, .memory-playlist__picker, .memory-playlist__player-wrap, .memory-playlist__sidebar, .memory-playlist__source'
+    '.profile__main, .profile__card, .profile__detail, .schedule-board, .timeline__item, .churudan-hub, .minigame, .rolling-paper, .section__header, .memory-playlist__header, .memory-playlist__picker, .memory-playlist__layout, .memory-playlist__player-wrap, .memory-playlist__tracks, .memory-playlist__source'
   );
 
   targets.forEach((el) => el.classList.add('reveal'));
@@ -719,9 +824,13 @@ function buildSlideItem(baseItem, src, imageIndex, imageCount) {
   };
 }
 
-function buildLightboxSlides(startIndex) {
+function findGalleryGridEntry(index) {
+  return getGalleryGridEntries().find((entry) => entry.index === index) || null;
+}
+
+function buildLightboxSlides(startIndex, hintItem) {
   const items = getGalleryItems();
-  const start = items[startIndex];
+  const start = hintItem || items[startIndex];
   if (!start) return { slides: [], startSlide: 0 };
 
   const imageList = Array.isArray(start.images) && start.images.length
@@ -779,18 +888,23 @@ async function fetchArticleImages(postId) {
   }
 }
 
-async function resolveLightboxSlides(startIndex) {
-  const built = buildLightboxSlides(startIndex);
+async function resolveLightboxSlides(startIndex, hintItem) {
+  const built = buildLightboxSlides(startIndex, hintItem);
   if (built.slides.length > 1) return built;
 
-  const start = getGalleryItems()[startIndex];
-  if (!start?.postId || !(start.imageCount > 1)) return built;
+  const start = hintItem || getGalleryItems()[startIndex];
+  if (!start?.postId) return built;
+
+  const shouldFetch =
+    isCafeGallerySource(start.source) || (start.imageCount > 1);
+  if (!shouldFetch) return built;
 
   const images = await fetchArticleImages(start.postId);
-  if (images.length <= 1) return built;
+  const cleaned = images.map(sanitizeGalleryUrl).filter(Boolean);
+  if (cleaned.length <= 1) return built;
 
-  const slides = images.map((src, imageIndex) => {
-    const slideItem = buildSlideItem(start, src, imageIndex, images.length);
+  const slides = cleaned.map((src, imageIndex) => {
+    const slideItem = buildSlideItem(start, src, imageIndex, cleaned.length);
     return { src, item: slideItem, caption: getGalleryCaption(slideItem) };
   });
 
@@ -852,6 +966,7 @@ function initGalleryLightbox() {
   const closeBtn = document.getElementById('lightboxClose');
   const prevBtn = document.getElementById('lightboxPrev');
   const nextBtn = document.getElementById('lightboxNext');
+  const lightboxContent = lightbox.querySelector('.lightbox__content');
   const grid = document.getElementById('galleryGrid');
 
   if (!lightbox || !grid || !getGalleryItems().length) return;
@@ -872,6 +987,7 @@ function initGalleryLightbox() {
 
     lightboxImage.src = slide.src;
     lightboxImage.alt = slide.caption;
+    lightboxImage.referrerPolicy = 'no-referrer';
     lightboxCaption.textContent = slide.caption;
 
     if (slides.length > 1) {
@@ -886,15 +1002,32 @@ function initGalleryLightbox() {
   }
 
   async function openLightbox(index) {
-    const resolved = await resolveLightboxSlides(index);
-    slides = resolved.slides;
-    slideIndex = resolved.startSlide;
-    if (!slides.length) return;
+    const gridEntry = findGalleryGridEntry(index);
+    const start = gridEntry?.item || getGalleryItems()[index];
+    if (!start) return;
 
-    renderLightbox();
-    lightbox.classList.add('active');
+    slides = [{
+      src: start.src,
+      item: start,
+      caption: getGalleryCaption(start),
+    }];
+    slideIndex = 0;
+
+    lightbox.classList.add('active', 'lightbox--loading');
     lightbox.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
+    renderLightbox();
+
+    const resolved = await resolveLightboxSlides(index, gridEntry?.item);
+    lightbox.classList.remove('lightbox--loading');
+    slides = resolved.slides;
+    slideIndex = resolved.startSlide;
+    if (!slides.length) {
+      closeLightbox();
+      return;
+    }
+
+    renderLightbox();
   }
 
   function closeLightbox() {
@@ -942,17 +1075,23 @@ function initGalleryLightbox() {
     if (e.target === lightbox) closeLightbox();
   });
 
-  lightboxImage?.addEventListener('touchstart', (e) => {
-    touchStartX = e.changedTouches[0]?.clientX || 0;
-  }, { passive: true });
+  function bindLightboxSwipe(target) {
+    if (!target) return;
+    target.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0]?.clientX || 0;
+    }, { passive: true });
 
-  lightboxImage?.addEventListener('touchend', (e) => {
-    if (slides.length <= 1) return;
-    const touchEndX = e.changedTouches[0]?.clientX || 0;
-    const delta = touchEndX - touchStartX;
-    if (Math.abs(delta) < 40) return;
-    navigate(delta > 0 ? -1 : 1);
-  }, { passive: true });
+    target.addEventListener('touchend', (e) => {
+      if (slides.length <= 1) return;
+      const touchEndX = e.changedTouches[0]?.clientX || 0;
+      const delta = touchEndX - touchStartX;
+      if (Math.abs(delta) < 40) return;
+      navigate(delta > 0 ? -1 : 1);
+    }, { passive: true });
+  }
+
+  bindLightboxSwipe(lightboxImage);
+  bindLightboxSwipe(lightboxContent);
 
   document.addEventListener('keydown', (e) => {
     if (!lightbox.classList.contains('active')) return;

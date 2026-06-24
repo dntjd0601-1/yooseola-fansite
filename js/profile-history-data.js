@@ -54,18 +54,6 @@ const PROFILE_CONTENT_GROUPS = [
         note: '감스트 종합게임 크루. 프리패스 합류, 2026년 2인자 당선. 종겜 합방·감스터콜·LoL 내전 등 크루 콘텐츠 중심 활동.',
         icon: 'vcompany.webp',
       },
-      {
-        name: '감체스터',
-        meta: '2023. 11 ~ · 마카오톡',
-        note: '감스트 마크 크루. 군기반장 캐릭터로 활동.',
-        icon: 'gamchester.webp',
-      },
-      {
-        name: '유유울따',
-        meta: '마크 합동 크루',
-        note: '유설아·유연서·울산큰고래·따스히. 감체스터·갑질단·북해빙궁 등에 함께 참여.',
-        icon: 'yuyuuldda.webp',
-      },
     ],
   },
   {
@@ -116,7 +104,9 @@ const PROFILE_CONTENT_GROUPS = [
       { name: '로나월드 시즌 2', meta: '2023. 07 · 벛꽃단', note: '로나월드 시즌 2 벛꽃단 멤버.', icon: 'ronaworld.webp' },
       { name: '마병대 시즌 1', meta: '2024. 08 · 특별소대 소대장', note: '감스트·유소나 서버. 특별소대 소대장.', icon: 'mabyeong.png' },
       { name: '마병대 시즌 2', meta: '2025. 01 · 특별소대 훈련병', note: '마병대 시즌 2 특별소대 훈련병.', icon: 'mabyeong.png' },
+      { name: '마카오톡', meta: '2023. 11 ~ · 감체스터', note: '감스트 마크 서버. 감체스터 멤버, 군기반장 캐릭터로 활동.', icon: 'macaotalk.svg' },
       { name: '마카오톡 1.5', meta: '2024. 09 · 발사대장간', note: '마카오톡 1.5 발사대장간 멤버.', icon: 'macaotalk.svg' },
+      { name: '유유울따', meta: '마크 합동 · 유설아·유연서·울산큰고래·따스히', note: '감체스터·갑질단·북해빙궁·오함마 등 마크 서버에 함께 참여.', icon: 'yuyuuldda.webp' },
       { name: '해초서버 갑질단', meta: '2024. 09 · 멤버', note: '유유울따 멤버들과 함께 참여한 마크 서버.', icon: 'gapjildan.webp' },
       { name: '코창서버 북해빙궁', meta: '2024. 11 · 멤버', note: '코창서버 북해빙궁 멤버.', icon: 'group.svg' },
       { name: '오함마 시즌 2 · 3', meta: '2025 · 유유울따 · 샘컴퍼니', note: '오함마 시즌 2 유유울따, 시즌 3 샘컴퍼니 멤버.', icon: 'ohamma.webp' },
