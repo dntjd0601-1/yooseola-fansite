@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Jua&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=20260627">
+  <link rel="stylesheet" href="css/style.css?v=20260701">
 </head>
 <body>
 
@@ -388,6 +388,11 @@
               <span class="churudan__title">황새 오래 걷기</span>
               <span class="churudan__desc">추억의 균형 게임 · 좌우키로 버텨 보세요</span>
             </button>
+            <button type="button" class="churudan__card" data-churudan="suika">
+              <span class="churudan__icon" aria-hidden="true">🍉</span>
+              <span class="churudan__title">수박게임</span>
+              <span class="churudan__desc">유설아 움짤을 합쳐 대설아를 만들어 보세요</span>
+            </button>
             <button type="button" class="churudan__card" data-churudan="rolling">
               <span class="churudan__icon" aria-hidden="true">💌</span>
               <span class="churudan__title">롤링페이퍼</span>
@@ -508,6 +513,58 @@
             </div>
           </div>
 
+          <!-- 수박게임 -->
+          <div class="minigame__panel" id="gameSuika" role="tabpanel" hidden>
+            <div class="suika-game">
+              <div class="suika-game__header">
+                <div>
+                  <h3 class="suika-game__title">츄르단 수박게임</h3>
+                  <p class="suika-game__desc">같은 단계의 유설아를 맞추면 더 큰 단계로 합쳐집니다. 클릭·드래그로 위치를 정하고 떨어뜨려 보세요. ← → 또는 스페이스로도 조작할 수 있어요.</p>
+                </div>
+                <button type="button" class="suika-game__restart" id="suikaRestart">다시하기</button>
+              </div>
+
+              <div class="suika-game__layout">
+                <div
+                  class="suika-game__board-wrap"
+                  id="suikaBoardWrap"
+                  tabindex="0"
+                  aria-label="수박게임 보드"
+                >
+                  <div class="suika-game__board" id="suikaBoard">
+                    <div class="suika-game__danger-line" aria-hidden="true"></div>
+                    <div class="suika-game__sprites" id="suikaSprites"></div>
+                    <div class="suika-game__preview-layer" id="suikaPreview"></div>
+                  </div>
+                </div>
+
+                <aside class="suika-game__sidebar">
+                  <div class="suika-game__stat">
+                    <span class="suika-game__stat-label">점수</span>
+                    <strong class="suika-game__stat-value" id="suikaScore">0</strong>
+                  </div>
+                  <div class="suika-game__stat">
+                    <span class="suika-game__stat-label">최고</span>
+                    <strong class="suika-game__stat-value" id="suikaBest">0</strong>
+                  </div>
+                  <div class="suika-game__next-wrap">
+                    <span class="suika-game__stat-label">다음</span>
+                    <div class="suika-game__next" id="suikaNext"></div>
+                  </div>
+                  <p class="suika-game__credit">참고 <a href="https://v-company.xyz/games/suika" target="_blank" rel="noopener noreferrer">버컴퍼니 수박게임</a></p>
+                </aside>
+              </div>
+
+              <div class="suika-game__overlay" id="suikaOverlay" hidden role="dialog" aria-modal="true">
+                <div class="suika-game__overlay-card">
+                  <h4 class="suika-game__overlay-title" id="suikaOverlayTitle">게임 오버</h4>
+                  <p class="suika-game__overlay-score" id="suikaOverlayScore"></p>
+                  <button type="button" class="suika-game__overlay-btn" id="suikaOverlayBtn">다시 도전</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="minigame__panel rolling-paper" id="gameRolling" role="tabpanel" hidden>
           <div class="rolling-paper__header">
             <div>
@@ -602,8 +659,11 @@
   <script src="js/vendor/planck.min.js"></script>
   <script src="js/marble-maps-data.js"></script>
   <script src="js/marble-roulette.js"></script>
+  <script src="js/vendor/matter.min.js?v=20260701"></script>
+  <script src="js/suika-data.js?v=20260701"></script>
+  <script src="js/suika-game.js?v=20260701"></script>
   <script src="js/stork-ruffle.js?v=20260627"></script>
-  <script src="js/minigames.js?v=20260627"></script>
+  <script src="js/minigames.js?v=20260701"></script>
   <script src="js/rolling-paper.js"></script>
   <script src="js/profile-history-data.js?v=20260610b"></script>
   <script src="js/profile-history.js?v=20260626"></script>

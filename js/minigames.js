@@ -1,5 +1,5 @@
 ﻿/**
- * 츄르단 공간 — 미니게임 (사다리타기, 핀볼타기, 황새 오래 걷기)
+ * 츄르단 공간 — 미니게임 (사다리타기, 핀볼타기, 황새 오래 걷기, 수박게임)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -13,6 +13,7 @@ const CHURUDAN_PANELS = {
   ladder: 'gameLadder',
   pinball: 'gamePinball',
   stork: 'gameStork',
+  suika: 'gameSuika',
   rolling: 'gameRolling',
 };
 
@@ -34,6 +35,7 @@ function initChurudanHub() {
       panel.hidden = true;
     });
     if (typeof pauseStorkWalk === 'function') pauseStorkWalk();
+    if (typeof pauseSuikaGame === 'function') pauseSuikaGame();
   }
 
   function openActivity(game) {
@@ -64,6 +66,16 @@ function initChurudanHub() {
       });
     } else if (typeof pauseStorkGame === 'function') {
       pauseStorkGame();
+    }
+
+    if (game === 'suika') {
+      if (typeof initSuikaGame === 'function') initSuikaGame();
+      if (typeof resumeSuikaGame === 'function') resumeSuikaGame();
+      requestAnimationFrame(() => {
+        if (typeof focusSuikaGame === 'function') focusSuikaGame();
+      });
+    } else if (typeof pauseSuikaGame === 'function') {
+      pauseSuikaGame();
     }
   }
 
