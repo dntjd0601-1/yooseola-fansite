@@ -1991,6 +1991,23 @@ body.is-home .footer {
   max-width: 52rem;
 }
 
+.suika-game__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.suika-game__best {
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+}
+
+.suika-game__best strong {
+  color: var(--color-accent-dark);
+  font-size: 1.1rem;
+}
+
 .suika-game__restart {
   border: 1px solid rgba(94, 184, 232, 0.45);
   background: rgba(94, 184, 232, 0.12);
@@ -2006,11 +2023,11 @@ body.is-home .footer {
   background: rgba(94, 184, 232, 0.22);
 }
 
-.suika-game__layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 180px;
-  gap: 1rem;
-  align-items: start;
+.suika-game__stage {
+  background: linear-gradient(180deg, #14532d 0%, #0f3d22 100%);
+  border-radius: 22px;
+  padding: 1rem;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
 }
 
 .suika-game__board-wrap {
@@ -2024,28 +2041,102 @@ body.is-home .footer {
 }
 
 .suika-game__board-wrap:focus-visible {
-  box-shadow: 0 0 0 3px rgba(94, 184, 232, 0.35);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.35);
   border-radius: 18px;
 }
 
 .suika-game__board {
   position: relative;
   transform-origin: top center;
-  border-radius: 18px;
+  border-radius: 0 0 22px 22px;
   overflow: hidden;
   background: linear-gradient(180deg, #fff8ef 0%, #ffe8c8 100%);
-  border: 3px solid rgba(94, 184, 232, 0.35);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.65), 0 10px 28px rgba(15, 23, 42, 0.08);
+  border: 3px solid rgba(255, 255, 255, 0.35);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.65);
 }
 
-.suika-game__danger-line {
+.suika-game__score {
+  position: absolute;
+  top: 8px;
+  left: 12px;
+  z-index: 4;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 8vw, 3.4rem);
+  line-height: 1;
+  color: rgba(255, 248, 239, 0.92);
+  text-shadow:
+    2px 2px 0 rgba(255, 83, 0, 0.35),
+    -1px -1px 0 rgba(255, 255, 255, 0.8);
+  pointer-events: none;
+}
+
+.suika-game__next-hud {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 5;
+  display: grid;
+  justify-items: center;
+  gap: 0.35rem;
+  pointer-events: none;
+}
+
+.suika-game__next-tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #14532d;
+  background: rgba(255, 255, 255, 0.82);
+  border-radius: 999px;
+  padding: 0.15rem 0.55rem;
+}
+
+.suika-game__next-ball {
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+  background: #fff;
+}
+
+.suika-game__next-ball img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.suika-game__danger {
   position: absolute;
   left: 0;
   right: 0;
   top: 130px;
-  border-top: 2px dashed rgba(231, 76, 60, 0.55);
   z-index: 2;
   pointer-events: none;
+}
+
+.suika-game__danger-label {
+  position: absolute;
+  left: 10px;
+  top: -18px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: #e74c3c;
+}
+
+.suika-game__danger-line {
+  border-top: 2px dashed rgba(231, 76, 60, 0.75);
+}
+
+.suika-game__drop-line {
+  position: absolute;
+  width: 2px;
+  margin-left: -1px;
+  background: rgba(231, 76, 60, 0.75);
+  transform-origin: top center;
+  pointer-events: none;
+  z-index: 2;
 }
 
 .suika-game__sprites,
@@ -2081,54 +2172,59 @@ body.is-home .footer {
 }
 
 .suika-game__fruit--preview {
-  opacity: 0.88;
-  box-shadow: 0 6px 18px rgba(94, 184, 232, 0.25);
+  opacity: 0.92;
+  box-shadow: 0 6px 18px rgba(231, 76, 60, 0.22);
 }
 
-.suika-game__sidebar {
-  display: grid;
-  gap: 0.85rem;
-  padding: 1rem;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.72);
-  border: 1px solid rgba(94, 184, 232, 0.18);
-}
-
-.suika-game__stat-label,
-.suika-game__next-label {
-  display: block;
-  font-size: 0.78rem;
-  color: var(--color-text-muted);
-  margin-bottom: 0.25rem;
-}
-
-.suika-game__stat-value {
-  font-size: 1.5rem;
-  color: var(--color-accent-dark);
-}
-
-.suika-game__next {
-  display: grid;
+.suika-game__evolution {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
   gap: 0.35rem;
+  flex-wrap: wrap;
+  margin-top: 0.85rem;
+  padding: 0.65rem 0.5rem;
+  border-radius: 16px;
+  background: rgba(0, 0, 0, 0.18);
 }
 
-.suika-game__next-img {
-  width: 72px;
-  height: 72px;
+.suika-game__evo-item {
+  position: relative;
+  width: var(--evo-size);
+  height: var(--evo-size);
+  flex: 0 0 auto;
+}
+
+.suika-game__evo-item img {
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid rgba(94, 184, 232, 0.35);
+  border: 2px solid rgba(255, 255, 255, 0.35);
   background: #fff;
 }
 
-.suika-game__credit {
-  font-size: 0.75rem;
-  color: var(--color-text-muted);
-  line-height: 1.5;
+.suika-game__evo-label {
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.88);
+  color: #14532d;
+  font-size: 0.62rem;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
 }
 
-.suika-game__credit a {
-  color: var(--color-accent-dark);
+.suika-game__hint {
+  margin-top: 0.65rem;
+  text-align: center;
+  font-size: 0.84rem;
+  color: rgba(255, 255, 255, 0.82);
+  line-height: 1.5;
 }
 
 .suika-game__overlay {
@@ -2181,21 +2277,12 @@ body.is-home .footer {
 }
 
 @media (max-width: 768px) {
-  .suika-game__layout {
-    grid-template-columns: 1fr;
+  .suika-game__stage {
+    padding: 0.75rem;
   }
 
-  .suika-game__sidebar {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    align-items: start;
-  }
-
-  .suika-game__next-wrap {
-    grid-column: 1 / -1;
-  }
-
-  .suika-game__credit {
-    grid-column: 1 / -1;
+  .suika-game__evolution {
+    gap: 0.2rem;
   }
 }
 

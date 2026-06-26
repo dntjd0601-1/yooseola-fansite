@@ -4,9 +4,8 @@
  */
 
 let suikaPaused = true;
-let suikaEngine = null;
-let suikaRunner = null;
 let suikaAnimFrame = null;
+let suikaLastFrameAt = 0;
 
 function initSuikaGame() {
   const panel = document.getElementById('gameSuika');
@@ -19,6 +18,7 @@ function initSuikaGame() {
 
   panel.__suikaReady = true;
   panel.__suikaState = createSuikaState(panel);
+  renderSuikaEvolution();
   bindSuikaControls(panel.__suikaState);
   resetSuikaGame(panel.__suikaState);
   suikaPaused = false;
@@ -37,15 +37,9 @@ function resumeSuikaGame() {
   const state = panel?.__suikaState;
   if (!state?.engine || state.gameOver) return;
   suikaPaused = false;
+  suikaLastFrameAt = performance.now();
   fitSuikaBoard(state);
-  const loop = () => {
-    if (suikaPaused || !state.engine) return;
-    Matter.Engine.update(state.engine, 1000 / 60);
-    syncSuikaSprites(state);
-    if (!state.gameOver) checkSuikaDanger(state);
-    suikaAnimFrame = requestAnimationFrame(loop);
-  };
-  suikaAnimFrame = requestAnimationFrame(loop);
+  startSuikaLoop(state);
 }
 
 function focusSuikaGame() {
@@ -58,18 +52,16 @@ function showSuikaError(message) {
 }
 
 function createSuikaState(panel) {
-  const boardEl = document.getElementById('suikaBoard');
-  const spritesEl = document.getElementById('suikaSprites');
-  const previewEl = document.getElementById('suikaPreview');
-
   return {
     panel,
-    boardEl,
-    spritesEl,
-    previewEl,
+    boardEl: document.getElementById('suikaBoard'),
+    spritesEl: document.getElementById('suikaSprites'),
+    previewEl: document.getElementById('suikaPreview'),
+    dropLineEl: document.getElementById('suikaDropLine'),
+    dropLineEl: document.getElementById('suikaDropLine'),
     scoreEl: document.getElementById('suikaScore'),
     bestEl: document.getElementById('suikaBest'),
-    nextEl: document.getElementById('suikaNext'),
+    nextBallEl: document.getElementById('suikaNextBall'),
     overlayEl: document.getElementById('suikaOverlay'),
     overlayTitleEl: document.getElementById('suikaOverlayTitle'),
     overlayScoreEl: document.getElementById('suikaOverlayScore'),
@@ -89,6 +81,20 @@ function createSuikaState(panel) {
     engine: null,
     previewNode: null,
   };
+}
+
+function renderSuikaEvolution() {
+  const el = document.getElementById('suikaEvolution');
+  if (!el) return;
+  el.innerHTML = SUIKA_TIERS.map((tier, index) => {
+    const size = Math.max(28, Math.round(tier.radius * 0.72));
+    return `
+      <div class="suika-game__evo-item" style="--evo-size:${size}px" title="${tier.name}">
+        <img src="${tier.image}" alt="${tier.name}" width="${size}" height="${size}" loading="lazy">
+        <span class="suika-game__evo-label">${index + 1}</span>
+      </div>
+    `;
+  }).join('');
 }
 
 function bindSuikaControls(state) {
@@ -117,7 +123,7 @@ function bindSuikaControls(state) {
   });
   wrap?.addEventListener('keydown', (e) => {
     if (state.gameOver) return;
-    const step = e.shiftKey ? 24 : 12;
+    const step = e.shiftKey ? 20 : 10;
     if (e.key === 'ArrowLeft') {
       state.dropX = Math.max(SUIKA_TIERS[state.currentType].radius + 10, state.dropX - step);
       updateSuikaPreview(state);
@@ -144,8 +150,8 @@ function bindSuikaControls(state) {
 function fitSuikaBoard(state) {
   const wrap = document.getElementById('suikaBoardWrap');
   if (!wrap || !state.boardEl) return;
-  const maxW = wrap.clientWidth || SUIKA_BOARD.width;
-  const maxH = Math.min(760, window.innerHeight * 0.62);
+  const maxW = Math.min(wrap.parentElement?.clientWidth || 560, 560);
+  const maxH = Math.min(760, window.innerHeight * 0.58);
   state.scale = Math.min(maxW / SUIKA_BOARD.width, maxH / SUIKA_BOARD.height, 1);
   state.boardEl.style.width = `${SUIKA_BOARD.width}px`;
   state.boardEl.style.height = `${SUIKA_BOARD.height}px`;
@@ -154,7 +160,11 @@ function fitSuikaBoard(state) {
 }
 
 function randomSuikaType() {
-  return Math.floor(Math.random() * 5);
+  return Math.floor(Math.random() * SUIKA_BOARD.maxDropTier);
+}
+
+function suikaImgHtml(tier) {
+  return `<img src="${tier.image}" alt="${tier.name}" loading="eager" decoding="async">`;
 }
 
 function updateSuikaPreview(state) {
@@ -172,16 +182,23 @@ function updateSuikaPreview(state) {
   state.previewNode.style.top = `${SUIKA_BOARD.dropY - tier.radius}px`;
   state.previewNode.style.borderColor = `${tier.color}99`;
   state.previewNode.style.backgroundColor = `${tier.color}22`;
-  state.previewNode.innerHTML = `<img src="${tier.image}" alt="${tier.name}" loading="eager" decoding="async">`;
+  state.previewNode.innerHTML = suikaImgHtml(tier);
+
+  if (state.dropLineEl) {
+    state.dropLineEl.style.left = `${state.dropX}px`;
+    state.dropLineEl.style.top = `${SUIKA_BOARD.dropY}px`;
+    state.dropLineEl.style.height = `${SUIKA_BOARD.dangerY - SUIKA_BOARD.dropY + 8}px`;
+  }
 }
 
 function updateSuikaNext(state) {
-  if (!state.nextEl) return;
+  if (!state.nextBallEl) return;
   const tier = SUIKA_TIERS[state.nextType];
-  state.nextEl.innerHTML = `
-    <span class="suika-game__next-label">${tier.emoji} ${tier.name}</span>
-    <img src="${tier.image}" alt="" class="suika-game__next-img">
-  `;
+  const size = Math.max(34, tier.radius * 1.15);
+  state.nextBallEl.style.width = `${size}px`;
+  state.nextBallEl.style.height = `${size}px`;
+  state.nextBallEl.style.borderColor = `${tier.color}99`;
+  state.nextBallEl.innerHTML = suikaImgHtml(tier);
 }
 
 function setSuikaScore(state, score) {
@@ -204,7 +221,7 @@ function createSuikaSprite(state, body, type) {
   node.style.height = `${size}px`;
   node.style.borderColor = `${tier.color}99`;
   node.style.backgroundColor = `${tier.color}22`;
-  node.innerHTML = `<img src="${tier.image}" alt="${tier.name}" loading="eager" decoding="async">`;
+  node.innerHTML = suikaImgHtml(tier);
   state.spritesEl.appendChild(node);
   state.bodyMap.set(body.id, { body, type, node });
   return node;
@@ -258,22 +275,26 @@ function playSuikaTone(kind, pitch = 1) {
   }
 }
 
+function suikaBodyOptions() {
+  return {
+    restitution: SUIKA_PHYSICS.restitution,
+    friction: SUIKA_PHYSICS.friction,
+    frictionAir: SUIKA_PHYSICS.frictionAir,
+    label: 'fruit',
+  };
+}
+
 function dropSuikaFruit(state) {
   if (state.gameOver || !state.canDrop || !state.engine) return;
   const now = Date.now();
-  if (now - state.lastDropAt < 650) return;
+  if (now - state.lastDropAt < SUIKA_BOARD.dropCooldownMs) return;
   state.lastDropAt = now;
   state.canDrop = false;
   playSuikaTone('drop');
 
   const { Bodies, Composite } = Matter;
   const tier = SUIKA_TIERS[state.currentType];
-  const body = Bodies.circle(state.dropX, SUIKA_BOARD.dropY, tier.radius, {
-    restitution: 0.1,
-    friction: 0.5,
-    frictionAir: 0.01,
-    label: 'fruit',
-  });
+  const body = Bodies.circle(state.dropX, SUIKA_BOARD.dropY, tier.radius, suikaBodyOptions());
   Composite.add(state.engine.world, body);
   body.droppedAt = Date.now();
   createSuikaSprite(state, body, state.currentType);
@@ -285,7 +306,7 @@ function dropSuikaFruit(state) {
 
   setTimeout(() => {
     state.canDrop = !state.gameOver;
-  }, 700);
+  }, SUIKA_BOARD.dropCooldownMs);
 }
 
 function handleSuikaCollisions(state, pairs) {
@@ -338,12 +359,7 @@ function handleSuikaCollisions(state, pairs) {
     state.bodyMap.delete(b);
 
     const { Bodies, Composite: Comp } = Matter;
-    const newBody = Bodies.circle(clampedX, clampedY, nextTier.radius, {
-      restitution: 0.1,
-      friction: 0.5,
-      frictionAir: 0.01,
-      label: 'fruit',
-    });
+    const newBody = Bodies.circle(clampedX, clampedY, nextTier.radius, suikaBodyOptions());
     Comp.add(state.engine.world, newBody);
     newBody.droppedAt = Date.now();
     createSuikaSprite(state, newBody, nextType);
@@ -353,20 +369,20 @@ function handleSuikaCollisions(state, pairs) {
   });
 }
 
-function checkSuikaDanger(state) {
+function checkSuikaDanger(state, deltaMs) {
   let danger = false;
   const now = Date.now();
   state.bodyMap.forEach(({ body, type }) => {
     const tier = SUIKA_TIERS[type];
-    if (now - (body.droppedAt || 0) < 1000) return;
-    if (body.position.y - tier.radius < SUIKA_BOARD.dangerY && Math.abs(body.velocity.y) < 0.5) {
+    if (now - (body.droppedAt || 0) < 1200) return;
+    if (body.position.y - tier.radius < SUIKA_BOARD.dangerY && Math.abs(body.velocity.y) < 0.35) {
       danger = true;
     }
   });
 
   if (danger) {
-    state.dangerTimer += 1000 / 60;
-    if (state.dangerTimer > 1000) endSuikaGame(state);
+    state.dangerTimer += deltaMs;
+    if (state.dangerTimer > 1400) endSuikaGame(state);
   } else {
     state.dangerTimer = 0;
   }
@@ -399,7 +415,10 @@ function clearSuikaWorld(state) {
   state.bodyMap.clear();
   state.pendingMerges = [];
   if (state.spritesEl) state.spritesEl.innerHTML = '';
-  if (state.previewEl) state.previewEl.innerHTML = '';
+  if (state.previewEl) {
+    state.previewEl.innerHTML = '<div class="suika-game__drop-line" id="suikaDropLine" aria-hidden="true"></div>';
+    state.dropLineEl = document.getElementById('suikaDropLine');
+  }
   state.previewNode = null;
 }
 
@@ -420,24 +439,24 @@ function resetSuikaGame(state) {
   fitSuikaBoard(state);
 
   const { Engine, Bodies, Composite, Events } = Matter;
-  const engine = Engine.create({ gravity: { x: 0, y: 1 } });
+  const engine = Engine.create({ gravity: { x: 0, y: SUIKA_PHYSICS.gravity } });
   const walls = [
     Bodies.rectangle(SUIKA_BOARD.width / 2, SUIKA_BOARD.height + 10, SUIKA_BOARD.width + 40, 20, {
       isStatic: true,
       label: 'wall',
-      friction: 0.5,
+      friction: SUIKA_PHYSICS.friction,
       restitution: 0,
     }),
     Bodies.rectangle(-10, SUIKA_BOARD.height / 2, 20, SUIKA_BOARD.height + 40, {
       isStatic: true,
       label: 'wall',
-      friction: 0.1,
+      friction: 0.12,
       restitution: 0,
     }),
     Bodies.rectangle(SUIKA_BOARD.width + 10, SUIKA_BOARD.height / 2, 20, SUIKA_BOARD.height + 40, {
       isStatic: true,
       label: 'wall',
-      friction: 0.1,
+      friction: 0.12,
       restitution: 0,
     }),
   ];
@@ -446,19 +465,24 @@ function resetSuikaGame(state) {
   Events.on(engine, 'collisionStart', (e) => handleSuikaCollisions(state, e.pairs));
 
   state.engine = engine;
-  suikaEngine = engine;
   updateSuikaPreview(state);
   suikaPaused = false;
+  suikaLastFrameAt = performance.now();
+  startSuikaLoop(state);
+}
 
-  const loop = () => {
+function startSuikaLoop(state) {
+  if (suikaAnimFrame) cancelAnimationFrame(suikaAnimFrame);
+
+  const loop = (now) => {
     if (suikaPaused || !state.engine) return;
-    Matter.Engine.update(state.engine, 1000 / 60);
-    state.bodyMap.forEach(({ body }) => {
-      if (!body.droppedAt) body.droppedAt = Date.now();
-    });
+    const deltaMs = Math.min(32, now - suikaLastFrameAt || 16);
+    suikaLastFrameAt = now;
+    Matter.Engine.update(state.engine, deltaMs);
     syncSuikaSprites(state);
-    if (!state.gameOver) checkSuikaDanger(state);
+    if (!state.gameOver) checkSuikaDanger(state, deltaMs);
     suikaAnimFrame = requestAnimationFrame(loop);
   };
+
   suikaAnimFrame = requestAnimationFrame(loop);
 }
