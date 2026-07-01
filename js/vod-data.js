@@ -4,7 +4,7 @@
  */
 const VOD_DATA = {
   replay: [
-    { title: '카페 소통', url: 'https://vod.sooplive.com/player/200170525', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260630_D2E44A0F_295220555_2_r', date: '2026.07.01', duration: '5:12:46', views: 427 },
+    { title: '카페 소통', url: 'https://vod.sooplive.com/player/200170525', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260630_D2E44A0F_295220555_2_r', date: '2026.07.01', duration: '5:12:46', views: 428 },
     { title: '버컴 앙케이트', url: 'https://vod.sooplive.com/player/200118729', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260630_011EF23A_295211539_1_r', date: '2026.06.30', duration: '3:20:23', views: 333 },
     { title: '감스터콜', url: 'https://vod.sooplive.com/player/200079247', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260629_73CCD7D9_295192533_3_r', date: '2026.06.30', duration: '3:34:12', views: 421 },
     { title: '버컴 나락퀴즈쇼', url: 'https://vod.sooplive.com/player/200053879', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260629_9533BC8B_295192533_1_r', date: '2026.06.29', duration: '3:49:16', views: 352 },
