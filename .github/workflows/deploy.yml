@@ -52,6 +52,8 @@ jobs:
           commit_message: 'deploy: publish site update'
 
       - name: Deploy to Netlify
+        id: netlify_cli
+        continue-on-error: true
         run: |
           if [ -z "$NETLIFY_AUTH_TOKEN" ] || [ -z "$NETLIFY_SITE_ID" ]; then
             echo "Netlify CLI secrets not set; skipping CLI deploy."
@@ -69,16 +71,13 @@ jobs:
           SECRETS_SCAN_SMART_DETECTION_ENABLED: "false"
 
       - name: Trigger Netlify build hook
+        if: steps.netlify_cli.outcome != 'success'
         run: |
-          if [ -n "$NETLIFY_AUTH_TOKEN" ] && [ -n "$NETLIFY_SITE_ID" ]; then
-            echo "Netlify CLI deploy configured; skipping build hook."
-            exit 0
-          fi
           if [ -n "$NETLIFY_BUILD_HOOK" ]; then
             curl -fsS -X POST -d {} "$NETLIFY_BUILD_HOOK"
             echo "Triggered Netlify build hook."
           else
-            echo "NETLIFY secrets/build hook not set; relying on Netlify Git deploy from master push."
+            echo "NETLIFY build hook not set; relying on Netlify Git deploy from master push."
           fi
         env:
           NETLIFY_BUILD_HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
