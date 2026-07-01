@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Jua&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=20260630b">
+  <link rel="stylesheet" href="css/style.css?v=20260702">
 </head>
 <body>
 
@@ -440,6 +440,11 @@
               <span class="churudan__title">황새 오래 걷기</span>
               <span class="churudan__desc">추억의 균형 게임 · 좌우키로 버텨 보세요</span>
             </button>
+            <button type="button" class="churudan__card" data-churudan="suika">
+              <span class="churudan__icon" aria-hidden="true">🍉</span>
+              <span class="churudan__title">수박게임</span>
+              <span class="churudan__desc">유설아 움짤을 합쳐 대설아를 만들어 보세요</span>
+            </button>
             <button type="button" class="churudan__card" data-churudan="rolling">
               <span class="churudan__icon" aria-hidden="true">💌</span>
               <span class="churudan__title">롤링페이퍼</span>
@@ -560,6 +565,58 @@
             </div>
           </div>
 
+          <!-- 수박게임 -->
+          <div class="minigame__panel" id="gameSuika" role="tabpanel" hidden>
+            <div class="suika-game">
+              <div class="suika-game__header">
+                <div>
+                  <h3 class="suika-game__title">츄르단 수박게임</h3>
+                  <p class="suika-game__desc">같은 단계의 유설아 움짤을 맞추면 더 큰 단계로 합쳐집니다. 보드 위에서 위치를 정한 뒤 클릭해 떨어뜨리세요.</p>
+                </div>
+                <div class="suika-game__meta">
+                  <span class="suika-game__best">최고 <strong id="suikaBest">0</strong></span>
+                  <button type="button" class="suika-game__restart" id="suikaRestart">다시하기</button>
+                </div>
+              </div>
+
+              <div class="suika-game__stage">
+                <div
+                  class="suika-game__board-wrap"
+                  id="suikaBoardWrap"
+                  tabindex="0"
+                  aria-label="수박게임 보드"
+                >
+                  <div class="suika-game__board" id="suikaBoard">
+                    <div class="suika-game__score" id="suikaScore" aria-live="polite">0</div>
+                    <div class="suika-game__next-hud">
+                      <span class="suika-game__next-tag">NEXT</span>
+                      <div class="suika-game__next-ball" id="suikaNextBall"></div>
+                    </div>
+                    <div class="suika-game__danger">
+                      <span class="suika-game__danger-label">DANGER</span>
+                      <div class="suika-game__danger-line" aria-hidden="true"></div>
+                    </div>
+                    <div class="suika-game__sprites" id="suikaSprites"></div>
+                    <div class="suika-game__preview-layer" id="suikaPreview">
+                      <div class="suika-game__drop-line" id="suikaDropLine" aria-hidden="true"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="suika-game__evolution" id="suikaEvolution" aria-label="합체 순서"></div>
+                <p class="suika-game__hint">처음 4단계만 떨어뜨릴 수 있어요. 같은 단계를 합쳐 대설아를 만드세요!</p>
+              </div>
+
+              <div class="suika-game__overlay" id="suikaOverlay" hidden role="dialog" aria-modal="true">
+                <div class="suika-game__overlay-card">
+                  <h4 class="suika-game__overlay-title" id="suikaOverlayTitle">게임 오버</h4>
+                  <p class="suika-game__overlay-score" id="suikaOverlayScore"></p>
+                  <button type="button" class="suika-game__overlay-btn" id="suikaOverlayBtn">다시 도전</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="minigame__panel rolling-paper" id="gameRolling" role="tabpanel" hidden>
           <div class="rolling-paper__header">
             <div>
@@ -653,17 +710,20 @@
     </div>
   </div>
 
-  <script src="js/schedule-data.js?v=f4f1cdbb"></script>
-  <script src="js/gallery-data.js?v=20260624"></script>
-  <script src="js/vod-data.js?v=20260624"></script>
+  <script src="js/schedule-data.js?v=2bb8c50e"></script>
+  <script src="js/gallery-data.js?v=20260701"></script>
+  <script src="js/vod-data.js?v=20260701"></script>
   <script src="js/vod.js?v=20260612"></script>
   <script src="js/vendor/planck.min.js?v=20260611"></script>
   <script src="js/marble-maps-data.js?v=20260625"></script>
   <script src="js/marble-roulette.js?v=20260625"></script>
+  <script src="js/vendor/matter.min.js?v=20260701"></script>
+  <script src="js/suika-data.js?v=20260702"></script>
+  <script src="js/suika-game.js?v=20260702"></script>
   <script src="js/stork-ruffle.js?v=20260627"></script>
-  <script src="js/minigames.js?v=20260627"></script>
+  <script src="js/minigames.js?v=20260701"></script>
   <script src="js/rolling-paper.js?v=20260611"></script>
-  <script src="js/memory-playlist-data.js?v=20260624"></script>
+  <script src="js/memory-playlist-data.js?v=20260701"></script>
   <script src="js/memory-playlist.js?v=20260628"></script>
   <script src="js/profile-history-data.js?v=20260629"></script>
   <script src="js/profile-history.js?v=20260626"></script>
