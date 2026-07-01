@@ -427,4 +427,6 @@ const SCHEDULE_EVENTS = {
   '2026-06-28': [{ type: 'live', title: '심야버스라디오' }],
   '2026-06-29': [{ type: 'live', title: '버컴 나락퀴즈쇼' }],
   '2026-06-30': [{ type: 'live', title: '버컴 앙케이트' }],
+  '2026-07-01': [{ type: 'live', title: '휴방' }],
+  '2026-07-02': [{ type: 'live', title: '감길당 + 수장님 메캬카멜레온' }],
 };

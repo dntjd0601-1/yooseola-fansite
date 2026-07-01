@@ -105,6 +105,16 @@ foreach ($t in ($targets | Sort-Object year, month)) {
     }
 }
 
+$overridePath = Join-Path $root 'schedule-overrides.json'
+if (Test-Path $overridePath) {
+    $overrides = [System.IO.File]::ReadAllText($overridePath, [System.Text.Encoding]::UTF8) | ConvertFrom-Json
+    foreach ($prop in $overrides.PSObject.Properties) {
+        $entry = $prop.Value
+        if ($entry -is [System.Array]) { $entry = $entry[0] }
+        $allEvents[$prop.Name] = @{ type = $entry.type; title = $entry.title }
+    }
+}
+
 $sb = New-Object System.Text.StringBuilder
 [void]$sb.AppendLine('/**')
 [void]$sb.AppendLine(' * Schedule from https://cafe.naver.com/yoonanana')
