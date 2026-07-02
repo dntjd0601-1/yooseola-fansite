@@ -428,7 +428,7 @@ const SCHEDULE_EVENTS = {
   '2026-06-29': [{ type: 'live', title: '버컴 나락퀴즈쇼' }],
   '2026-06-30': [{ type: 'live', title: '버컴 앙케이트' }],
   '2026-07-01': [{ type: 'live', title: '휴방' }],
-  '2026-07-02': [{ type: 'live', title: '감길당 메챠카멜레온 합방' }],
+  '2026-07-02': [{ type: 'live', title: '감니버스 + 메챠카멜레온' }],
   '2026-07-04': [{ type: 'live', title: '토요미스테리' }],
   '2026-07-05': [{ type: 'live', title: '심야버스라디오' }],
   '2026-07-06': [{ type: 'live', title: '버컴 vs 버인 + 삼국지 연습' }],
