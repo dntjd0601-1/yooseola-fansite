@@ -5,8 +5,8 @@
 const VOD_DATA = {
   replay: [
     { title: '잔잔 소통', url: 'https://vod.sooplive.com/player/200454693', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260703_B8EA73F4_295300197_1_r', date: '2026.07.03', duration: '2:32:14', views: 31 },
-    { title: '감니버스 메챠 카멜레온', url: 'https://vod.sooplive.com/player/200378589', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260702_E3E3CAD2_295272613_2_r', date: '2026.07.03', duration: '6:07:15', views: 317 },
-    { title: '카페 소통', url: 'https://vod.sooplive.com/player/200170525', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260630_D2E44A0F_295220555_2_r', date: '2026.07.01', duration: '5:12:46', views: 654 },
+    { title: '감니버스 메챠 카멜레온', url: 'https://vod.sooplive.com/player/200378589', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260702_E3E3CAD2_295272613_2_r', date: '2026.07.03', duration: '6:07:15', views: 318 },
+    { title: '카페 소통', url: 'https://vod.sooplive.com/player/200170525', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260630_D2E44A0F_295220555_2_r', date: '2026.07.01', duration: '5:12:46', views: 656 },
     { title: '버컴 앙케이트', url: 'https://vod.sooplive.com/player/200118729', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260630_011EF23A_295211539_1_r', date: '2026.06.30', duration: '3:20:23', views: 390 },
     { title: '감스터콜', url: 'https://vod.sooplive.com/player/200079247', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260629_73CCD7D9_295192533_3_r', date: '2026.06.30', duration: '3:34:12', views: 472 },
     { title: '버컴 나락퀴즈쇼', url: 'https://vod.sooplive.com/player/200053879', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260629_9533BC8B_295192533_1_r', date: '2026.06.29', duration: '3:49:16', views: 397 },
@@ -18,7 +18,7 @@ const VOD_DATA = {
     { title: '대한민국 vs 남아공', url: 'https://vod.sooplive.com/player/199629343', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260625_0EE9C17F_295084023_2_r', date: '2026.06.25', duration: '4:25:47', views: 315 },
     { title: '버컴운동회 + 사슬게임 + 허니솔트 싱크룸', url: 'https://vod.sooplive.com/player/199610485', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260624_4B4BFE0F_295064309_4_r', date: '2026.06.25', duration: '9:23:46', views: 675 },
     { title: '로퀴즈 온더 블럭', url: 'https://vod.sooplive.com/player/199555157', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260624_BF49053E_295064309_1_r', date: '2026.06.24', duration: '2:12:47', views: 276 },
-    { title: '버컴 청문회 + 설창샵', url: 'https://vod.sooplive.com/player/199518199', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260623_29F5C3A9_295041949_2_r', date: '2026.06.24', duration: '8:23:32', views: 396 },
+    { title: '버컴 청문회 + 설창샵', url: 'https://vod.sooplive.com/player/199518199', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260623_29F5C3A9_295041949_2_r', date: '2026.06.24', duration: '8:23:32', views: 397 },
   ],
   youtube: [
     { title: 'GTA 별 다섯개 살아남기', url: 'https://www.youtube.com/watch?v=cRqRrCifjSI', thumb: 'https://i.ytimg.com/vi/cRqRrCifjSI/hqdefault.jpg', date: '2026.04.08', duration: '', views: 5237 },
@@ -38,7 +38,7 @@ const VOD_DATA = {
     { title: 'GTA 인생모드 수상한 피자집, 모슈 [요양타운]', url: 'https://www.youtube.com/watch?v=BLRcHNBVI1M', thumb: 'https://i.ytimg.com/vi/BLRcHNBVI1M/hqdefault.jpg', date: '', duration: '', views: 0 },
   ],
   shorts: [
-    { title: '납치된 유설아가 풀려난 방법 #감스트 #고래시티', url: 'https://www.youtube.com/shorts/syoHUHEdwYA', thumb: 'https://i.ytimg.com/vi/syoHUHEdwYA/hqdefault.jpg', date: '2026.07.04', duration: '', views: 2026 },
+    { title: '납치된 유설아가 풀려난 방법 #감스트 #고래시티', url: 'https://www.youtube.com/shorts/syoHUHEdwYA', thumb: 'https://i.ytimg.com/vi/syoHUHEdwYA/hqdefault.jpg', date: '2026.07.04', duration: '', views: 2148 },
     { title: '서로 똑같은 버컴 1인자와 2인자 #감스트 #유설아 #스캠라인', url: 'https://www.youtube.com/shorts/p06SyMau_Rk', thumb: 'https://i.ytimg.com/vi/p06SyMau_Rk/hqdefault.jpg', date: '2026.06.23', duration: '', views: 6713 },
     { title: '쉬 이즈 근근두두 설창맨 #유설아 #감스트 #스캠라인', url: 'https://www.youtube.com/shorts/N09B8M7ghno', thumb: 'https://i.ytimg.com/vi/N09B8M7ghno/hqdefault.jpg', date: '2026.06.21', duration: '', views: 6679 },
     { title: '진짜 경찰 선배님 맞아요? #김민교 #유설아 #고래시티', url: 'https://www.youtube.com/shorts/MJv9fU4bqik', thumb: 'https://i.ytimg.com/vi/MJv9fU4bqik/hqdefault.jpg', date: '2026.06.19', duration: '', views: 25535 },
