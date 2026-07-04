@@ -72,73 +72,30 @@ function initMarbleRoulette() {
 
   const camera = { x: 12.95, y: 2, zoom: 1, tx: 12.95, ty: 2, tz: 1, follow: false };
 
-  let catImg = new Image();
+  const marbleSprites = [];
 
-  function removeWhiteBackground(img) {
-    const c = document.createElement('canvas');
-    const w = img.naturalWidth;
-    const h = img.naturalHeight;
-    c.width = w;
-    c.height = h;
-    const cx = c.getContext('2d');
-    cx.drawImage(img, 0, 0);
-    const data = cx.getImageData(0, 0, w, h);
-    const d = data.data;
-    const visited = new Uint8Array(w * h);
-    const queue = [];
-
-    const isBg = (x, y) => {
-      const i = (y * w + x) * 4;
-      return d[i] >= 245 && d[i + 1] >= 245 && d[i + 2] >= 245;
-    };
-
-    const push = (x, y) => {
-      if (x < 0 || x >= w || y < 0 || y >= h) return;
-      const idx = y * w + x;
-      if (visited[idx] || !isBg(x, y)) return;
-      visited[idx] = 1;
-      queue.push(x, y);
-    };
-
-    for (let x = 0; x < w; x++) {
-      push(x, 0);
-      push(x, h - 1);
+  function getSpriteUrls() {
+    if (Array.isArray(window.MARBLE_SPRITE_URLS) && window.MARBLE_SPRITE_URLS.length) {
+      return window.MARBLE_SPRITE_URLS;
     }
-    for (let y = 0; y < h; y++) {
-      push(0, y);
-      push(w - 1, y);
-    }
+    return ['images/pinball-cat.png'];
+  }
 
-    while (queue.length) {
-      const y = queue.pop();
-      const x = queue.pop();
-      const i = (y * w + x) * 4;
-      d[i + 3] = 0;
-      push(x + 1, y);
-      push(x - 1, y);
-      push(x, y + 1);
-      push(x, y - 1);
-    }
-
-    cx.putImageData(data, 0, 0);
-    const out = new Image();
-    out.src = c.toDataURL('image/png');
-    return new Promise((resolve) => {
-      out.onload = () => resolve(out);
+  function loadMarbleSprites() {
+    const urls = getSpriteUrls();
+    urls.forEach((url, i) => {
+      const img = new Image();
+      img.onload = () => { draw(); };
+      img.onerror = () => {};
+      img.src = url;
+      marbleSprites[i] = img;
     });
   }
 
-  function loadCatSprite() {
-    const raw = new Image();
-    const apply = () => {
-      removeWhiteBackground(raw).then((processed) => {
-        catImg = processed;
-        draw();
-      });
-    };
-    raw.onload = apply;
-    raw.src = 'images/pinball-cat.png';
-    if (raw.complete) apply();
+  function pickSpriteIndices(count) {
+    const pool = marbleSprites.length || 1;
+    const order = shuffle(Array.from({ length: pool }, (_, i) => i));
+    return Array.from({ length: count }, (_, i) => order[i % pool]);
   }
 
   /* ───────── Physics ───────── */
@@ -350,6 +307,7 @@ function initMarbleRoulette() {
     particles = [];
 
     const orders = shuffle(names.map((_, i) => i));
+    const spriteIndices = pickSpriteIndices(names.length);
     names.forEach((name, i) => {
       const order = orders[i];
       const maxLine = Math.ceil(names.length / 10);
@@ -364,6 +322,7 @@ function initMarbleRoulette() {
         name,
         hue,
         color: `hsl(${hue} 90% 65%)`,
+        spriteIdx: spriteIndices[i],
         active: false,
         finished: false,
         stuck: 0,
@@ -552,19 +511,30 @@ function initMarbleRoulette() {
     });
   }
 
+  function drawMarbleSprite(context, img, r) {
+    const size = r * 2;
+    const aspect = img.naturalWidth / img.naturalHeight;
+    let dw = size;
+    let dh = size;
+    if (aspect > 1) dw = size * aspect;
+    else dh = size / aspect;
+    context.drawImage(img, -dw / 2, -dh / 2, dw, dh);
+  }
+
   function drawMarble(context, m, highlight) {
     const r = MARBLE_RADIUS;
     const labelScale = 1 / (camera.zoom * INITIAL_ZOOM);
+    const sprite = marbleSprites[m.spriteIdx];
 
     context.save();
     context.translate(m.x, m.y);
     context.rotate(m.angle);
-    if (catImg.complete && catImg.naturalWidth) {
+    if (sprite?.complete && sprite.naturalWidth) {
       context.save();
       context.beginPath();
       context.arc(0, 0, r, 0, Math.PI * 2);
       context.clip();
-      context.drawImage(catImg, -r, -r, r * 2, r * 2);
+      drawMarbleSprite(context, sprite, r);
       context.restore();
     } else {
       context.fillStyle = m.color;
@@ -813,7 +783,7 @@ function initMarbleRoulette() {
     canvas.addEventListener('touchstart', (e) => { setFast(true); e.preventDefault(); }, { passive: false });
     canvas.addEventListener('touchend', () => setFast(false));
 
-    loadCatSprite();
+    loadMarbleSprites();
 
     panel.__pinballResize = () => { if (started) resize(); else boot(); };
 
