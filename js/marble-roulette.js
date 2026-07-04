@@ -85,6 +85,7 @@ function initMarbleRoulette() {
     const urls = getSpriteUrls();
     urls.forEach((url, i) => {
       const img = new Image();
+      img.referrerPolicy = 'no-referrer';
       img.onload = () => { draw(); };
       img.onerror = () => {};
       img.src = url;
