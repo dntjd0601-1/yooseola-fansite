@@ -90,7 +90,7 @@ function renderSuikaEvolution() {
     const size = Math.max(28, Math.round(tier.radius * 0.72));
     return `
       <div class="suika-game__evo-item" style="--evo-size:${size}px" title="${tier.name}">
-        <img src="${tier.image}" alt="${tier.name}" width="${size}" height="${size}" loading="lazy">
+        <img src="${tier.image}" alt="${tier.name}" width="${size}" height="${size}" loading="lazy" referrerpolicy="no-referrer">
         <span class="suika-game__evo-label">${index + 1}</span>
       </div>
     `;
@@ -164,7 +164,7 @@ function randomSuikaType() {
 }
 
 function suikaImgHtml(tier) {
-  return `<img src="${tier.image}" alt="${tier.name}" loading="eager" decoding="async">`;
+  return `<img src="${tier.image}" alt="${tier.name}" loading="eager" decoding="async" referrerpolicy="no-referrer">`;
 }
 
 function updateSuikaPreview(state) {
