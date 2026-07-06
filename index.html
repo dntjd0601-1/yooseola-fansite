@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Jua&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=20260702">
+  <link rel="stylesheet" href="css/style.css?v=20260712">
 </head>
 <body>
 
@@ -32,6 +32,7 @@
         <li><a href="#vod" class="nav__link">VOD</a></li>
         <li><a href="#gallery" class="nav__link">사진관</a></li>
         <li><a href="#memory-playlist" class="nav__link">추억의 플리</a></li>
+        <li><a href="#monthly-seola" class="nav__link">월간 설아</a></li>
         <li><a href="#churudan" class="nav__link">츄르단 공간</a></li>
       </ul>
     </nav>
@@ -414,6 +415,43 @@
       </div>
     </section>
 
+    <!-- 월간 설아 -->
+    <section class="section section--alt" id="monthly-seola">
+      <div class="container">
+        <div class="section__header">
+          <span class="section__label">Monthly</span>
+          <h2 class="section__title">월간 설아</h2>
+          <p class="section__desc">일정 메뉴처럼 월별로 넘기며, 방송 사진과 내용을 함께 볼 수 있어요.</p>
+          <a class="monthly-seola__source" id="monthlySeolaSource" href="https://docs.google.com/spreadsheets/d/1AJPoSE5AA9mgpzSSYuKG6oLpG3Ww71kMfHILqsu-JJs/edit?usp=sharing" target="_blank" rel="noopener noreferrer">구글 시트에서 보기</a>
+        </div>
+
+        <div class="schedule-board monthly-seola__board reveal" id="monthlySeolaBoard">
+          <div class="schedule-board__top">
+            <div class="schedule-board__heading">
+              <h3 class="schedule-board__title" id="monthlySeolaTitle"></h3>
+              <p class="schedule-board__subtitle" id="monthlySeolaSummary">설아 월간정리</p>
+            </div>
+            <div class="schedule-board__controls">
+              <div class="schedule-board__nav">
+                <button type="button" class="schedule-board__nav-btn" id="monthlySeolaPrev" aria-label="이전 달">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+                </button>
+                <button type="button" class="schedule-board__today" id="monthlySeolaToday">오늘</button>
+                <button type="button" class="schedule-board__nav-btn" id="monthlySeolaNext" aria-label="다음 달">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="schedule-board__weekdays">
+            <span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span>
+          </div>
+          <div class="schedule-board__grid schedule-board__grid--month" id="monthlySeolaDays"></div>
+        </div>
+      </div>
+    </section>
+
     <!-- 츄르단 공간 -->
     <section class="section section--alt" id="churudan">
       <div class="container">
@@ -726,6 +764,8 @@
   <script src="js/rolling-paper.js?v=20260611"></script>
   <script src="js/memory-playlist-data.js?v=20260706"></script>
   <script src="js/memory-playlist.js?v=20260628"></script>
+  <script src="js/monthly-seola-data.js?v=20260712"></script>
+  <script src="js/monthly-seola.js?v=20260713"></script>
   <script src="js/profile-history-data.js?v=20260629"></script>
   <script src="js/profile-history.js?v=20260626"></script>
   <script src="js/main.js?v=20260701"></script>

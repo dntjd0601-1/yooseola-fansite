@@ -11,7 +11,8 @@ $dataFiles = @(
     @{ path = 'js/schedule-data.js'; mode = 'hash' },
     @{ path = 'js/gallery-data.js'; mode = 'date' },
     @{ path = 'js/vod-data.js'; mode = 'date' },
-    @{ path = 'js/memory-playlist-data.js'; mode = 'date' }
+    @{ path = 'js/memory-playlist-data.js'; mode = 'date' },
+    @{ path = 'js/monthly-seola-data.js'; mode = 'date' }
 )
 
 function Get-CacheVersion([string]$relativePath, [string]$mode) {
