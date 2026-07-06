@@ -4598,3 +4598,51 @@ body.is-memory-playlist .nav-player__btn:hover:not(:disabled) {
     font-size: 1.75rem;
   }
 }
+
+/* ── 월간 설아 ── */
+.monthly-seola__source {
+  display: inline-flex;
+  margin-top: 12px;
+  font-size: 0.9rem;
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+.monthly-seola__source:hover {
+  text-decoration: underline;
+}
+
+.monthly-seola__board .schedule-board__top {
+  margin-bottom: 0;
+}
+
+.monthly-seola__cell {
+  min-height: 220px;
+}
+
+.monthly-seola__photo {
+  margin: 8px 0 6px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: rgba(94, 184, 232, 0.06);
+  aspect-ratio: 16 / 9;
+}
+
+.monthly-seola__photo-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.monthly-seola__cell .cal-event__title {
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+@media (max-width: 768px) {
+  .monthly-seola__cell {
+    min-height: 180px;
+  }
+}

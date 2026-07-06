@@ -45,6 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initHeroSchedule();
   initHeroLive();
   initCalendar();
+  initMonthlySeola();
   initScrollReveal();
   initGallery();
 });
