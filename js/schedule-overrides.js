@@ -6,9 +6,9 @@
   "2026-07-05": [{ "type": "live", "title": "휴방" }],
   "2026-07-06": [{ "type": "live", "title": "휴방" }],
   "2026-07-07": [{ "type": "live", "title": "소통방송" }],
-  "2026-07-10": [{ "type": "live", "title": "제주도 한라산 공약" }],
-  "2026-07-11": [{ "type": "live", "title": "제주도 한라산 공약" }],
-  "2026-07-12": [{ "type": "live", "title": "제주도 한라산 공약" }]
+  "2026-07-10": [{ "type": "special", "title": "제주도 한라산 공약" }],
+  "2026-07-11": [{ "type": "special", "title": "제주도 한라산 공약" }],
+  "2026-07-12": [{ "type": "special", "title": "제주도 한라산 공약" }]
 };
   Object.keys(overrides).forEach((date) => {
     SCHEDULE_EVENTS[date] = overrides[date];
