@@ -39,7 +39,24 @@ function getScheduleDisplay(ev) {
   return { off: true, badge: '휴방', title: rest };
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+const SCHEDULE_OVERRIDE_URL =
+  'https://dntjd0601-1.github.io/yooseola-fansite/schedule-overrides.json';
+
+async function loadScheduleOverrides() {
+  if (typeof SCHEDULE_EVENTS === 'undefined') return;
+
+  try {
+    const res = await fetch(`${SCHEDULE_OVERRIDE_URL}?v=${Date.now()}`);
+    if (!res.ok) return;
+    const overrides = await res.json();
+    Object.entries(overrides).forEach(([date, events]) => {
+      SCHEDULE_EVENTS[date] = events;
+    });
+  } catch (_) {}
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+  await loadScheduleOverrides();
   initPageViews();
   initNavigation();
   initHeroSchedule();
