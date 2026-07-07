@@ -1,5 +1,18 @@
 const monthlySeolaMonths = Array.isArray(MONTHLY_SEOLA_MONTHS) ? MONTHLY_SEOLA_MONTHS : [];
-const MONTHLY_SEOLA_IMAGE_PROXY = '/.netlify/functions/monthly-seola-image';
+const MONTHLY_SEOLA_NETLIFY_ORIGIN = 'https://yooseolafansite.netlify.app';
+
+function getMonthlySeolaImageProxyBase() {
+  const host = window.location.hostname;
+  if (host.endsWith('.netlify.app') || host === 'localhost' || host === '127.0.0.1') {
+    return '/.netlify/functions/monthly-seola-image';
+  }
+  return `${MONTHLY_SEOLA_NETLIFY_ORIGIN}/.netlify/functions/monthly-seola-image`;
+}
+
+function getMonthlySeolaImageUrl(url) {
+  if (!url) return null;
+  return `${getMonthlySeolaImageProxyBase()}?url=${encodeURIComponent(url)}`;
+}
 
 function formatMonthlySeolaSummary(text) {
   if (!text) return '설아 월간정리';
@@ -7,11 +20,6 @@ function formatMonthlySeolaSummary(text) {
     .replace(/^[가-힣]+\([A-Z]+\)\s*/, '')
     .replace(/\s+/g, ' ')
     .trim();
-}
-
-function getMonthlySeolaImageUrl(url) {
-  if (!url) return null;
-  return `${MONTHLY_SEOLA_IMAGE_PROXY}?url=${encodeURIComponent(url)}`;
 }
 
 function isMonthlySeolaOffDay(text) {

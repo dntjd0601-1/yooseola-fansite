@@ -6,6 +6,12 @@
   SECRETS_SCAN_ENABLED = "false"
   SECRETS_SCAN_SMART_DETECTION_ENABLED = "false"
 
+# Netlify Functions는 GitHub Pages 프록시보다 우선
+[[redirects]]
+  from = "/.netlify/functions/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
 # Netlify 정적 파일이 구버전이어도 GitHub Pages 최신본을 프록시 (Functions는 Netlify 유지)
 [[redirects]]
   from = "/*"
