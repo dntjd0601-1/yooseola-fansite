@@ -439,6 +439,11 @@ body.is-home .footer {
   border-left-color: #e879a8;
 }
 
+.hero__schedule-item--special {
+  background: rgba(224, 69, 69, 0.1);
+  border-left-color: #e04545;
+}
+
 .hero__schedule-badge {
   display: inline-block;
   margin-bottom: 4px;
@@ -459,8 +464,17 @@ body.is-home .footer {
   background: rgba(232, 121, 168, 0.22);
 }
 
+.hero__schedule-item--special .hero__schedule-badge {
+  color: #c62828;
+  background: rgba(224, 69, 69, 0.18);
+}
+
 .hero__schedule-item--off .hero__schedule-title {
   color: #b84d7a;
+}
+
+.hero__schedule-item--special .hero__schedule-title {
+  color: #b71c1c;
 }
 
 .hero__schedule-title {
@@ -3174,6 +3188,10 @@ body.is-home .footer {
   background: #e879a8;
 }
 
+.cal-cell__mark--special {
+  background: #e04545;
+}
+
 .cal-cell__events {
   display: flex;
   flex-direction: column;
@@ -3197,6 +3215,11 @@ body.is-home .footer {
   border-left-color: #e879a8;
 }
 
+.cal-event--special {
+  background: rgba(224, 69, 69, 0.1);
+  border-left-color: #e04545;
+}
+
 .cal-event__badge {
   display: inline-block;
   margin-bottom: 4px;
@@ -3217,6 +3240,11 @@ body.is-home .footer {
   background: rgba(232, 121, 168, 0.22);
 }
 
+.cal-event--special .cal-event__badge {
+  color: #c62828;
+  background: rgba(224, 69, 69, 0.18);
+}
+
 .cal-event__title {
   font-size: 0.76rem;
   font-weight: 600;
@@ -3228,6 +3256,10 @@ body.is-home .footer {
 
 .cal-event--off .cal-event__title {
   color: #b84d7a;
+}
+
+.cal-event--special .cal-event__title {
+  color: #b71c1c;
 }
 
 /* ── Timeline ── */

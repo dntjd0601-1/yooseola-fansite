@@ -20,23 +20,34 @@ function decodeScheduleTitle(title) {
 
 function isScheduleOff(ev) {
   if (!ev) return false;
+  if (ev.type === 'special') return false;
   if (ev.type === 'off') return true;
   const plain = decodeScheduleTitle(ev.title);
   if (!plain) return false;
   return plain === '휴방' || plain === '튜방' || /^휴방\b/.test(plain);
 }
 
+function getScheduleKind(ev) {
+  if (!ev) return 'live';
+  if (ev.type === 'special') return 'special';
+  if (ev.type === 'off' || isScheduleOff(ev)) return 'off';
+  return 'live';
+}
+
 function getScheduleDisplay(ev) {
-  const off = isScheduleOff(ev);
+  const kind = getScheduleKind(ev);
   const plain = decodeScheduleTitle(ev.title);
-  if (!off) {
-    return { off: false, badge: '방송', title: plain };
+  if (kind === 'special') {
+    return { kind, off: false, badge: '일정', title: plain };
   }
-  if (plain === '휴방' || plain === '튜방') {
-    return { off: true, badge: '휴방', title: '' };
+  if (kind === 'off') {
+    if (plain === '휴방' || plain === '튜방') {
+      return { kind, off: true, badge: '휴방', title: '' };
+    }
+    const rest = plain.replace(/^휴방\s*\+?\s*/, '').trim();
+    return { kind, off: true, badge: '휴방', title: rest };
   }
-  const rest = plain.replace(/^휴방\s*\+?\s*/, '').trim();
-  return { off: true, badge: '휴방', title: rest };
+  return { kind: 'live', off: false, badge: '방송', title: plain };
 }
 
 const SCHEDULE_OVERRIDE_URL =
@@ -443,7 +454,7 @@ function createHeroScheduleCard(date, label) {
     events.forEach((ev) => {
       const display = getScheduleDisplay(ev);
       const item = document.createElement('div');
-      item.className = `hero__schedule-item${display.off ? ' hero__schedule-item--off' : ''}`;
+      item.className = `hero__schedule-item${display.kind !== 'live' ? ` hero__schedule-item--${display.kind}` : ''}`;
 
       const badge = document.createElement('span');
       badge.className = 'hero__schedule-badge';
@@ -592,7 +603,7 @@ function initCalendar() {
   function createEventEl(ev) {
     const display = getScheduleDisplay(ev);
     const item = document.createElement('div');
-    item.className = `cal-event${display.off ? ' cal-event--off' : ' cal-event--live'}`;
+    item.className = `cal-event cal-event--${display.kind}`;
 
     const badge = document.createElement('span');
     badge.className = 'cal-event__badge';
@@ -641,7 +652,7 @@ function initCalendar() {
 
     if (events.length) {
       const mark = document.createElement('span');
-      mark.className = `cal-cell__mark cal-cell__mark--${isScheduleOff(events[0]) ? 'off' : 'live'}`;
+      mark.className = `cal-cell__mark cal-cell__mark--${getScheduleKind(events[0])}`;
       mark.setAttribute('aria-label', '일정 있음');
       head.appendChild(mark);
     }
