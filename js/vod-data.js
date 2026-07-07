@@ -38,7 +38,7 @@ const VOD_DATA = {
     { title: 'GTA 인생모드 수상한 피자집, 모슈 [요양타운]', url: 'https://www.youtube.com/watch?v=BLRcHNBVI1M', thumb: 'https://i.ytimg.com/vi/BLRcHNBVI1M/hqdefault.jpg', date: '', duration: '', views: 0 },
   ],
   shorts: [
-    { title: '두번이나 말끊기는 유설아 #킴성태 #천양 #고래시티', url: 'https://www.youtube.com/shorts/rRgy2goNGek', thumb: 'https://i.ytimg.com/vi/rRgy2goNGek/hqdefault.jpg', date: '2026.07.06', duration: '', views: 4380 },
+    { title: '두번이나 말끊기는 유설아 #킴성태 #천양 #고래시티', url: 'https://www.youtube.com/shorts/rRgy2goNGek', thumb: 'https://i.ytimg.com/vi/rRgy2goNGek/hqdefault.jpg', date: '2026.07.06', duration: '', views: 4389 },
     { title: '납치된 유설아가 풀려난 방법 #감스트 #고래시티', url: 'https://www.youtube.com/shorts/syoHUHEdwYA', thumb: 'https://i.ytimg.com/vi/syoHUHEdwYA/hqdefault.jpg', date: '2026.07.04', duration: '', views: 19775 },
     { title: '서로 똑같은 버컴 1인자와 2인자 #감스트 #유설아 #스캠라인', url: 'https://www.youtube.com/shorts/p06SyMau_Rk', thumb: 'https://i.ytimg.com/vi/p06SyMau_Rk/hqdefault.jpg', date: '2026.06.23', duration: '', views: 7343 },
     { title: '쉬 이즈 근근두두 설창맨 #유설아 #감스트 #스캠라인', url: 'https://www.youtube.com/shorts/N09B8M7ghno', thumb: 'https://i.ytimg.com/vi/N09B8M7ghno/hqdefault.jpg', date: '2026.06.21', duration: '', views: 7268 },
