@@ -9,6 +9,7 @@ $dateStamp = (Get-Date).ToUniversalTime().AddHours(9).ToString('yyyyMMdd')
 
 $dataFiles = @(
     @{ path = 'js/schedule-data.js'; mode = 'hash' },
+    @{ path = 'js/schedule-overrides.js'; mode = 'hash' },
     @{ path = 'js/gallery-data.js'; mode = 'date' },
     @{ path = 'js/vod-data.js'; mode = 'date' },
     @{ path = 'js/memory-playlist-data.js'; mode = 'date' },

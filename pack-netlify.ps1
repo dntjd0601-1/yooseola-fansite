@@ -7,6 +7,10 @@ New-Item -ItemType Directory -Path (Join-Path $out 'css'), (Join-Path $out 'js')
 
 Copy-Item (Join-Path $root 'index.html') $out
 Copy-Item (Join-Path $root 'netlify.toml') $out
+if (Test-Path (Join-Path $root 'schedule-overrides.json')) {
+    Copy-Item (Join-Path $root 'schedule-overrides.json') $out
+}
+& (Join-Path $root 'build-schedule-overrides-js.ps1')
 Copy-Item (Join-Path $root 'css/style.css') (Join-Path $out 'css')
 Copy-Item (Join-Path $root 'js/*.js') (Join-Path $out 'js')
 $vendorDir = Join-Path $root 'js/vendor'

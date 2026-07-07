@@ -127,4 +127,5 @@ foreach ($kv in $allEvents.GetEnumerator() | Sort-Object Name) {
 [void]$sb.AppendLine('};')
 $outPath = Join-Path $root 'js\schedule-data.js'
 [System.IO.File]::WriteAllText($outPath, $sb.ToString(), [System.Text.Encoding]::UTF8)
+& (Join-Path $root 'build-schedule-overrides-js.ps1')
 Write-Output "Articles: $($targets.Count), Events: $(($allEvents.Keys).Count)"
