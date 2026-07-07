@@ -6,6 +6,13 @@
   SECRETS_SCAN_ENABLED = "false"
   SECRETS_SCAN_SMART_DETECTION_ENABLED = "false"
 
+# Netlify 정적 파일이 구버전이어도 GitHub Pages 최신본을 프록시 (Functions는 Netlify 유지)
+[[redirects]]
+  from = "/*"
+  to = "https://dntjd0601-1.github.io/yooseola-fansite/:splat"
+  status = 200
+  force = true
+
 [functions]
   directory = "netlify/functions"
   node_bundler = "esbuild"
