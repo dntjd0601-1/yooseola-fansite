@@ -1,18 +1,22 @@
 /**
- * Site entry popup — 버컴퍼니 1주년 축하
+ * Site entry popup — 7월 9일 버컴퍼니 1주년
  */
 (function () {
-  const STORAGE_KEY = 'fansite:vercompany-1st-popup:v1';
-  const HIDE_TODAY_KEY = 'fansite:vercompany-1st-popup-hide-date';
+  const HIDE_TODAY_KEY = 'fansite:vercompany-1st-popup-july9:v2';
+
+  function getKstDateString(date = new Date()) {
+    return new Intl.DateTimeFormat('en-CA', {
+      timeZone: 'Asia/Seoul',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    }).format(date);
+  }
 
   function shouldShowPopup() {
     try {
-      if (localStorage.getItem(STORAGE_KEY) === '1') return false;
       const hideDate = localStorage.getItem(HIDE_TODAY_KEY);
-      if (hideDate) {
-        const today = new Date().toISOString().slice(0, 10);
-        if (hideDate === today) return false;
-      }
+      if (hideDate && hideDate === getKstDateString()) return false;
     } catch (_) {}
     return true;
   }
@@ -27,25 +31,22 @@
   function showPopup(popup) {
     if (!popup) return;
     popup.hidden = false;
+    popup.removeAttribute('hidden');
     popup.setAttribute('aria-hidden', 'false');
     document.body.classList.add('site-popup-open');
-    const focusTarget = popup.querySelector('.site-popup__confirm');
-    focusTarget?.focus();
+    popup.querySelector('.site-popup__confirm')?.focus();
   }
 
   function persistDismiss(hideToday) {
+    if (!hideToday) return;
     try {
-      if (hideToday) {
-        localStorage.setItem(HIDE_TODAY_KEY, new Date().toISOString().slice(0, 10));
-      } else {
-        localStorage.setItem(STORAGE_KEY, '1');
-      }
+      localStorage.setItem(HIDE_TODAY_KEY, getKstDateString());
     } catch (_) {}
   }
 
   function initVercompanyAnniversaryPopup() {
     const popup = document.getElementById('vercompanyAnniversaryPopup');
-    if (!popup || !shouldShowPopup()) return;
+    if (!popup) return;
 
     const backdrop = document.getElementById('vercompanyAnniversaryBackdrop');
     const closeBtn = document.getElementById('vercompanyAnniversaryClose');
@@ -53,8 +54,7 @@
     const hideTodayCheckbox = document.getElementById('vercompanyAnniversaryHideToday');
 
     function closePopup() {
-      const hideToday = Boolean(hideTodayCheckbox?.checked);
-      persistDismiss(hideToday);
+      persistDismiss(Boolean(hideTodayCheckbox?.checked));
       hidePopup(popup);
     }
 
@@ -66,7 +66,9 @@
       if (event.key === 'Escape' && !popup.hidden) closePopup();
     });
 
-    window.setTimeout(() => showPopup(popup), 400);
+    if (!shouldShowPopup()) return;
+
+    window.setTimeout(() => showPopup(popup), 300);
   }
 
   if (document.readyState === 'loading') {
