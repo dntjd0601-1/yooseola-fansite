@@ -1,15 +1,17 @@
 /**
- * Site entry popup — 7월 9일 버컴퍼니 1주년
+ * Site entry popup - Vercompany 1st anniversary (July 9)
+ * Korean copy uses Unicode escapes to survive Windows git encoding issues.
  */
 (function () {
   const COPY = {
-    title: '7월 9일 버컴퍼니 1주년',
-    subtitle: '축하합니다!',
-    desc: '7월 9일, 버컴퍼니 1주년을 함께 축하해 주세요. 앞으로도 설아와 버컴퍼니와 함께해 주세요.',
-    hideToday: '오늘 하루 보지 않기',
-    confirm: '축하합니다! \uD83C\uDF89',
-    close: '닫기',
-    imageAlt: '7월 9일 버컴퍼니 1주년 축하 이미지',
+    title: '\u0037\uC6D4 \u0039\uC77C \uBC84\uCEF4\uD37C\uB2C8 1\uC8FC\uB144',
+    subtitle: '\uCD95\uD558\uD569\uB2C8\uB2E4!',
+    desc:
+      '\u0037\uC6D4 \u0039\uC77C, \uBC84\uCEF4\uD37C\uB2C8 1\uC8FC\uB144\uC744 \uD568\uAED8 \uCD95\uD558\uD574 \uC8FC\uC138\uC694. \uC55E\uC73C\uB85C\uB3C4 \uC124\uC544\uC640 \uBC84\uCEF4\uD37C\uB2C8\uC640 \uD568\uAED8\uD574 \uC8FC\uC138\uC694.',
+    hideToday: '\uC624\uB298 \uD558\uB8E8 \uBCF4\uC9C0 \uC54A\uAE30',
+    confirm: '\uCD95\uD558\uD569\uB2C8\uB2E4! \uD83C\uDF89',
+    close: '\uB2EB\uAE30',
+    imageAlt: '\u0037\uC6D4 \u0039\uC77C \uBC84\uCEF4\uD37C\uB2C8 1\uC8FC\uB144 \uCD95\uD558 \uC774\uBBF8\uC9C0',
   };
 
   const HIDE_TODAY_KEY = 'fansite:vercompany-1st-popup-july9:v2';
