@@ -2,6 +2,16 @@
  * Site entry popup — 7월 9일 버컴퍼니 1주년
  */
 (function () {
+  const COPY = {
+    title: '7월 9일 버컴퍼니 1주년',
+    subtitle: '축하합니다!',
+    desc: '7월 9일, 버컴퍼니 1주년을 함께 축하해 주세요. 앞으로도 설아와 버컴퍼니와 함께해 주세요.',
+    hideToday: '오늘 하루 보지 않기',
+    confirm: '축하합니다! \uD83C\uDF89',
+    close: '닫기',
+    imageAlt: '7월 9일 버컴퍼니 1주년 축하 이미지',
+  };
+
   const HIDE_TODAY_KEY = 'fansite:vercompany-1st-popup-july9:v2';
 
   function getKstDateString(date = new Date()) {
@@ -44,9 +54,32 @@
     } catch (_) {}
   }
 
+  function applyPopupCopy(popup) {
+    const titleEl = document.getElementById('vercompanyAnniversaryTitle');
+    const subtitleEl = document.getElementById('vercompanyAnniversarySubtitle');
+    const descEl = document.getElementById('vercompanyAnniversaryDesc');
+    const hideLabelEl = document.getElementById('vercompanyAnniversaryHideLabel');
+    const confirmEl = document.getElementById('vercompanyAnniversaryConfirm');
+    const imageEl = document.getElementById('vercompanyAnniversaryImage');
+    const backdrop = document.getElementById('vercompanyAnniversaryBackdrop');
+    const closeBtn = document.getElementById('vercompanyAnniversaryClose');
+
+    if (titleEl) titleEl.textContent = COPY.title;
+    if (subtitleEl) subtitleEl.textContent = COPY.subtitle;
+    if (descEl) descEl.textContent = COPY.desc;
+    if (hideLabelEl) hideLabelEl.textContent = COPY.hideToday;
+    if (confirmEl) confirmEl.textContent = COPY.confirm;
+    if (imageEl) imageEl.alt = COPY.imageAlt;
+    if (backdrop) backdrop.setAttribute('aria-label', COPY.close);
+    if (closeBtn) closeBtn.setAttribute('aria-label', COPY.close);
+    if (popup) popup.setAttribute('aria-labelledby', 'vercompanyAnniversaryTitle');
+  }
+
   function initVercompanyAnniversaryPopup() {
     const popup = document.getElementById('vercompanyAnniversaryPopup');
     if (!popup) return;
+
+    applyPopupCopy(popup);
 
     const backdrop = document.getElementById('vercompanyAnniversaryBackdrop');
     const closeBtn = document.getElementById('vercompanyAnniversaryClose');
