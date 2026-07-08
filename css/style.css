@@ -1894,6 +1894,176 @@ body.is-home .footer {
   }
 }
 
+/* Site entry popup — 버컴 1주년 */
+body.site-popup-open {
+  overflow: hidden;
+}
+
+.site-popup {
+  position: fixed;
+  inset: 0;
+  z-index: 1300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.site-popup[hidden] {
+  display: none !important;
+}
+
+.site-popup__backdrop {
+  position: absolute;
+  inset: 0;
+  padding: 0;
+  border: 0;
+  background: rgba(8, 6, 12, 0.78);
+  backdrop-filter: blur(6px);
+  cursor: pointer;
+}
+
+.site-popup__card {
+  position: relative;
+  z-index: 1;
+  width: min(94vw, 560px);
+  max-height: min(92vh, 860px);
+  overflow: auto;
+  border-radius: var(--radius-lg);
+  border: 2px solid rgba(212, 175, 55, 0.55);
+  background: linear-gradient(180deg, #1a1410 0%, #0d0b0f 100%);
+  box-shadow:
+    0 28px 80px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(212, 175, 55, 0.12) inset,
+    0 0 48px rgba(212, 175, 55, 0.12);
+  animation: ladderPopupIn 0.4s ease;
+}
+
+.site-popup__card--anniversary {
+  color: #f8f0dc;
+}
+
+.site-popup__x {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.55);
+  color: #f8f0dc;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.site-popup__x:hover {
+  background: rgba(212, 175, 55, 0.35);
+  transform: scale(1.05);
+}
+
+.site-popup__hero {
+  overflow: hidden;
+  border-radius: calc(var(--radius-lg) - 2px) calc(var(--radius-lg) - 2px) 0 0;
+  background: #000;
+}
+
+.site-popup__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.site-popup__body {
+  padding: 22px 24px 26px;
+  text-align: center;
+}
+
+.site-popup__badge {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.site-popup__title {
+  margin: 0 0 6px;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 5vw, 2rem);
+  font-weight: 400;
+  line-height: 1.25;
+  color: #f5d77a;
+  word-break: keep-all;
+}
+
+.site-popup__subtitle {
+  margin: 0 0 10px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #fff;
+  word-break: keep-all;
+}
+
+.site-popup__desc {
+  margin: 0 0 18px;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: rgba(248, 240, 220, 0.78);
+  word-break: keep-all;
+}
+
+.site-popup__remember {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  font-size: 0.88rem;
+  color: rgba(248, 240, 220, 0.72);
+  cursor: pointer;
+  user-select: none;
+}
+
+.site-popup__remember input {
+  width: 16px;
+  height: 16px;
+  accent-color: #d4af37;
+}
+
+.site-popup__confirm {
+  min-width: 180px;
+  padding: 12px 28px;
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: inherit;
+  color: #1a1410;
+  background: linear-gradient(135deg, #f5d77a 0%, #d4af37 55%, #b8942e 100%);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.35);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.site-popup__confirm:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(212, 175, 55, 0.45);
+}
+
+@media (max-width: 480px) {
+  .site-popup {
+    padding: 12px;
+  }
+
+  .site-popup__body {
+    padding: 18px 16px 22px;
+  }
+}
+
 /* ── Stork Walk (황새 오래 걷기) ── */
 .stork-walk {
   display: grid;
