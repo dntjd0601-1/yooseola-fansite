@@ -132,6 +132,7 @@ function onMemoryPlayerStateChange(event) {
   updateNavMusicControls();
 
   if (event.data === PlayerState.PLAYING) {
+    window.SiteBgm?.pauseForOverlay?.();
     const playlistIndex = memoryPlaylistPlayer?.getPlaylistIndex?.();
     if (
       typeof playlistIndex === 'number'
@@ -146,6 +147,10 @@ function onMemoryPlayerStateChange(event) {
 
   if (event.data === PlayerState.ENDED) {
     nextMemoryTrack();
+  }
+
+  if (event.data === PlayerState.PAUSED) {
+    window.SiteBgm?.resumeIfEnabled?.();
   }
 }
 

@@ -20,7 +20,7 @@ function decodeScheduleTitle(title) {
 
 function isScheduleOff(ev) {
   if (!ev) return false;
-  if (ev.type === 'special') return false;
+  if (ev.type === 'special' || ev.type === 'celebration') return false;
   if (ev.type === 'off') return true;
   const plain = decodeScheduleTitle(ev.title);
   if (!plain) return false;
@@ -29,6 +29,7 @@ function isScheduleOff(ev) {
 
 function getScheduleKind(ev) {
   if (!ev) return 'live';
+  if (ev.type === 'celebration') return 'celebration';
   if (ev.type === 'special') return 'special';
   if (ev.type === 'off' || isScheduleOff(ev)) return 'off';
   return 'live';
@@ -37,6 +38,9 @@ function getScheduleKind(ev) {
 function getScheduleDisplay(ev) {
   const kind = getScheduleKind(ev);
   const plain = decodeScheduleTitle(ev.title);
+  if (kind === 'celebration') {
+    return { kind, off: false, badge: '🎉 축하', title: plain };
+  }
   if (kind === 'special') {
     return { kind, off: false, badge: '일정', title: plain };
   }
@@ -634,6 +638,7 @@ function initCalendar() {
     if (dayOfWeek === 0) cell.classList.add('cal-cell--sunday');
     if (dayOfWeek === 6) cell.classList.add('cal-cell--saturday');
     if (dateStr === todayStr) cell.classList.add('cal-cell--today');
+    if (events.some((ev) => ev.type === 'celebration')) cell.classList.add('cal-cell--celebration');
 
     const head = document.createElement('div');
     head.className = 'cal-cell__head';
