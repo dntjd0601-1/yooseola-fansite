@@ -54,7 +54,15 @@ function Get-DateFromCell([string]$html) {
 }
 
 function Test-WeekdayHeaderRow([string]$rowHtml) {
-    return $rowHtml -match 'SUN|MON|TUE|WED'
+    $cells = Get-TdCells $rowHtml
+    if (-not $cells -or $cells.Count -lt 7) { return $false }
+
+    $weekdays = @('SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT')
+    for ($i = 0; $i -lt 7; $i++) {
+        $plain = (Get-CellPlainText $cells[$i]).ToUpperInvariant()
+        if ($plain -ne $weekdays[$i]) { return $false }
+    }
+    return $true
 }
 
 function Test-MetadataCell([string]$html) {
