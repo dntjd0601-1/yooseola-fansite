@@ -4924,6 +4924,11 @@ body.is-memory-playlist .nav-player__btn:hover:not(:disabled) {
   color: rgba(180, 204, 235, 0.78);
 }
 
+.memory-playlist__track-mood--main {
+  color: #e8c86a;
+  font-weight: 700;
+}
+
 @media (max-width: 900px) {
   .memory-playlist {
     padding-top: calc(var(--header-height) + 28px);

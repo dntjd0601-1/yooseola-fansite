@@ -75,6 +75,10 @@
     } catch (_) {}
   }
 
+  function isMemoryPlaylistActive() {
+    return document.body.classList.contains('is-memory-playlist');
+  }
+
   function updateToggleUI() {
     const toggle = document.getElementById('siteBgmToggle');
     if (!toggle) return;
@@ -171,7 +175,7 @@
   }
 
   function unlockFromGesture() {
-    if (bgmMuted || !bgmReady) return;
+    if (isMemoryPlaylistActive() || bgmMuted || !bgmReady) return;
     bgmPausedByOverlay = false;
     if (!bgmPlaying) {
       playBgm({ audible: true, fromStart: true });
@@ -189,7 +193,7 @@
   }
 
   function tryMutedAutoplay() {
-    if (!bgmReady || bgmMuted || bgmPlaying || bgmPausedByOverlay) return;
+    if (isMemoryPlaylistActive() || !bgmReady || bgmMuted || bgmPlaying || bgmPausedByOverlay) return;
     playBgm({ audible: false, fromStart: true });
   }
 
@@ -276,6 +280,21 @@
     bindDockControls();
     toggle.addEventListener('click', toggleBgm);
     bindGestureUnlock();
+
+    document.addEventListener('memory-playlist:show', () => {
+      pauseForOverlay();
+    });
+
+    document.addEventListener('memory-playlist:hide', () => {
+      if (bgmMuted) return;
+      bgmPausedByOverlay = false;
+      if (!bgmPlaying) {
+        window.setTimeout(() => tryMutedAutoplay(), 200);
+      } else {
+        applyAudibleState();
+        showBgmDock();
+      }
+    });
 
     ensureYouTubeApi().then(() => {
       bgmPlayer = new YT.Player('siteBgmMount', {
