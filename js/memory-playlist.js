@@ -200,12 +200,10 @@ function playMemoryTrack(index) {
   syncTrackListUI();
 
   if (isMainTrack(track)) {
-    withPlayerReady(() => {
-      memoryPlaylistPlayer?.pauseVideo?.();
-    });
     memoryPlaylistPlaying = false;
     memoryPlaylistUsingOwnPlayer = false;
     hideNavMusicPlayer();
+    showMainTrackInMemoryPlayer();
     window.SiteBgm?.resumeBgm?.();
     return;
   }
@@ -257,6 +255,22 @@ function getMemoryStartIndex() {
   return getMainTrackIndex();
 }
 
+function showMainTrackInMemoryPlayer() {
+  const track = memoryPlaylistItems[getMainTrackIndex()] || MEMORY_MAIN_TRACK;
+  const startSeconds = window.SiteBgm?.isPlaying?.()
+    ? (window.SiteBgm.getCurrentTime?.() || 0)
+    : 0;
+
+  withPlayerReady(() => {
+    if (!memoryPlaylistPlayer) return;
+    memoryPlaylistPlayer.mute?.();
+    memoryPlaylistPlayer.cueVideoById({
+      videoId: track.videoId,
+      startSeconds,
+    });
+  });
+}
+
 function syncMemoryPlaylistWithBgm() {
   if (!memoryPlaylistItems.length) return;
 
@@ -266,6 +280,7 @@ function syncMemoryPlaylistWithBgm() {
   memoryPlaylistActiveIndex = mainIndex;
   updateNowPlayingUI(memoryPlaylistItems[mainIndex]);
   hideNavMusicPlayer();
+  showMainTrackInMemoryPlayer();
   window.SiteBgm?.showDock?.();
 }
 

@@ -364,6 +364,7 @@
   window.SiteBgm = {
     isPlaying: () => bgmPlaying,
     isMuted: () => bgmMuted,
+    getCurrentTime: () => bgmPlayer?.getCurrentTime?.() ?? 0,
     pauseForOverlay,
     resumeIfEnabled,
     resumeBgm,
