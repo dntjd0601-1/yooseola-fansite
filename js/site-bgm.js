@@ -1,18 +1,16 @@
 /**
- * Homepage background music - Brown Eyes "Already One Year"
+ * Homepage background music
  */
 (function () {
   const MAIN = window.SITE_MAIN_SONG || {
     title: [
-      String.fromCodePoint(0xBE0C, 0xB77C, 0xC6B4),
-      ' ',
-      String.fromCodePoint(0xC544, 0xC774, 0xC988),
+      String.fromCodePoint(0xB9DD, 0xAD6C, 0xB791),
       ' - ',
-      String.fromCodePoint(0xBC8C, 0xC368),
+      String.fromCodePoint(0xBC84, 0xCEF4, 0xD37C, 0xB2C8, 0xC8FC, 0xB144),
       ' ',
-      String.fromCodePoint(0xC77C, 0xB144),
+      String.fromCodePoint(0xCEE4, 0xBC84, 0xACE1),
     ].join(''),
-    videoId: 'U89YuK4SD9E',
+    videoId: 'XtVEV7wh76A',
   };
 
   const BGM_VIDEO_ID = MAIN.videoId;

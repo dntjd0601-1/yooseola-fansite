@@ -2,16 +2,14 @@ const PLAYLIST_FEED_API = '/.netlify/functions/youtube-playlist';
 
 const MEMORY_MAIN_TRACK = {
   title: window.SITE_MAIN_SONG?.title || [
-    String.fromCodePoint(0xBE0C, 0xB77C, 0xC6B4),
-    ' ',
-    String.fromCodePoint(0xC544, 0xC774, 0xC988),
+    String.fromCodePoint(0xB9DD, 0xAD6C, 0xB791),
     ' - ',
-    String.fromCodePoint(0xBC8C, 0xC368),
+    String.fromCodePoint(0xBC84, 0xCEF4, 0xD37C, 0xB2C8, 0xC8FC, 0xB144),
     ' ',
-    String.fromCodePoint(0xC77C, 0xB144),
+    String.fromCodePoint(0xCEE4, 0xBC84, 0xACE1),
   ].join(''),
-  videoId: window.SITE_MAIN_SONG?.videoId || 'U89YuK4SD9E',
-  thumb: window.SITE_MAIN_SONG?.thumb || 'https://i.ytimg.com/vi/U89YuK4SD9E/hqdefault.jpg',
+  videoId: window.SITE_MAIN_SONG?.videoId || 'XtVEV7wh76A',
+  thumb: window.SITE_MAIN_SONG?.thumb || 'https://i.ytimg.com/vi/XtVEV7wh76A/hqdefault.jpg',
   mood: window.SITE_MAIN_SONG?.mood || '\uBA54\uC778',
   isMainTrack: true,
 };
