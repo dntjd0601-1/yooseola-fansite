@@ -76,20 +76,12 @@
     } catch (_) {}
   }
 
-  function isHomeActive() {
-    return document.body.classList.contains('is-home');
-  }
-
-  function isMemoryPlaylistActive() {
-    return document.body.classList.contains('is-memory-playlist');
-  }
-
   function isOtherMusicPlaying() {
     return Boolean(window.MemoryPlaylist?.isPlaying?.());
   }
 
   function canPlayBgm() {
-    return isHomeActive() && !isMemoryPlaylistActive() && !isOtherMusicPlaying();
+    return !isOtherMusicPlaying();
   }
 
   function updateToggleUI() {
@@ -114,12 +106,10 @@
   }
 
   function showBgmDock() {
-    if (!canPlayBgm()) {
+    if (bgmMuted || isOtherMusicPlaying()) {
       hideBgmDock();
       return;
     }
-    const memoryDock = document.getElementById('navMusicPlayer');
-    if (memoryDock && !memoryDock.hidden) return;
     const dock = document.getElementById('siteBgmDock');
     if (dock) dock.hidden = false;
     updateDockControls();
@@ -132,7 +122,7 @@
   }
 
   function syncDockVisibility() {
-    if (bgmMuted || bgmPausedByOverlay || !canPlayBgm()) {
+    if (bgmMuted || bgmPausedByOverlay || isOtherMusicPlaying()) {
       hideBgmDock();
       return;
     }
@@ -215,12 +205,13 @@
     playBgm({ audible: false, fromStart: true });
   }
 
-  function resumeOnHome() {
-    if (bgmMuted || !isHomeActive() || isMemoryPlaylistActive()) return;
+  function resumeBgm() {
+    if (bgmMuted || isOtherMusicPlaying()) return;
     bgmPausedByOverlay = false;
     window.setTimeout(() => {
       if (!bgmPlaying) tryMutedAutoplay();
       else applyAudibleState();
+      syncDockVisibility();
     }, 200);
   }
 
@@ -281,7 +272,7 @@
   }
 
   function resumeIfEnabled() {
-    resumeOnHome();
+    resumeBgm();
   }
 
   function bindDockControls() {
@@ -318,16 +309,8 @@
     toggle.addEventListener('click', toggleBgm);
     bindGestureUnlock();
 
-    document.addEventListener('memory-playlist:show', () => {
-      pauseForOverlay();
-    });
-
     document.addEventListener('memory-playlist:hide', () => {
-      resumeOnHome();
-    });
-
-    document.addEventListener('site-home:enter', () => {
-      resumeOnHome();
+      resumeBgm();
     });
 
     ensureYouTubeApi().then(() => {
@@ -358,9 +341,11 @@
   }
 
   window.SiteBgm = {
+    isPlaying: () => bgmPlaying,
+    isMuted: () => bgmMuted,
     pauseForOverlay,
     resumeIfEnabled,
-    resumeOnHome,
+    resumeBgm,
     unlockFromGesture,
     hideDock: hideBgmDock,
     showDock: showBgmDock,

@@ -25,7 +25,17 @@ let memoryPlaylistActiveIndex = -1;
 let memoryPlaylistPlayer = null;
 let memoryPlaylistPlayerReady = false;
 let memoryPlaylistPlaying = false;
+let memoryPlaylistUsingOwnPlayer = false;
 let youtubeApiPromise = null;
+
+function isMainTrack(track) {
+  return Boolean(track?.isMainTrack || track?.videoId === MEMORY_MAIN_TRACK.videoId);
+}
+
+function getMainTrackIndex() {
+  const index = memoryPlaylistItems.findIndex(isMainTrack);
+  return index >= 0 ? index : 0;
+}
 
 function getMemoryPlaylistStaticItems(key) {
   return Array.isArray(memoryPlaylistStaticData[key]) ? memoryPlaylistStaticData[key] : [];
@@ -134,6 +144,7 @@ function stopMemoryPlaylistPlayback() {
     memoryPlaylistPlayer?.pauseVideo?.();
   });
   memoryPlaylistPlaying = false;
+  memoryPlaylistUsingOwnPlayer = false;
   memoryPlaylistActiveIndex = -1;
   updateNavMusicControls();
   updateNavMusicTitle('');
@@ -143,7 +154,6 @@ function stopMemoryPlaylistPlayback() {
 function showNavMusicPlayer() {
   const playerEl = document.getElementById('navMusicPlayer');
   if (playerEl) playerEl.hidden = false;
-  window.SiteBgm?.pauseForOverlay?.();
   window.SiteBgm?.hideDock?.();
   updateNavMusicControls();
 }
@@ -160,11 +170,13 @@ function updateNavMusicControls() {
 function onMemoryPlayerStateChange(event) {
   const { PlayerState } = window.YT;
   memoryPlaylistPlaying = event.data === PlayerState.PLAYING;
-  updateNavMusicControls();
 
-  if (event.data === PlayerState.PLAYING) {
+  if (memoryPlaylistPlaying) {
+    memoryPlaylistUsingOwnPlayer = true;
     window.SiteBgm?.pauseForOverlay?.();
   }
+
+  updateNavMusicControls();
 
   if (event.data === PlayerState.ENDED) {
     nextMemoryTrack();
@@ -175,9 +187,23 @@ function playMemoryTrack(index) {
   const track = memoryPlaylistItems[index];
   if (!track) return;
 
-  window.SiteBgm?.pauseForOverlay?.();
   memoryPlaylistActiveIndex = index;
   updateNowPlayingUI(track);
+  syncTrackListUI();
+
+  if (isMainTrack(track)) {
+    withPlayerReady(() => {
+      memoryPlaylistPlayer?.pauseVideo?.();
+    });
+    memoryPlaylistPlaying = false;
+    memoryPlaylistUsingOwnPlayer = false;
+    hideNavMusicPlayer();
+    window.SiteBgm?.resumeBgm?.();
+    return;
+  }
+
+  window.SiteBgm?.pauseForOverlay?.();
+  memoryPlaylistUsingOwnPlayer = true;
   showNavMusicPlayer();
 
   withPlayerReady(() => {
@@ -220,7 +246,19 @@ function nextMemoryTrack() {
 }
 
 function getMemoryStartIndex() {
-  return 0;
+  return getMainTrackIndex();
+}
+
+function syncMemoryPlaylistWithBgm() {
+  if (!memoryPlaylistItems.length) return;
+
+  if (memoryPlaylistUsingOwnPlayer && memoryPlaylistPlaying) return;
+
+  const mainIndex = getMainTrackIndex();
+  memoryPlaylistActiveIndex = mainIndex;
+  updateNowPlayingUI(memoryPlaylistItems[mainIndex]);
+  hideNavMusicPlayer();
+  window.SiteBgm?.showDock?.();
 }
 
 function renderMemoryPlaylistTracks() {
@@ -381,8 +419,7 @@ async function loadMemoryPlaylistItems(key) {
   return memoryPlaylistItems.length > 0;
 }
 
-async function switchMemoryPlaylist(key, autoplay = true) {
-  const section = document.getElementById('memory-playlist');
+async function switchMemoryPlaylist(key) {
   const previousPlaylistId = memoryPlaylistMeta?.id;
   const loaded = await loadMemoryPlaylistItems(key);
   if (!loaded) return;
@@ -396,10 +433,9 @@ async function switchMemoryPlaylist(key, autoplay = true) {
   renderMemoryPlaylistTracks();
   updateMemoryPlaylistMeta();
 
-  if (autoplay) {
-    playMemoryTrack(getMemoryStartIndex());
-  } else if (section?.classList.contains('page-section--active')) {
-    playMemoryTrack(getMemoryStartIndex());
+  const section = document.getElementById('memory-playlist');
+  if (section?.classList.contains('page-section--active')) {
+    syncMemoryPlaylistWithBgm();
   }
 }
 
@@ -417,24 +453,26 @@ async function initMemoryPlaylist() {
 
   initNavMusicPlayer();
   await initMemoryPlaylistPlayer();
-  await switchMemoryPlaylist(memoryPlaylistActiveKey, false);
+  await switchMemoryPlaylist(memoryPlaylistActiveKey);
 
   document.addEventListener('memory-playlist:show', () => {
-    window.SiteBgm?.pauseForOverlay?.();
-    playMemoryTrack(getMemoryStartIndex());
+    syncMemoryPlaylistWithBgm();
   });
 
   document.addEventListener('memory-playlist:hide', () => {
-    stopMemoryPlaylistPlayback();
+    if (memoryPlaylistUsingOwnPlayer) {
+      stopMemoryPlaylistPlayback();
+    }
+    window.SiteBgm?.resumeBgm?.();
   });
 
   if (section.classList.contains('page-section--active')) {
-    playMemoryTrack(getMemoryStartIndex());
+    syncMemoryPlaylistWithBgm();
   }
 }
 
 window.MemoryPlaylist = {
-  isPlaying: () => memoryPlaylistPlaying,
+  isPlaying: () => memoryPlaylistUsingOwnPlayer && memoryPlaylistPlaying,
   pauseAll: stopMemoryPlaylistPlayback,
 };
 
