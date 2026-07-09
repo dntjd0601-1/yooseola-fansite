@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Jua&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=20260709c">
+  <link rel="stylesheet" href="css/style.css?v=20260709d">
 </head>
 <body>
 
@@ -37,7 +37,7 @@
           id="siteBgmToggle"
           aria-pressed="true"
           aria-label="배경음악 끄기"
-          title="브라운아이즈 - 벌써 일년"
+          title="브라운아이즈의 벌써 일년"
         >
           <span class="site-bgm__icon" aria-hidden="true">♪</span>
         </button>
@@ -53,6 +53,20 @@
   <div class="site-bgm" aria-hidden="true">
     <div id="siteBgmMount"></div>
   </div>
+
+  <aside class="playlist-dock playlist-dock--bgm" id="siteBgmDock" hidden aria-label="벌써 일년 재생목록">
+    <div class="nav-player nav-player--bgm">
+      <div class="nav-player__info">
+        <span class="nav-player__label" id="siteBgmDockLabel">벌써 일년</span>
+        <p class="nav-player__title" id="siteBgmDockTitle">브라운아이즈의 벌써 일년</p>
+        <span class="nav-player__repeat" aria-hidden="true">🔁 반복</span>
+      </div>
+      <div class="nav-player__controls">
+        <button type="button" class="nav-player__btn" id="siteBgmPlay" aria-label="재생">▶</button>
+        <button type="button" class="nav-player__btn" id="siteBgmPause" aria-label="멈춤">⏸</button>
+      </div>
+    </div>
+  </aside>
 
   <aside class="playlist-dock" id="navMusicPlayer" hidden aria-label="재생 중인 추억의 플리">
     <div class="nav-player">
@@ -807,13 +821,13 @@
   <script src="js/minigames.js?v=20260701"></script>
   <script src="js/rolling-paper.js?v=20260611"></script>
   <script src="js/memory-playlist-data.js?v=20260709"></script>
-  <script src="js/memory-playlist.js?v=20260628"></script>
+  <script src="js/memory-playlist.js?v=20260709d"></script>
   <script src="js/monthly-seola-data.js?v=20260709"></script>
   <script src="js/monthly-seola.js?v=20260707d"></script>
   <script src="js/profile-history-data.js?v=20260629"></script>
   <script src="js/profile-history.js?v=20260626"></script>
   <script src="js/main.js?v=20260709b"></script>
-  <script src="js/site-bgm.js?v=20260709c"></script>
+  <script src="js/site-bgm.js?v=20260709d"></script>
   <script src="js/site-popup.js?v=20260709c"></script>
 </body>
 </html>

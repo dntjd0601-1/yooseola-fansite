@@ -256,6 +256,38 @@ button {
   overflow: hidden;
 }
 
+.playlist-dock--bgm .nav-player {
+  border-color: rgba(212, 175, 55, 0.45);
+  background: linear-gradient(180deg, rgba(255, 248, 230, 0.97), rgba(255, 236, 179, 0.9));
+  box-shadow: 0 10px 28px rgba(212, 175, 55, 0.18);
+}
+
+.playlist-dock--bgm .nav-player__label {
+  color: #8b6914;
+}
+
+.playlist-dock--bgm .nav-player__title {
+  color: #6d5200;
+}
+
+.playlist-dock--bgm .nav-player__repeat {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: #a67c00;
+}
+
+.playlist-dock--bgm .nav-player__btn {
+  color: #7a5c00;
+  border-color: rgba(212, 175, 55, 0.45);
+}
+
+.playlist-dock--bgm .nav-player__btn:hover:not(:disabled) {
+  border-color: #d4af37;
+  background: #fff;
+}
+
 .nav-player {
   display: flex;
   align-items: center;

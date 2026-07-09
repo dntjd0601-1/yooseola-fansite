@@ -114,6 +114,7 @@ function updateNavMusicTitle(title) {
 function showNavMusicPlayer() {
   const playerEl = document.getElementById('navMusicPlayer');
   if (playerEl) playerEl.hidden = false;
+  window.SiteBgm?.hideDock?.();
   updateNavMusicControls();
 }
 
