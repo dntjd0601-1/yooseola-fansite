@@ -4,12 +4,12 @@
  */
 const VOD_DATA = {
   replay: [
-    { title: '8년차 스트리머', url: 'https://vod.sooplive.com/player/200898335', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260708_BC5C2278_295412029_2_r', date: '2026.07.08', duration: '5:20:49', views: 342 },
+    { title: '8년차 스트리머', url: 'https://vod.sooplive.com/player/200898335', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260708_BC5C2278_295412029_2_r', date: '2026.07.08', duration: '5:20:49', views: 346 },
     { title: '잔잔 소통', url: 'https://vod.sooplive.com/player/200841287', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260707_4CE43534_295400439_1_r', date: '2026.07.08', duration: '2:51:30', views: 22 },
-    { title: '토요미스테리', url: 'https://vod.sooplive.com/player/200573417', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260704_6822400F_295327561_2_r', date: '2026.07.05', duration: '5:37:45', views: 815 },
+    { title: '토요미스테리', url: 'https://vod.sooplive.com/player/200573417', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260704_6822400F_295327561_2_r', date: '2026.07.05', duration: '5:37:45', views: 816 },
     { title: '잔잔 소통', url: 'https://vod.sooplive.com/player/200454693', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260703_B8EA73F4_295300197_1_r', date: '2026.07.03', duration: '2:32:14', views: 40 },
-    { title: '감니버스 메챠 카멜레온', url: 'https://vod.sooplive.com/player/200378589', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260702_E3E3CAD2_295272613_2_r', date: '2026.07.03', duration: '6:07:15', views: 576 },
-    { title: '카페 소통', url: 'https://vod.sooplive.com/player/200170525', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260630_D2E44A0F_295220555_2_r', date: '2026.07.01', duration: '5:12:46', views: 756 },
+    { title: '감니버스 메챠 카멜레온', url: 'https://vod.sooplive.com/player/200378589', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260702_E3E3CAD2_295272613_2_r', date: '2026.07.03', duration: '6:07:15', views: 577 },
+    { title: '카페 소통', url: 'https://vod.sooplive.com/player/200170525', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260630_D2E44A0F_295220555_2_r', date: '2026.07.01', duration: '5:12:46', views: 757 },
     { title: '버컴 앙케이트', url: 'https://vod.sooplive.com/player/200118729', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260630_011EF23A_295211539_1_r', date: '2026.06.30', duration: '3:20:23', views: 427 },
     { title: '감스터콜', url: 'https://vod.sooplive.com/player/200079247', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260629_73CCD7D9_295192533_3_r', date: '2026.06.30', duration: '3:34:12', views: 502 },
     { title: '버컴 나락퀴즈쇼', url: 'https://vod.sooplive.com/player/200053879', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260629_9533BC8B_295192533_1_r', date: '2026.06.29', duration: '3:49:16', views: 424 },
@@ -17,7 +17,7 @@ const VOD_DATA = {
     { title: '그냥서버', url: 'https://vod.sooplive.com/player/199988885', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260628_D0B63217_295172411_2_r', date: '2026.06.29', duration: '5:41:53', views: 315 },
     { title: '후열 배그', url: 'https://vod.sooplive.com/player/199901961', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260627_23C6B6D2_295146833_5_r', date: '2026.06.28', duration: '2:15:45', views: 200 },
     { title: '토요미스테리', url: 'https://vod.sooplive.com/player/199894121', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260627_876EAF12_295146833_2_r', date: '2026.06.28', duration: '7:40:31', views: 1003 },
-    { title: '롤 1승 미션 ...', url: 'https://vod.sooplive.com/player/199798321', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260626_D0355B7F_295117763_3_r', date: '2026.06.27', duration: '11:38:51', views: 471 },
+    { title: '롤 1승 미션 ...', url: 'https://vod.sooplive.com/player/199798321', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260626_D0355B7F_295117763_3_r', date: '2026.06.27', duration: '11:38:51', views: 472 },
     { title: '대한민국 vs 남아공', url: 'https://vod.sooplive.com/player/199629343', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260625_0EE9C17F_295084023_2_r', date: '2026.06.25', duration: '4:25:47', views: 328 },
   ],
   youtube: [
@@ -38,7 +38,7 @@ const VOD_DATA = {
     { title: 'GTA 인생모드 수상한 피자집, 모슈 [요양타운]', url: 'https://www.youtube.com/watch?v=BLRcHNBVI1M', thumb: 'https://i.ytimg.com/vi/BLRcHNBVI1M/hqdefault.jpg', date: '', duration: '', views: 0 },
   ],
   shorts: [
-    { title: '민교편지 받고 감동받은 유설아 #고래시티', url: 'https://www.youtube.com/shorts/lUBN7pdaP5s', thumb: 'https://i.ytimg.com/vi/lUBN7pdaP5s/hqdefault.jpg', date: '2026.07.08', duration: '', views: 2853 },
+    { title: '민교편지 받고 감동받은 유설아 #고래시티', url: 'https://www.youtube.com/shorts/lUBN7pdaP5s', thumb: 'https://i.ytimg.com/vi/lUBN7pdaP5s/hqdefault.jpg', date: '2026.07.08', duration: '', views: 2895 },
     { title: '두번이나 말끊기는 유설아 #킴성태 #천양 #고래시티', url: 'https://www.youtube.com/shorts/rRgy2goNGek', thumb: 'https://i.ytimg.com/vi/rRgy2goNGek/hqdefault.jpg', date: '2026.07.06', duration: '', views: 5675 },
     { title: '납치된 유설아가 풀려난 방법 #감스트 #고래시티', url: 'https://www.youtube.com/shorts/syoHUHEdwYA', thumb: 'https://i.ytimg.com/vi/syoHUHEdwYA/hqdefault.jpg', date: '2026.07.04', duration: '', views: 20226 },
     { title: '서로 똑같은 버컴 1인자와 2인자 #감스트 #유설아 #스캠라인', url: 'https://www.youtube.com/shorts/p06SyMau_Rk', thumb: 'https://i.ytimg.com/vi/p06SyMau_Rk/hqdefault.jpg', date: '2026.06.23', duration: '', views: 7612 },
