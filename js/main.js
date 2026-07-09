@@ -75,6 +75,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   initPageViews();
   initNavigation();
   initHeroSchedule();
+  initHeroFeaturedLink();
   initHeroLive();
   initCalendar();
   initMonthlySeola();
@@ -107,6 +108,17 @@ async function fetchSoopLiveStatus() {
   } catch {
     return null;
   }
+}
+
+function initHeroFeaturedLink() {
+  const link = document.getElementById('heroFeaturedLink');
+  const titleEl = document.getElementById('heroFeaturedTitle');
+  if (!link) return;
+
+  const label = '\uBC84\uCEF4 1\uC8FC\uB144 Q&A';
+  link.href = 'https://www.sooplive.com/station/yeveee/post/200878159';
+  link.setAttribute('aria-label', label);
+  if (titleEl) titleEl.textContent = label;
 }
 
 function initHeroLive() {

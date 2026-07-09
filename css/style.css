@@ -658,6 +658,50 @@ body.is-home .footer {
   white-space: nowrap;
 }
 
+.hero__featured-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: min(100%, 380px);
+  padding: 10px 14px;
+  color: inherit;
+  text-decoration: none;
+  background: linear-gradient(180deg, rgba(255, 248, 230, 0.98), rgba(255, 236, 179, 0.92));
+  border: 2px solid #d4af37;
+  border-radius: 14px;
+  box-shadow: 0 8px 20px rgba(212, 175, 55, 0.16);
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+  animation: fadeInUp 0.6s ease 0.1s both;
+}
+
+.hero__featured-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(212, 175, 55, 0.22);
+  border-color: #b8860b;
+}
+
+.hero__featured-badge {
+  flex-shrink: 0;
+  padding: 4px 10px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: #6d5200;
+  background: #fff3c4;
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  border-radius: 100px;
+}
+
+.hero__featured-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: #6d5200;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 @keyframes heroFloat {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-10px); }
@@ -910,7 +954,8 @@ body.is-home .footer {
     width: min(78vw, 300px);
   }
 
-  .hero__live-card {
+  .hero__live-card,
+  .hero__featured-card {
     width: 100%;
   }
 
