@@ -14,8 +14,7 @@ function buildMainSongTitle() {
 
 window.SITE_MAIN_SONG = {
   title: buildMainSongTitle(),
-  // Official remaster MV (7mJLmpuxzaQ is 원곡+MR combo — plays instrumental after song ends)
-  videoId: 'LZlIqfMn4cc',
-  thumb: 'https://i.ytimg.com/vi/LZlIqfMn4cc/hqdefault.jpg',
+  videoId: 'U89YuK4SD9E',
+  thumb: 'https://i.ytimg.com/vi/U89YuK4SD9E/hqdefault.jpg',
   mood: '\uBA54\uC778',
 };

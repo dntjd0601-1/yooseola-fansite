@@ -10,8 +10,8 @@ const MEMORY_MAIN_TRACK = {
     ' ',
     String.fromCodePoint(0xC77C, 0xB144),
   ].join(''),
-  videoId: window.SITE_MAIN_SONG?.videoId || 'LZlIqfMn4cc',
-  thumb: window.SITE_MAIN_SONG?.thumb || 'https://i.ytimg.com/vi/LZlIqfMn4cc/hqdefault.jpg',
+  videoId: window.SITE_MAIN_SONG?.videoId || 'U89YuK4SD9E',
+  thumb: window.SITE_MAIN_SONG?.thumb || 'https://i.ytimg.com/vi/U89YuK4SD9E/hqdefault.jpg',
   mood: window.SITE_MAIN_SONG?.mood || '\uBA54\uC778',
   isMainTrack: true,
 };
