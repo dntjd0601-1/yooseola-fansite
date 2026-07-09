@@ -316,24 +316,20 @@
     const titleEl = document.getElementById('siteBgmDockTitle');
     const labelEl = document.getElementById('siteBgmDockLabel');
     const dock = document.getElementById('siteBgmDock');
-    const toggle = document.getElementById('siteBgmToggle');
 
     if (titleEl) titleEl.textContent = COPY.song;
     if (labelEl) labelEl.textContent = COPY.playlist;
     if (dock) dock.setAttribute('aria-label', `${COPY.song} \uC7AC\uC0DD`);
-    if (toggle) toggle.title = COPY.song;
   }
 
   function initSiteBgm() {
     const mount = document.getElementById('siteBgmMount');
-    const toggle = document.getElementById('siteBgmToggle');
-    if (!mount || !toggle) return;
+    if (!mount) return;
 
     applyStaticLabels();
     bgmMuted = readMutedPreference();
     updateToggleUI();
     bindDockControls();
-    toggle.addEventListener('click', toggleBgm);
     bindGestureUnlock();
 
     document.addEventListener('memory-playlist:hide', () => {
