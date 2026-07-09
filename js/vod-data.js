@@ -4,7 +4,7 @@
  */
 const VOD_DATA = {
   replay: [
-    { title: '후열 [버컴]', url: 'https://vod.sooplive.com/player/200898335', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260708_BC5C2278_295412029_2_r', date: '2026.07.08', duration: '5:20:49', views: 277 },
+    { title: '후열 [버컴]', url: 'https://vod.sooplive.com/player/200898335', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260708_BC5C2278_295412029_2_r', date: '2026.07.08', duration: '5:20:49', views: 281 },
     { title: '잔잔 소통', url: 'https://vod.sooplive.com/player/200841287', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260707_4CE43534_295400439_1_r', date: '2026.07.08', duration: '2:51:30', views: 21 },
     { title: '토요미스테리', url: 'https://vod.sooplive.com/player/200573417', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260704_6822400F_295327561_2_r', date: '2026.07.05', duration: '5:37:45', views: 797 },
     { title: '잔잔 소통', url: 'https://vod.sooplive.com/player/200454693', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260703_B8EA73F4_295300197_1_r', date: '2026.07.03', duration: '2:32:14', views: 39 },
@@ -38,12 +38,12 @@ const VOD_DATA = {
     { title: 'GTA 인생모드 수상한 피자집, 모슈 [요양타운]', url: 'https://www.youtube.com/watch?v=BLRcHNBVI1M', thumb: 'https://i.ytimg.com/vi/BLRcHNBVI1M/hqdefault.jpg', date: '', duration: '', views: 0 },
   ],
   shorts: [
-    { title: '민교편지 받고 감동받은 유설아 #고래시티', url: 'https://www.youtube.com/shorts/lUBN7pdaP5s', thumb: 'https://i.ytimg.com/vi/lUBN7pdaP5s/hqdefault.jpg', date: '2026.07.08', duration: '', views: 2143 },
+    { title: '민교편지 받고 감동받은 유설아 #고래시티', url: 'https://www.youtube.com/shorts/lUBN7pdaP5s', thumb: 'https://i.ytimg.com/vi/lUBN7pdaP5s/hqdefault.jpg', date: '2026.07.08', duration: '', views: 2162 },
     { title: '두번이나 말끊기는 유설아 #킴성태 #천양 #고래시티', url: 'https://www.youtube.com/shorts/rRgy2goNGek', thumb: 'https://i.ytimg.com/vi/rRgy2goNGek/hqdefault.jpg', date: '2026.07.06', duration: '', views: 5575 },
     { title: '납치된 유설아가 풀려난 방법 #감스트 #고래시티', url: 'https://www.youtube.com/shorts/syoHUHEdwYA', thumb: 'https://i.ytimg.com/vi/syoHUHEdwYA/hqdefault.jpg', date: '2026.07.04', duration: '', views: 20164 },
     { title: '서로 똑같은 버컴 1인자와 2인자 #감스트 #유설아 #스캠라인', url: 'https://www.youtube.com/shorts/p06SyMau_Rk', thumb: 'https://i.ytimg.com/vi/p06SyMau_Rk/hqdefault.jpg', date: '2026.06.23', duration: '', views: 7571 },
-    { title: '쉬 이즈 근근두두 설창맨 #유설아 #감스트 #스캠라인', url: 'https://www.youtube.com/shorts/N09B8M7ghno', thumb: 'https://i.ytimg.com/vi/N09B8M7ghno/hqdefault.jpg', date: '2026.06.21', duration: '', views: 7586 },
-    { title: '진짜 경찰 선배님 맞아요? #김민교 #유설아 #고래시티', url: 'https://www.youtube.com/shorts/MJv9fU4bqik', thumb: 'https://i.ytimg.com/vi/MJv9fU4bqik/hqdefault.jpg', date: '2026.06.19', duration: '', views: 26660 },
+    { title: '쉬 이즈 근근두두 설창맨 #유설아 #감스트 #스캠라인', url: 'https://www.youtube.com/shorts/N09B8M7ghno', thumb: 'https://i.ytimg.com/vi/N09B8M7ghno/hqdefault.jpg', date: '2026.06.21', duration: '', views: 7603 },
+    { title: '진짜 경찰 선배님 맞아요? #김민교 #유설아 #고래시티', url: 'https://www.youtube.com/shorts/MJv9fU4bqik', thumb: 'https://i.ytimg.com/vi/MJv9fU4bqik/hqdefault.jpg', date: '2026.06.19', duration: '', views: 26691 },
     { title: '롯데리아 양념감자 최애 시즈닝은?', url: 'https://www.youtube.com/shorts/eG8r_hGR1Rc', thumb: 'https://i.ytimg.com/vi/eG8r_hGR1Rc/hqdefault.jpg', date: '2026.06.17', duration: '', views: 19196 },
     { title: '그시절 싸이월드 감성 #유설아', url: 'https://www.youtube.com/shorts/xsxaKV7WZhs', thumb: 'https://i.ytimg.com/vi/xsxaKV7WZhs/hqdefault.jpg', date: '2026.06.15', duration: '', views: 3758 },
     { title: '누가 진짜고 누가 가짜야! #감스트 #미메시스 #니니', url: 'https://www.youtube.com/shorts/WO7Wbp7Ah7I', thumb: 'https://i.ytimg.com/vi/WO7Wbp7Ah7I/hqdefault.jpg', date: '2026.04.24', duration: '', views: 16615 },
