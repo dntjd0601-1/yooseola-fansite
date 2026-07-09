@@ -511,16 +511,8 @@ function initPageViews() {
 
     if (id === 'memory-playlist') {
       document.dispatchEvent(new CustomEvent('memory-playlist:show'));
-    } else {
-      if (wasMemoryPlaylist) {
-        document.dispatchEvent(new CustomEvent('memory-playlist:hide'));
-      }
-      if (id === 'home') {
-        document.dispatchEvent(new CustomEvent('site-home:enter'));
-      } else {
-        window.SiteBgm?.pauseForOverlay?.();
-        window.MemoryPlaylist?.pauseAll?.();
-      }
+    } else if (wasMemoryPlaylist) {
+      document.dispatchEvent(new CustomEvent('memory-playlist:hide'));
     }
 
     if (id === 'gallery') {
