@@ -12,7 +12,7 @@
       ' ',
       String.fromCodePoint(0xC77C, 0xB144),
     ].join(''),
-    videoId: 'LZlIqfMn4cc',
+    videoId: 'U89YuK4SD9E',
   };
 
   const BGM_VIDEO_ID = MAIN.videoId;
