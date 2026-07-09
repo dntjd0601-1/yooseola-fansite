@@ -1,5 +1,13 @@
 const PLAYLIST_FEED_API = '/.netlify/functions/youtube-playlist';
 
+const MEMORY_MAIN_TRACK = {
+  title: '브라운아이즈 - 벌써 일년',
+  videoId: '7mJLmpuxzaQ',
+  thumb: 'https://i.ytimg.com/vi/7mJLmpuxzaQ/hqdefault.jpg',
+  mood: '메인',
+  isMainTrack: true,
+};
+
 const memoryPlaylistCatalog = Array.isArray(MEMORY_YOUTUBE_PLAYLISTS)
   ? MEMORY_YOUTUBE_PLAYLISTS
   : (typeof MEMORY_YOUTUBE_PLAYLIST === 'object' && MEMORY_YOUTUBE_PLAYLIST.id
@@ -21,6 +29,11 @@ let youtubeApiPromise = null;
 
 function getMemoryPlaylistStaticItems(key) {
   return Array.isArray(memoryPlaylistStaticData[key]) ? memoryPlaylistStaticData[key] : [];
+}
+
+function withMainTrackFirst(items) {
+  const rest = (items || []).filter((item) => item.videoId !== MEMORY_MAIN_TRACK.videoId);
+  return [MEMORY_MAIN_TRACK, ...rest];
 }
 
 function ensureYouTubeApi() {
@@ -134,24 +147,10 @@ function onMemoryPlayerStateChange(event) {
 
   if (event.data === PlayerState.PLAYING) {
     window.SiteBgm?.pauseForOverlay?.();
-    const playlistIndex = memoryPlaylistPlayer?.getPlaylistIndex?.();
-    if (
-      typeof playlistIndex === 'number'
-      && playlistIndex >= 0
-      && playlistIndex < memoryPlaylistItems.length
-      && playlistIndex !== memoryPlaylistActiveIndex
-    ) {
-      memoryPlaylistActiveIndex = playlistIndex;
-      updateNowPlayingUI(memoryPlaylistItems[playlistIndex]);
-    }
   }
 
   if (event.data === PlayerState.ENDED) {
     nextMemoryTrack();
-  }
-
-  if (event.data === PlayerState.PAUSED) {
-    window.SiteBgm?.resumeIfEnabled?.();
   }
 }
 
@@ -159,21 +158,12 @@ function playMemoryTrack(index) {
   const track = memoryPlaylistItems[index];
   if (!track) return;
 
+  window.SiteBgm?.pauseForOverlay?.();
   memoryPlaylistActiveIndex = index;
   updateNowPlayingUI(track);
   showNavMusicPlayer();
 
   withPlayerReady(() => {
-    if (memoryPlaylistMeta.id) {
-      memoryPlaylistPlayer.loadPlaylist({
-        listType: 'playlist',
-        list: memoryPlaylistMeta.id,
-        index,
-        startSeconds: 0,
-      });
-      return;
-    }
-
     memoryPlaylistPlayer.loadVideoById({
       videoId: track.videoId,
       startSeconds: 0,
@@ -184,7 +174,7 @@ function playMemoryTrack(index) {
 function resumeMemoryTrack() {
   if (memoryPlaylistActiveIndex < 0) {
     if (memoryPlaylistItems.length) {
-      playMemoryTrack(getMemoryStartIndex(memoryPlaylistItems));
+      playMemoryTrack(getMemoryStartIndex());
     }
     return;
   }
@@ -204,7 +194,7 @@ function nextMemoryTrack() {
   if (!memoryPlaylistItems.length) return;
 
   if (memoryPlaylistActiveIndex < 0) {
-    playMemoryTrack(getMemoryStartIndex(memoryPlaylistItems));
+    playMemoryTrack(getMemoryStartIndex());
     return;
   }
 
@@ -212,11 +202,8 @@ function nextMemoryTrack() {
   playMemoryTrack(nextIndex);
 }
 
-function getMemoryStartIndex(items) {
-  const startId = memoryPlaylistMeta.startVideoId;
-  if (!startId) return 0;
-  const idx = items.findIndex((item) => item.videoId === startId);
-  return idx >= 0 ? idx : 0;
+function getMemoryStartIndex() {
+  return 0;
 }
 
 function renderMemoryPlaylistTracks() {
@@ -251,6 +238,9 @@ function renderMemoryPlaylistTracks() {
     const mood = document.createElement('span');
     mood.className = 'memory-playlist__track-mood';
     mood.textContent = track.mood || memoryPlaylistMeta.title || 'Playlist';
+    if (track.isMainTrack) {
+      mood.classList.add('memory-playlist__track-mood--main');
+    }
 
     body.append(title, mood);
     btn.append(thumb, body);
@@ -360,13 +350,13 @@ async function loadMemoryPlaylistItems(key) {
   const staticItems = getMemoryPlaylistStaticItems(playlist.key);
   const feed = await fetchMemoryPlaylistFeed(playlist.id);
   if (feed?.items?.length) {
-    memoryPlaylistItems = mergePlaylistItems(feed.items, staticItems);
+    memoryPlaylistItems = withMainTrackFirst(mergePlaylistItems(feed.items, staticItems));
     if (feed.playlist) {
       memoryPlaylistMeta.title = feed.playlist.title || memoryPlaylistMeta.title;
       memoryPlaylistMeta.url = feed.playlist.url || memoryPlaylistMeta.url;
     }
   } else if (staticItems.length) {
-    memoryPlaylistItems = [...staticItems];
+    memoryPlaylistItems = withMainTrackFirst(staticItems);
   } else {
     memoryPlaylistItems = [];
   }
@@ -390,9 +380,9 @@ async function switchMemoryPlaylist(key, autoplay = true) {
   updateMemoryPlaylistMeta();
 
   if (autoplay) {
-    playMemoryTrack(getMemoryStartIndex(memoryPlaylistItems));
+    playMemoryTrack(getMemoryStartIndex());
   } else if (section?.classList.contains('page-section--active')) {
-    playMemoryTrack(getMemoryStartIndex(memoryPlaylistItems));
+    playMemoryTrack(getMemoryStartIndex());
   }
 }
 
@@ -413,13 +403,12 @@ async function initMemoryPlaylist() {
   await switchMemoryPlaylist(memoryPlaylistActiveKey, false);
 
   document.addEventListener('memory-playlist:show', () => {
-    if (memoryPlaylistActiveIndex < 0) {
-      playMemoryTrack(getMemoryStartIndex(memoryPlaylistItems));
-    }
+    window.SiteBgm?.pauseForOverlay?.();
+    playMemoryTrack(getMemoryStartIndex());
   });
 
   if (section.classList.contains('page-section--active')) {
-    playMemoryTrack(getMemoryStartIndex(memoryPlaylistItems));
+    playMemoryTrack(getMemoryStartIndex());
   }
 }
 
