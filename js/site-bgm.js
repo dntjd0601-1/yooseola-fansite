@@ -4,11 +4,21 @@
 (function () {
   const MAIN = window.SITE_MAIN_SONG || {
     title: [
-      String.fromCodePoint(0xB9DD, 0xAD6C, 0xB791),
-      ' - ',
-      String.fromCodePoint(0xBC84, 0xCEF4, 0xD37C, 0xB2C8, 0xC8FC, 0xB144),
+      String.fromCodePoint(0xBC84, 0xCEF4),
+      ' 1',
+      String.fromCodePoint(0xC8FC, 0xB144),
       ' ',
       String.fromCodePoint(0xCEE4, 0xBC84, 0xACE1),
+      ' - ',
+      String.fromCodePoint(0xB05D, 0xB798, 0xB2E4, 0xB294),
+      ' ',
+      String.fromCodePoint(0xAC83, 0xC740),
+      ' ',
+      String.fromCodePoint(0xB2E4, 0xC2DC),
+      ' ',
+      String.fromCodePoint(0xC2DC, 0xC791, 0xB41C, 0xB2E4, 0xB294),
+      ' ',
+      String.fromCodePoint(0xAC83, 0xC744),
     ].join(''),
     videoId: 'XtVEV7wh76A',
   };
