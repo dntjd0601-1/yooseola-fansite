@@ -3,8 +3,16 @@
  */
 (function () {
   const MAIN = window.SITE_MAIN_SONG || {
-    title: '\uBE0C\uB77C\uC6B4 \uC544\uC774\uC988 - \uBC8C\uC384 \uC77C\uB144',
-    videoId: '7mJLmpuxzaQ',
+    title: [
+      String.fromCodePoint(0xBE0C, 0xB77C, 0xC6B4),
+      ' ',
+      String.fromCodePoint(0xC544, 0xC774, 0xC988),
+      ' - ',
+      String.fromCodePoint(0xBC8C, 0xC368),
+      ' ',
+      String.fromCodePoint(0xC77C, 0xB144),
+    ].join(''),
+    videoId: 'LZlIqfMn4cc',
   };
 
   const BGM_VIDEO_ID = MAIN.videoId;
@@ -25,6 +33,7 @@
   let bgmMuted = false;
   let bgmPausedByOverlay = false;
   let bgmUnlockBound = false;
+  let bgmPendingAudible = false;
   let youtubeApiPromise = null;
 
   function ensureYouTubeApi() {
@@ -175,11 +184,21 @@
     updateDockControls();
   }
 
+  function getCurrentBgmVideoId() {
+    return bgmPlayer?.getVideoData?.()?.video_id || '';
+  }
+
+  function isCorrectBgmVideoLoaded() {
+    return getCurrentBgmVideoId() === BGM_VIDEO_ID;
+  }
+
   function restartBgmLoop() {
     if (!bgmPlayer || !canPlayBgm()) return;
-    bgmPlayer.seekTo?.(0, true);
-    bgmPlayer.playVideo?.();
-    if (!bgmMuted) applyAudibleState();
+    bgmPendingAudible = !bgmMuted;
+    bgmPlayer.loadVideoById({
+      videoId: BGM_VIDEO_ID,
+      startSeconds: 0,
+    });
   }
 
   function unlockFromGesture() {
@@ -227,11 +246,19 @@
   function onBgmStateChange(event) {
     const { PlayerState } = window.YT;
     if (event.data === PlayerState.PLAYING) {
+      if (!isCorrectBgmVideoLoaded()) {
+        restartBgmLoop();
+        return;
+      }
       if (!canPlayBgm()) {
         pauseBgm();
         return;
       }
       setBgmPlaying(true);
+      if (bgmPendingAudible) {
+        bgmPendingAudible = false;
+        applyAudibleState();
+      }
       return;
     }
     if (event.data === PlayerState.ENDED) {
@@ -327,8 +354,6 @@
           modestbranding: 1,
           playsinline: 1,
           rel: 0,
-          loop: 1,
-          playlist: BGM_VIDEO_ID,
           enablejsapi: 1,
           origin: location.origin && location.origin !== 'null' ? location.origin : undefined,
         },

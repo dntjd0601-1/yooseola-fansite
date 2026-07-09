@@ -1,9 +1,17 @@
 const PLAYLIST_FEED_API = '/.netlify/functions/youtube-playlist';
 
 const MEMORY_MAIN_TRACK = {
-  title: window.SITE_MAIN_SONG?.title || '\uBE0C\uB77C\uC6B4 \uC544\uC774\uC988 - \uBC8C\uC384 \uC77C\uB144',
-  videoId: window.SITE_MAIN_SONG?.videoId || '7mJLmpuxzaQ',
-  thumb: window.SITE_MAIN_SONG?.thumb || 'https://i.ytimg.com/vi/7mJLmpuxzaQ/hqdefault.jpg',
+  title: window.SITE_MAIN_SONG?.title || [
+    String.fromCodePoint(0xBE0C, 0xB77C, 0xC6B4),
+    ' ',
+    String.fromCodePoint(0xC544, 0xC774, 0xC988),
+    ' - ',
+    String.fromCodePoint(0xBC8C, 0xC368),
+    ' ',
+    String.fromCodePoint(0xC77C, 0xB144),
+  ].join(''),
+  videoId: window.SITE_MAIN_SONG?.videoId || 'LZlIqfMn4cc',
+  thumb: window.SITE_MAIN_SONG?.thumb || 'https://i.ytimg.com/vi/LZlIqfMn4cc/hqdefault.jpg',
   mood: window.SITE_MAIN_SONG?.mood || '\uBA54\uC778',
   isMainTrack: true,
 };
