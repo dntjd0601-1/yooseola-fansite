@@ -1,5 +1,5 @@
 /**
- * VOD Library — 숲 다시보기 | 유튜브 | 쇼츠
+ * VOD Library — 숲 다시보기 | 유튜브 | 쇼츠 | 기타
  */
 
 function buildYoutubeEmbed(videoId, autoplay = '1') {
@@ -16,11 +16,14 @@ function buildYoutubeEmbed(videoId, autoplay = '1') {
   return `https://www.youtube.com/embed/${encodeURIComponent(videoId)}?${params.toString()}`;
 }
 
+const VOD_ETC_PLAYLIST_ID = 'PLR2c_oelBOVU';
+const VOD_PLAYLIST_API = '/.netlify/functions/youtube-playlist';
+
 const VOD_DEFAULT = {
   type: 'youtube',
-  title: 'GTA 별 다섯개 살아남기',
-  url: 'https://youtu.be/cRqRrCifjSI',
-  embedUrl: buildYoutubeEmbed('cRqRrCifjSI', '0'),
+  title: '【끝났다는 것은 다시 시작된다는 것을】 버컴퍼니 1주년 커버곡',
+  url: 'https://www.youtube.com/watch?v=XtVEV7wh76A',
+  embedUrl: buildYoutubeEmbed('XtVEV7wh76A', '0'),
 };
 
 const VOD_MAX_ITEMS = 15;
@@ -52,14 +55,41 @@ const VOD_SOURCES = {
     moreUrl: 'https://www.youtube.com/@yoo_seola/shorts',
     fetch: () => fetchYoutubeEntries().then((items) => items.filter((item) => isYoutubeShort(item.url))),
   },
+  etc: {
+    title: '기타',
+    moreUrl: `https://www.youtube.com/playlist?list=${VOD_ETC_PLAYLIST_ID}`,
+    fetch: () => fetchEtcPlaylist(),
+  },
 };
 
 const vodCache = {};
-let activeVodTab = 'youtube';
+let activeVodTab = 'etc';
 let currentPlayerItem = { ...VOD_DEFAULT };
 
 function isYoutubeShort(url) {
   return /youtube\.com\/shorts\//.test(url || '');
+}
+
+function mapYoutubePlaylistItem(item) {
+  const videoId = item.videoId || extractYoutubeId(item.url);
+  if (!videoId) return null;
+  return {
+    type: 'youtube',
+    title: item.title || videoId,
+    url: `https://www.youtube.com/watch?v=${videoId}`,
+    embedUrl: buildYoutubeEmbed(videoId),
+    thumb: item.thumb || `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
+    date: item.date || '',
+    duration: item.duration || '',
+    views: Number(item.views) || 0,
+  };
+}
+
+async function fetchEtcPlaylist() {
+  const res = await fetch(`${VOD_PLAYLIST_API}?list=${encodeURIComponent(VOD_ETC_PLAYLIST_ID)}`);
+  if (!res.ok) return [];
+  const data = await res.json();
+  return (data.items || []).map(mapYoutubePlaylistItem).filter(Boolean);
 }
 
 function fetchYoutubeEntries() {
@@ -218,7 +248,7 @@ function normalizeItems(key, items) {
         embedUrl: id ? buildSoopEmbed(id) : item.embedUrl || item.url,
       };
     }
-    if (key === 'youtube' || key === 'shorts') {
+    if (key === 'youtube' || key === 'shorts' || key === 'etc') {
       const id = extractYoutubeId(item.url);
       return {
         ...item,
@@ -510,19 +540,32 @@ function switchVodTab(key) {
   renderVodGrid(key);
 }
 
+function getEtcDefaultItem() {
+  const items = normalizeItems(
+    'etc',
+    (typeof VOD_DATA !== 'undefined' ? VOD_DATA.etc || [] : []).slice(0, 1)
+  );
+  if (items[0]) return items[0];
+  return {
+    ...VOD_DEFAULT,
+    embedUrl: buildYoutubeEmbed(extractYoutubeId(VOD_DEFAULT.url), '0'),
+  };
+}
+
 function initVodLibrary() {
   const layout = document.getElementById('vodLayout');
   const filters = document.getElementById('vodFilters');
   if (!layout || !filters) return;
 
-  ['replay', 'youtube', 'shorts'].forEach((key) => {
+  ['replay', 'youtube', 'shorts', 'etc'].forEach((key) => {
     loadVodCategory(key);
   });
 
-  switchVodTab('youtube');
+  const defaultItem = getEtcDefaultItem();
+  switchVodTab('etc');
   setVodPlayer({
-    ...VOD_DEFAULT,
-    embedUrl: buildYoutubeEmbed('cRqRrCifjSI', '0'),
+    ...defaultItem,
+    embedUrl: defaultItem.embedUrl || buildYoutubeEmbed(extractYoutubeId(defaultItem.url), '0'),
   });
 
   document.getElementById('vodPlayerPoster')?.addEventListener('click', () => {

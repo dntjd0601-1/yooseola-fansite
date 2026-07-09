@@ -1,16 +1,16 @@
 ﻿/**
- * VOD data - SOOP / YouTube / YouTube Shorts
+ * VOD data - SOOP / YouTube / YouTube Shorts / 기타
  * Regenerate: powershell -File fetch_vod.ps1
  */
 const VOD_DATA = {
   replay: [
-    { title: '후열 [버컴]', url: 'https://vod.sooplive.com/player/201016995', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260709_5DDF65B2_295438945_4_r', date: '2026.07.09', duration: '6:50:28', views: 173 },
-    { title: '8년차 스트리머', url: 'https://vod.sooplive.com/player/200898335', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260708_BC5C2278_295412029_2_r', date: '2026.07.08', duration: '5:20:49', views: 421 },
+    { title: '후열 [버컴]', url: 'https://vod.sooplive.com/player/201016995', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260709_5DDF65B2_295438945_4_r', date: '2026.07.09', duration: '6:50:28', views: 174 },
+    { title: '8년차 스트리머', url: 'https://vod.sooplive.com/player/200898335', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260708_BC5C2278_295412029_2_r', date: '2026.07.08', duration: '5:20:49', views: 422 },
     { title: '잔잔 소통', url: 'https://vod.sooplive.com/player/200841287', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260707_4CE43534_295400439_1_r', date: '2026.07.08', duration: '2:51:30', views: 22 },
-    { title: '토요미스테리', url: 'https://vod.sooplive.com/player/200573417', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260704_6822400F_295327561_2_r', date: '2026.07.05', duration: '5:37:45', views: 845 },
+    { title: '토요미스테리', url: 'https://vod.sooplive.com/player/200573417', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260704_6822400F_295327561_2_r', date: '2026.07.05', duration: '5:37:45', views: 846 },
     { title: '잔잔 소통', url: 'https://vod.sooplive.com/player/200454693', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260703_B8EA73F4_295300197_1_r', date: '2026.07.03', duration: '2:32:14', views: 40 },
     { title: '감니버스 메챠 카멜레온', url: 'https://vod.sooplive.com/player/200378589', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260702_E3E3CAD2_295272613_2_r', date: '2026.07.03', duration: '6:07:15', views: 585 },
-    { title: '카페 소통', url: 'https://vod.sooplive.com/player/200170525', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260630_D2E44A0F_295220555_2_r', date: '2026.07.01', duration: '5:12:46', views: 763 },
+    { title: '카페 소통', url: 'https://vod.sooplive.com/player/200170525', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260630_D2E44A0F_295220555_2_r', date: '2026.07.01', duration: '5:12:46', views: 764 },
     { title: '버컴 앙케이트', url: 'https://vod.sooplive.com/player/200118729', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260630_011EF23A_295211539_1_r', date: '2026.06.30', duration: '3:20:23', views: 429 },
     { title: '감스터콜', url: 'https://vod.sooplive.com/player/200079247', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260629_73CCD7D9_295192533_3_r', date: '2026.06.30', duration: '3:34:12', views: 503 },
     { title: '버컴 나락퀴즈쇼', url: 'https://vod.sooplive.com/player/200053879', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260629_9533BC8B_295192533_1_r', date: '2026.06.29', duration: '3:49:16', views: 426 },
@@ -38,7 +38,7 @@ const VOD_DATA = {
     { title: 'GTA 인생모드 수상한 피자집, 모슈 [요양타운]', url: 'https://www.youtube.com/watch?v=BLRcHNBVI1M', thumb: 'https://i.ytimg.com/vi/BLRcHNBVI1M/hqdefault.jpg', date: '', duration: '', views: 0 },
   ],
   shorts: [
-    { title: '민교편지 받고 감동받은 유설아 #고래시티', url: 'https://www.youtube.com/shorts/lUBN7pdaP5s', thumb: 'https://i.ytimg.com/vi/lUBN7pdaP5s/hqdefault.jpg', date: '2026.07.08', duration: '', views: 3215 },
+    { title: '민교편지 받고 감동받은 유설아 #고래시티', url: 'https://www.youtube.com/shorts/lUBN7pdaP5s', thumb: 'https://i.ytimg.com/vi/lUBN7pdaP5s/hqdefault.jpg', date: '2026.07.08', duration: '', views: 3236 },
     { title: '두번이나 말끊기는 유설아 #킴성태 #천양 #고래시티', url: 'https://www.youtube.com/shorts/rRgy2goNGek', thumb: 'https://i.ytimg.com/vi/rRgy2goNGek/hqdefault.jpg', date: '2026.07.06', duration: '', views: 5802 },
     { title: '납치된 유설아가 풀려난 방법 #감스트 #고래시티', url: 'https://www.youtube.com/shorts/syoHUHEdwYA', thumb: 'https://i.ytimg.com/vi/syoHUHEdwYA/hqdefault.jpg', date: '2026.07.04', duration: '', views: 20286 },
     { title: '서로 똑같은 버컴 1인자와 2인자 #감스트 #유설아 #스캠라인', url: 'https://www.youtube.com/shorts/p06SyMau_Rk', thumb: 'https://i.ytimg.com/vi/p06SyMau_Rk/hqdefault.jpg', date: '2026.06.23', duration: '', views: 7675 },
@@ -52,5 +52,16 @@ const VOD_DATA = {
     { title: '한달에 한번 물고기로 변한다면? #감스트 #유설아 #따린', url: 'https://www.youtube.com/shorts/gZpDNAR4FqA', thumb: 'https://i.ytimg.com/vi/gZpDNAR4FqA/hqdefault.jpg', date: '2026.04.19', duration: '', views: 32155 },
     { title: '끓인 솔의눈에 고춧가루 괴식핀볼 #유설아', url: 'https://www.youtube.com/shorts/OFWjmhNFPC0', thumb: 'https://i.ytimg.com/vi/OFWjmhNFPC0/hqdefault.jpg', date: '2026.04.18', duration: '', views: 16469 },
     { title: '직접 겪은 무서운 이야기 #유설아', url: 'https://www.youtube.com/shorts/ZdJHNNsR0Us', thumb: 'https://i.ytimg.com/vi/ZdJHNNsR0Us/hqdefault.jpg', date: '2026.04.05', duration: '', views: 10201 },
+  ],
+  etc: [
+    { title: '【끝났다는 것은 다시 시작된다는 것을】 버컴퍼니 1주년 커버곡', url: 'https://www.youtube.com/watch?v=XtVEV7wh76A', thumb: 'https://i.ytimg.com/vi/XtVEV7wh76A/hqdefault.jpg', date: '2026.07.09', duration: '', views: 10219 },
+    { title: '러브송 - 버컴 육공주 Cover', url: 'https://www.youtube.com/watch?v=RR4mfYREgS8', thumb: 'https://i.ytimg.com/vi/RR4mfYREgS8/hqdefault.jpg', date: '2025.12.28', duration: '', views: 31943 },
+    { title: '근본걸', url: 'https://www.youtube.com/watch?v=5r6gTdmwnIU', thumb: 'https://i.ytimg.com/vi/5r6gTdmwnIU/hqdefault.jpg', date: '2026.05.08', duration: '', views: 151 },
+    { title: '설뽑송', url: 'https://www.youtube.com/watch?v=B3cFHCGYX9U', thumb: 'https://i.ytimg.com/vi/B3cFHCGYX9U/hqdefault.jpg', date: '2026.05.07', duration: '', views: 145 },
+    { title: '숲(SOOP)속의 별, 유설아', url: 'https://www.youtube.com/watch?v=iHwA9fjQ1Io', thumb: 'https://i.ytimg.com/vi/iHwA9fjQ1Io/hqdefault.jpg', date: '2026.02.17', duration: '', views: 106 },
+    { title: '설날(유설아) 자막ver.', url: 'https://www.youtube.com/watch?v=do1cqnJDVus', thumb: 'https://i.ytimg.com/vi/do1cqnJDVus/hqdefault.jpg', date: '2026.02.16', duration: '', views: 39 },
+    { title: '설따맘마', url: 'https://www.youtube.com/watch?v=e3AhX4sIeKU', thumb: 'https://i.ytimg.com/vi/e3AhX4sIeKU/hqdefault.jpg', date: '2026.02.17', duration: '', views: 22 },
+    { title: '버컴을 나가요(유설아버전)', url: 'https://www.youtube.com/watch?v=l6nr_uEJfqY', thumb: 'https://i.ytimg.com/vi/l6nr_uEJfqY/hqdefault.jpg', date: '2025.07.14', duration: '', views: 1081 },
+    { title: '유설아x영쨩 - 흥칫뿡', url: 'https://www.youtube.com/watch?v=yDpuVN2ehaQ', thumb: 'https://i.ytimg.com/vi/yDpuVN2ehaQ/hqdefault.jpg', date: '2024.09.30', duration: '', views: 2529 },
   ],
 };
