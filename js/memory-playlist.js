@@ -1,7 +1,7 @@
 const PLAYLIST_FEED_API = '/.netlify/functions/youtube-playlist';
 
 const MEMORY_MAIN_TRACK = {
-  title: window.SITE_MAIN_SONG?.title || '\uBE14\uB77C\uC6B4 \uC544\uC774\uC988 - \uBC8C\uC350 \uC77C\uB144',
+  title: window.SITE_MAIN_SONG?.title || '\uBE0C\uB77C\uC6B4 \uC544\uC774\uC988 - \uBC8C\uC384 \uC77C\uB144',
   videoId: window.SITE_MAIN_SONG?.videoId || '7mJLmpuxzaQ',
   thumb: window.SITE_MAIN_SONG?.thumb || 'https://i.ytimg.com/vi/7mJLmpuxzaQ/hqdefault.jpg',
   mood: window.SITE_MAIN_SONG?.mood || '\uBA54\uC778',
