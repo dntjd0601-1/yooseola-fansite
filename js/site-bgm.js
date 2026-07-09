@@ -1,20 +1,21 @@
 /**
  * Homepage background music - Brown Eyes "Already One Year"
- * Korean labels use Unicode escapes for Windows git encoding safety.
  */
 (function () {
-  const BGM_VIDEO_ID = '7mJLmpuxzaQ';
+  const MAIN = window.SITE_MAIN_SONG || {
+    title: '\uBE14\uB77C\uC6B4 \uC544\uC774\uC988 - \uBC8C\uC350 \uC77C\uB144',
+    videoId: '7mJLmpuxzaQ',
+  };
+
+  const BGM_VIDEO_ID = MAIN.videoId;
   const BGM_VOLUME = 42;
   const STORAGE_KEY = 'fansite:bgm-muted:v1';
 
   const COPY = {
     playlist: 'Now Playing',
-    song: '\uBE14\uB77C\uC6B4\uC544\uC774\uC988 - \uBC8C\uC350 \uC77C\uB144',
+    song: MAIN.title,
     ariaOn: '\uBC30\uACBD\uC74C\uC545 \uB044\uAE30',
     ariaOff: '\uBC30\uACBD\uC74C\uC545 \uCF1C\uAE30',
-    repeat: '\uBC18\uBCF5 \uC7AC\uC0DD',
-    play: '\uC7AC\uC0DD',
-    pause: '\uC77D\uAE30',
   };
 
   let bgmPlayer = null;
@@ -75,8 +76,20 @@
     } catch (_) {}
   }
 
+  function isHomeActive() {
+    return document.body.classList.contains('is-home');
+  }
+
   function isMemoryPlaylistActive() {
     return document.body.classList.contains('is-memory-playlist');
+  }
+
+  function isOtherMusicPlaying() {
+    return Boolean(window.MemoryPlaylist?.isPlaying?.());
+  }
+
+  function canPlayBgm() {
+    return isHomeActive() && !isMemoryPlaylistActive() && !isOtherMusicPlaying();
   }
 
   function updateToggleUI() {
@@ -94,16 +107,20 @@
   function updateDockControls() {
     const playBtn = document.getElementById('siteBgmPlay');
     const pauseBtn = document.getElementById('siteBgmPause');
-    const active = !bgmMuted && bgmReady;
+    const active = !bgmMuted && bgmReady && canPlayBgm();
 
     if (playBtn) playBtn.disabled = !active || bgmPlaying;
     if (pauseBtn) pauseBtn.disabled = !active || !bgmPlaying;
   }
 
   function showBgmDock() {
-    const dock = document.getElementById('siteBgmDock');
+    if (!canPlayBgm()) {
+      hideBgmDock();
+      return;
+    }
     const memoryDock = document.getElementById('navMusicPlayer');
     if (memoryDock && !memoryDock.hidden) return;
+    const dock = document.getElementById('siteBgmDock');
     if (dock) dock.hidden = false;
     updateDockControls();
   }
@@ -115,7 +132,7 @@
   }
 
   function syncDockVisibility() {
-    if (bgmMuted || bgmPausedByOverlay) {
+    if (bgmMuted || bgmPausedByOverlay || !canPlayBgm()) {
       hideBgmDock();
       return;
     }
@@ -146,7 +163,8 @@
   }
 
   function playBgm({ audible = null, fromStart = false } = {}) {
-    if (!bgmReady || !bgmPlayer || bgmMuted) return;
+    if (!bgmReady || !bgmPlayer || bgmMuted || !canPlayBgm()) return;
+    window.MemoryPlaylist?.pauseAll?.();
     if (fromStart) bgmPlayer.seekTo?.(0, true);
     bgmPlayer.playVideo?.();
     if (audible === true) applyAudibleState();
@@ -168,14 +186,14 @@
   }
 
   function restartBgmLoop() {
-    if (!bgmPlayer) return;
+    if (!bgmPlayer || !canPlayBgm()) return;
     bgmPlayer.seekTo?.(0, true);
     bgmPlayer.playVideo?.();
     if (!bgmMuted) applyAudibleState();
   }
 
   function unlockFromGesture() {
-    if (isMemoryPlaylistActive() || bgmMuted || !bgmReady) return;
+    if (!canPlayBgm() || bgmMuted || !bgmReady) return;
     bgmPausedByOverlay = false;
     if (!bgmPlaying) {
       playBgm({ audible: true, fromStart: true });
@@ -193,8 +211,17 @@
   }
 
   function tryMutedAutoplay() {
-    if (isMemoryPlaylistActive() || !bgmReady || bgmMuted || bgmPlaying || bgmPausedByOverlay) return;
+    if (!canPlayBgm() || !bgmReady || bgmMuted || bgmPlaying || bgmPausedByOverlay) return;
     playBgm({ audible: false, fromStart: true });
+  }
+
+  function resumeOnHome() {
+    if (bgmMuted || !isHomeActive() || isMemoryPlaylistActive()) return;
+    bgmPausedByOverlay = false;
+    window.setTimeout(() => {
+      if (!bgmPlaying) tryMutedAutoplay();
+      else applyAudibleState();
+    }, 200);
   }
 
   function onBgmReady() {
@@ -202,13 +229,17 @@
     updateToggleUI();
     updateDockControls();
     bindGestureUnlock();
-    if (!bgmMuted) showBgmDock();
+    if (!bgmMuted && canPlayBgm()) showBgmDock();
     window.setTimeout(tryMutedAutoplay, 300);
   }
 
   function onBgmStateChange(event) {
     const { PlayerState } = window.YT;
     if (event.data === PlayerState.PLAYING) {
+      if (!canPlayBgm()) {
+        pauseBgm();
+        return;
+      }
       setBgmPlaying(true);
       return;
     }
@@ -250,9 +281,7 @@
   }
 
   function resumeIfEnabled() {
-    if (bgmMuted || !bgmPausedByOverlay) return;
-    bgmPausedByOverlay = false;
-    playBgm({ audible: true });
+    resumeOnHome();
   }
 
   function bindDockControls() {
@@ -265,16 +294,24 @@
     });
   }
 
-  function initSiteBgm() {
-    const mount = document.getElementById('siteBgmMount');
-    const toggle = document.getElementById('siteBgmToggle');
+  function applyStaticLabels() {
     const titleEl = document.getElementById('siteBgmDockTitle');
     const labelEl = document.getElementById('siteBgmDockLabel');
-    if (!mount || !toggle) return;
+    const dock = document.getElementById('siteBgmDock');
+    const toggle = document.getElementById('siteBgmToggle');
 
     if (titleEl) titleEl.textContent = COPY.song;
     if (labelEl) labelEl.textContent = COPY.playlist;
+    if (dock) dock.setAttribute('aria-label', `${COPY.song} \uC7AC\uC0DD`);
+    if (toggle) toggle.title = COPY.song;
+  }
 
+  function initSiteBgm() {
+    const mount = document.getElementById('siteBgmMount');
+    const toggle = document.getElementById('siteBgmToggle');
+    if (!mount || !toggle) return;
+
+    applyStaticLabels();
     bgmMuted = readMutedPreference();
     updateToggleUI();
     bindDockControls();
@@ -286,14 +323,11 @@
     });
 
     document.addEventListener('memory-playlist:hide', () => {
-      if (bgmMuted) return;
-      bgmPausedByOverlay = false;
-      if (!bgmPlaying) {
-        window.setTimeout(() => tryMutedAutoplay(), 200);
-      } else {
-        applyAudibleState();
-        showBgmDock();
-      }
+      resumeOnHome();
+    });
+
+    document.addEventListener('site-home:enter', () => {
+      resumeOnHome();
     });
 
     ensureYouTubeApi().then(() => {
@@ -326,6 +360,7 @@
   window.SiteBgm = {
     pauseForOverlay,
     resumeIfEnabled,
+    resumeOnHome,
     unlockFromGesture,
     hideDock: hideBgmDock,
     showDock: showBgmDock,

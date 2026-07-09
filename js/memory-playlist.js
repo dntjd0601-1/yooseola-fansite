@@ -1,10 +1,10 @@
 const PLAYLIST_FEED_API = '/.netlify/functions/youtube-playlist';
 
 const MEMORY_MAIN_TRACK = {
-  title: '브라운아이즈 - 벌써 일년',
-  videoId: '7mJLmpuxzaQ',
-  thumb: 'https://i.ytimg.com/vi/7mJLmpuxzaQ/hqdefault.jpg',
-  mood: '메인',
+  title: window.SITE_MAIN_SONG?.title || '\uBE14\uB77C\uC6B4 \uC544\uC774\uC988 - \uBC8C\uC350 \uC77C\uB144',
+  videoId: window.SITE_MAIN_SONG?.videoId || '7mJLmpuxzaQ',
+  thumb: window.SITE_MAIN_SONG?.thumb || 'https://i.ytimg.com/vi/7mJLmpuxzaQ/hqdefault.jpg',
+  mood: window.SITE_MAIN_SONG?.mood || '\uBA54\uC778',
   isMainTrack: true,
 };
 
@@ -124,9 +124,26 @@ function updateNavMusicTitle(title) {
   if (titleEl) titleEl.textContent = title;
 }
 
+function hideNavMusicPlayer() {
+  const playerEl = document.getElementById('navMusicPlayer');
+  if (playerEl) playerEl.hidden = true;
+}
+
+function stopMemoryPlaylistPlayback() {
+  withPlayerReady(() => {
+    memoryPlaylistPlayer?.pauseVideo?.();
+  });
+  memoryPlaylistPlaying = false;
+  memoryPlaylistActiveIndex = -1;
+  updateNavMusicControls();
+  updateNavMusicTitle('');
+  hideNavMusicPlayer();
+}
+
 function showNavMusicPlayer() {
   const playerEl = document.getElementById('navMusicPlayer');
   if (playerEl) playerEl.hidden = false;
+  window.SiteBgm?.pauseForOverlay?.();
   window.SiteBgm?.hideDock?.();
   updateNavMusicControls();
 }
@@ -407,9 +424,18 @@ async function initMemoryPlaylist() {
     playMemoryTrack(getMemoryStartIndex());
   });
 
+  document.addEventListener('memory-playlist:hide', () => {
+    stopMemoryPlaylistPlayback();
+  });
+
   if (section.classList.contains('page-section--active')) {
     playMemoryTrack(getMemoryStartIndex());
   }
 }
+
+window.MemoryPlaylist = {
+  isPlaying: () => memoryPlaylistPlaying,
+  pauseAll: stopMemoryPlaylistPlayback,
+};
 
 document.addEventListener('DOMContentLoaded', initMemoryPlaylist);
