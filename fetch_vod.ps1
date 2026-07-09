@@ -136,9 +136,77 @@ foreach ($m in $idMatches) {
     if ($youtube.Count -ge 15) { break }
 }
 
+# YouTube 기타 — 버컴 플레이리스트
+$etc = @()
+$etcListId = 'PLR2c_oelBOVU'
+$etcMetaById = @{}
+$etcRssPath = Join-Path $root 'etc_playlist_feed.xml'
+curl.exe -s "https://www.youtube.com/feeds/videos.xml?playlist_id=$etcListId" -o $etcRssPath | Out-Null
+if (Test-Path $etcRssPath) {
+    [xml]$etcXml = Get-Content $etcRssPath -Encoding UTF8
+    $ns = New-Object System.Xml.XmlNamespaceManager($etcXml.NameTable)
+    $ns.AddNamespace('atom', 'http://www.w3.org/2005/Atom')
+    $ns.AddNamespace('media', 'http://search.yahoo.com/mrss/')
+    $ns.AddNamespace('yt', 'http://www.youtube.com/xml/schemas/2015')
+    foreach ($entry in $etcXml.SelectNodes('//atom:entry', $ns)) {
+        $videoId = $entry.SelectSingleNode('yt:videoId', $ns).'#text'
+        if (-not $videoId) { continue }
+        $title = $entry.SelectSingleNode('media:group/media:title', $ns).'#text'
+        if (-not $title) { $title = $entry.SelectSingleNode('atom:title', $ns).'#text' }
+        $published = $entry.SelectSingleNode('atom:published', $ns).'#text'
+        $views = $entry.SelectSingleNode('media:group/media:community/media:statistics', $ns).views
+        $etcMetaById[$videoId] = @{
+            title = $title
+            url = "https://www.youtube.com/watch?v=$videoId"
+            thumb = "https://i.ytimg.com/vi/$videoId/hqdefault.jpg"
+            date = Format-Date $published
+            duration = ''
+            views = [int]$views
+        }
+    }
+}
+
+$etcHtmlPath = Join-Path $root 'etc_playlist_page.html'
+curl.exe -s -A "Mozilla/5.0" "https://www.youtube.com/playlist?list=$etcListId" -o $etcHtmlPath | Out-Null
+$etcHtml = if (Test-Path $etcHtmlPath) { [System.IO.File]::ReadAllText($etcHtmlPath, [System.Text.Encoding]::UTF8) } else { '' }
+$seenEtcIds = @{}
+$etcIdMatches = [regex]::Matches($etcHtml, '"videoId":"([a-zA-Z0-9_-]{11})"')
+foreach ($m in $etcIdMatches) {
+    $id = $m.Groups[1].Value
+    if ($seenEtcIds.ContainsKey($id)) { continue }
+    if ($id -eq 'CeCOBCcnkMxy7Hb09u8dxg') { continue }
+    $seenEtcIds[$id] = $true
+
+    if ($etcMetaById.ContainsKey($id)) {
+        $etc += ,$etcMetaById[$id]
+    } else {
+        $title = $id
+        $thumb = "https://i.ytimg.com/vi/$id/hqdefault.jpg"
+        $oembedPath = Join-Path $root "oembed_$id.json"
+        curl.exe -s "https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=$id&format=json" -o $oembedPath | Out-Null
+        if (Test-Path $oembedPath) {
+            try {
+                $oembed = Get-Content $oembedPath -Encoding UTF8 -Raw | ConvertFrom-Json
+                if ($oembed.title) { $title = $oembed.title }
+                if ($oembed.thumbnail_url) { $thumb = $oembed.thumbnail_url }
+            } catch { }
+            Remove-Item $oembedPath -Force -ErrorAction SilentlyContinue
+        }
+        $etc += ,@{
+            title = $title
+            url = "https://www.youtube.com/watch?v=$id"
+            thumb = $thumb
+            date = ''
+            duration = ''
+            views = 0
+        }
+    }
+    if ($etc.Count -ge 15) { break }
+}
+
 $sb = New-Object System.Text.StringBuilder
 [void]$sb.AppendLine('/**')
-[void]$sb.AppendLine(' * VOD data - SOOP / YouTube / YouTube Shorts')
+[void]$sb.AppendLine(' * VOD data - SOOP / YouTube / YouTube Shorts / 기타')
 [void]$sb.AppendLine(' * Regenerate: powershell -File fetch_vod.ps1')
 [void]$sb.AppendLine(' */')
 [void]$sb.AppendLine('const VOD_DATA = {')
@@ -160,8 +228,9 @@ function Write-List($sb, $name, $items) {
 Write-List $sb 'replay' $replay
 Write-List $sb 'youtube' $youtube
 Write-List $sb 'shorts' $shorts
+Write-List $sb 'etc' $etc
 [void]$sb.AppendLine('};')
 
 $out = Join-Path $root 'js\vod-data.js'
 [System.IO.File]::WriteAllText($out, $sb.ToString(), [System.Text.Encoding]::UTF8)
-Write-Output "Wrote replay=$($replay.Count) youtube=$($youtube.Count) shorts=$($shorts.Count)"
+Write-Output "Wrote replay=$($replay.Count) youtube=$($youtube.Count) shorts=$($shorts.Count) etc=$($etc.Count)"
