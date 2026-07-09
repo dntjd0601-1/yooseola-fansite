@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Jua&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=20260708a">
+  <link rel="stylesheet" href="css/style.css?v=20260709c">
 </head>
 <body>
 
@@ -20,11 +20,6 @@
         <span class="nav__logo-icon">✦</span>
         유설아 팬사이트
       </a>
-      <button class="nav__toggle" id="navToggle" aria-label="메뉴 열기" aria-expanded="false">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
       <ul class="nav__menu" id="navMenu">
         <li><a href="#home" class="nav__link active">홈</a></li>
         <li><a href="#profile" class="nav__link">프로필</a></li>
@@ -35,8 +30,29 @@
         <li><a href="#monthly-seola" class="nav__link">월간 설아</a></li>
         <li><a href="#churudan" class="nav__link">츄르단 공간</a></li>
       </ul>
+      <div class="nav__actions">
+        <button
+          type="button"
+          class="site-bgm__toggle"
+          id="siteBgmToggle"
+          aria-pressed="true"
+          aria-label="배경음악 끄기"
+          title="브라운아이즈 - 벌써 일년"
+        >
+          <span class="site-bgm__icon" aria-hidden="true">♪</span>
+        </button>
+        <button class="nav__toggle" id="navToggle" aria-label="메뉴 열기" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
     </nav>
   </header>
+
+  <div class="site-bgm" aria-hidden="true">
+    <div id="siteBgmMount"></div>
+  </div>
 
   <aside class="playlist-dock" id="navMusicPlayer" hidden aria-label="재생 중인 추억의 플리">
     <div class="nav-player">
@@ -796,7 +812,8 @@
   <script src="js/monthly-seola.js?v=20260707d"></script>
   <script src="js/profile-history-data.js?v=20260629"></script>
   <script src="js/profile-history.js?v=20260626"></script>
-  <script src="js/main.js?v=20260707c"></script>
-  <script src="js/site-popup.js?v=20260708d"></script>
+  <script src="js/main.js?v=20260709b"></script>
+  <script src="js/site-bgm.js?v=20260709c"></script>
+  <script src="js/site-popup.js?v=20260709c"></script>
 </body>
 </html>

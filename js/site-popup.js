@@ -91,6 +91,7 @@
     function closePopup() {
       persistDismiss(Boolean(hideTodayCheckbox?.checked));
       hidePopup(popup);
+      window.SiteBgm?.unlockFromGesture?.();
     }
 
     backdrop?.addEventListener('click', closePopup);
