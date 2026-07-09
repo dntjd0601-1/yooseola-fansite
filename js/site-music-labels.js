@@ -1,8 +1,21 @@
-/** Shared main song label — Unicode escapes avoid Windows git encoding issues.
- *  브=\uBE0C  라=\uB77C  운=\uC6B4 | 벌=\uBC8C  써=\uC384  일=\uC77C  년=\uB144 */
+/** Shared main song label — built from code points to avoid encoding mistakes. */
+function buildMainSongTitle() {
+  const H = String.fromCodePoint;
+  return [
+    H(0xBE0C, 0xB77C, 0xC6B4),
+    ' ',
+    H(0xC544, 0xC774, 0xC988),
+    ' - ',
+    H(0xBC8C, 0xC368),
+    ' ',
+    H(0xC77C, 0xB144),
+  ].join('');
+}
+
 window.SITE_MAIN_SONG = {
-  title: '\uBE0C\uB77C\uC6B4 \uC544\uC774\uC988 - \uBC8C\uC384 \uC77C\uB144',
-  videoId: '7mJLmpuxzaQ',
-  thumb: 'https://i.ytimg.com/vi/7mJLmpuxzaQ/hqdefault.jpg',
+  title: buildMainSongTitle(),
+  // Official remaster MV (7mJLmpuxzaQ is 원곡+MR combo — plays instrumental after song ends)
+  videoId: 'LZlIqfMn4cc',
+  thumb: 'https://i.ytimg.com/vi/LZlIqfMn4cc/hqdefault.jpg',
   mood: '\uBA54\uC778',
 };
