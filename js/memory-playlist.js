@@ -8,7 +8,7 @@ const MEMORY_MAIN_TRACK = {
     ' ',
     String.fromCodePoint(0xCEE4, 0xBC84, 0xACE1),
     ' - ',
-    String.fromCodePoint(0xB05D, 0xB798, 0xB2E4, 0xB294),
+    String.fromCodePoint(0xB05D, 0xB584, 0xB2E4, 0xB294),
     ' ',
     String.fromCodePoint(0xAC83, 0xC740),
     ' ',
