@@ -8,8 +8,8 @@
   const STORAGE_KEY = 'fansite:bgm-muted:v1';
 
   const COPY = {
-    playlist: '\uBC8C\uC350 \uC77C\uB144',
-    song: '\uBE14\uB77C\uC6B4\uC544\uC774\uC988\uC758 \uBC8C\uC350 \uC77C\uB144',
+    playlist: 'Now Playing',
+    song: '\uBE14\uB77C\uC6B4\uC544\uC774\uC988 - \uBC8C\uC350 \uC77C\uB144',
     ariaOn: '\uBC30\uACBD\uC74C\uC545 \uB044\uAE30',
     ariaOff: '\uBC30\uACBD\uC74C\uC545 \uCF1C\uAE30',
     repeat: '\uBC18\uBCF5 \uC7AC\uC0DD',
