@@ -111,10 +111,37 @@ async function fetchSoopLiveStatus() {
 }
 
 function initHeroFeaturedLink() {
-  const link = document.getElementById('heroFeaturedLink');
-  const titleEl = document.getElementById('heroFeaturedTitle');
-  if (!link) return;
+  const visual = document.querySelector('.hero__visual');
+  if (!visual) return;
 
+  let link = document.getElementById('heroFeaturedLink');
+  if (!link) {
+    link = document.createElement('a');
+    link.id = 'heroFeaturedLink';
+    link.className = 'hero__featured-card';
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+
+    const badge = document.createElement('span');
+    badge.className = 'hero__featured-badge';
+    badge.id = 'heroFeaturedBadge';
+    badge.textContent = 'Q&A';
+
+    const title = document.createElement('span');
+    title.className = 'hero__featured-title';
+    title.id = 'heroFeaturedTitle';
+
+    link.append(badge, title);
+
+    const liveBtn = document.getElementById('heroLiveBtn');
+    if (liveBtn) {
+      liveBtn.insertAdjacentElement('afterend', link);
+    } else {
+      visual.appendChild(link);
+    }
+  }
+
+  const titleEl = document.getElementById('heroFeaturedTitle');
   const label = '\uBC84\uCEF4 1\uC8FC\uB144 Q&A';
   link.href = 'https://www.sooplive.com/station/yeveee/post/200878159';
   link.setAttribute('aria-label', label);
