@@ -129,29 +129,10 @@ button {
 }
 
 @media (min-width: 901px) {
-  .nav {
-    display: grid;
-    grid-template-columns: 1fr minmax(240px, 400px);
-    column-gap: clamp(24px, 5vw, 56px);
-    align-items: center;
-  }
-
-  .nav__logo {
-    grid-column: 1;
-    justify-self: start;
-  }
-
   .nav__menu {
-    grid-column: 2;
-    justify-self: end;
-    justify-content: flex-end;
-    flex-wrap: wrap;
-    gap: 2px;
-    max-width: 100%;
-  }
-
-  .nav__actions {
-    display: none;
+    margin-left: auto;
+    flex-wrap: nowrap;
+    gap: 4px;
   }
 }
 
