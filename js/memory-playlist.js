@@ -1,23 +1,7 @@
 const PLAYLIST_FEED_API = '/.netlify/functions/youtube-playlist';
 
 const MEMORY_MAIN_TRACK = {
-  title: window.SITE_MAIN_SONG?.title || [
-    String.fromCodePoint(0xBC84, 0xCEF4),
-    ' 1',
-    String.fromCodePoint(0xC8FC, 0xB144),
-    ' ',
-    String.fromCodePoint(0xCEE4, 0xBC84, 0xACE1),
-    ' - ',
-    String.fromCodePoint(0xB05D, 0xB584, 0xB2E4, 0xB294),
-    ' ',
-    String.fromCodePoint(0xAC83, 0xC740),
-    ' ',
-    String.fromCodePoint(0xB2E4, 0xC2DC),
-    ' ',
-    String.fromCodePoint(0xC2DC, 0xC791, 0xB41C, 0xB2E4, 0xB294),
-    ' ',
-    String.fromCodePoint(0xAC83, 0xC744),
-  ].join(''),
+  title: window.SITE_MAIN_SONG?.title || '버컴 1주년 커버곡 - 끝났다는 것은 다시 시작된다는 것을',
   videoId: window.SITE_MAIN_SONG?.videoId || 'XtVEV7wh76A',
   thumb: window.SITE_MAIN_SONG?.thumb || 'https://i.ytimg.com/vi/XtVEV7wh76A/hqdefault.jpg',
   mood: window.SITE_MAIN_SONG?.mood || '\uBA54\uC778',
