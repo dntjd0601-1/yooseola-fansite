@@ -24,6 +24,7 @@
   let bgmAudible = false;
   let bgmMuted = false;
   let bgmPausedByOverlay = false;
+  let bgmUserPaused = false;
   let bgmUnlockBound = false;
   let bgmPendingAudible = false;
   let youtubeApiPromise = null;
@@ -153,8 +154,9 @@
     showBgmDock();
   }
 
-  function playBgm({ audible = null, fromStart = false } = {}) {
+  function playBgm({ audible = null, fromStart = false, userInitiated = false } = {}) {
     if (!bgmReady || !bgmPlayer || bgmMuted || !canPlayBgm()) return;
+    if (userInitiated) bgmUserPaused = false;
     window.MemoryPlaylist?.pauseAll?.();
     if (fromStart) bgmPlayer.seekTo?.(0, true);
     bgmPlayer.playVideo?.();
@@ -167,8 +169,9 @@
     }
   }
 
-  function pauseBgm() {
+  function pauseBgm({ userInitiated = false } = {}) {
     if (!bgmPlayer) return;
+    if (userInitiated) bgmUserPaused = true;
     bgmPlayer.pauseVideo?.();
     setBgmPlaying(false);
     bgmAudible = false;
@@ -194,7 +197,7 @@
   }
 
   function unlockFromGesture() {
-    if (!canPlayBgm() || bgmMuted || !bgmReady) return;
+    if (!canPlayBgm() || bgmMuted || !bgmReady || bgmUserPaused) return;
     bgmPausedByOverlay = false;
     if (!bgmPlaying) {
       playBgm({ audible: true, fromStart: true });
@@ -212,12 +215,12 @@
   }
 
   function tryMutedAutoplay() {
-    if (!canPlayBgm() || !bgmReady || bgmMuted || bgmPlaying || bgmPausedByOverlay) return;
+    if (!canPlayBgm() || !bgmReady || bgmMuted || bgmPlaying || bgmPausedByOverlay || bgmUserPaused) return;
     playBgm({ audible: false, fromStart: true });
   }
 
   function resumeBgm() {
-    if (bgmMuted || isOtherMusicPlaying()) return;
+    if (bgmMuted || isOtherMusicPlaying() || bgmUserPaused) return;
     bgmPausedByOverlay = false;
     window.setTimeout(() => {
       if (!bgmPlaying) tryMutedAutoplay();
@@ -281,7 +284,8 @@
     }
 
     bgmPausedByOverlay = false;
-    playBgm({ audible: true, fromStart: !bgmPlaying });
+    bgmUserPaused = false;
+    playBgm({ audible: true, fromStart: !bgmPlaying, userInitiated: true });
   }
 
   function pauseForOverlay() {
@@ -297,10 +301,10 @@
   function bindDockControls() {
     document.getElementById('siteBgmPlay')?.addEventListener('click', () => {
       if (bgmMuted) return;
-      playBgm({ audible: true, fromStart: !bgmPlaying });
+      playBgm({ audible: true, fromStart: !bgmPlaying, userInitiated: true });
     });
     document.getElementById('siteBgmPause')?.addEventListener('click', () => {
-      pauseBgm();
+      pauseBgm({ userInitiated: true });
     });
   }
 
