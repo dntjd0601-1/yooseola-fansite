@@ -28,8 +28,6 @@ const MEMORY_PLAYLIST_DATA = {
     { title: '버즈(Buzz) - Monologue(모놀로그) [가사/Lyrics]', videoId: '-xvOv7yL10I', thumb: 'https://i.ytimg.com/vi/-xvOv7yL10I/hqdefault.jpg', mood: '노래' },
     { title: '야다(YADA) - 이미 슬픈 사랑 [가사/Lyrics]', videoId: '3knRgHGj7ug', thumb: 'https://i.ytimg.com/vi/3knRgHGj7ug/hqdefault.jpg', mood: '노래' },
     { title: '이승기 - 삭제 [가사/Lyrics]', videoId: 'GpUelwfBe-w', thumb: 'https://i.ytimg.com/vi/GpUelwfBe-w/hqdefault.jpg', mood: '노래' },
-    { title: '[MV] 유승준 Steve Seungjun Yoo 1집 West Side - 가위', videoId: '9b4tKGI7bAc', thumb: 'https://i.ytimg.com/vi/9b4tKGI7bAc/hqdefault.jpg', mood: '노래' },
-    { title: '박용하 - 처음 그날처럼', videoId: 'huiib678s7I', thumb: 'https://i.ytimg.com/vi/huiib678s7I/hqdefault.jpg', mood: '노래' },
     { title: 'Pyo Pyo (뿌요 뿌요 (Pyo Pyo))', videoId: 'tQ1MEh_QgfI', thumb: 'https://i.ytimg.com/vi/tQ1MEh_QgfI/hqdefault.jpg', mood: '노래' },
     { title: 'MC 몽 - 그래도 남자니까(Because I\'m a Man)', videoId: 'JMPChFLkFis', thumb: 'https://i.ytimg.com/vi/JMPChFLkFis/hqdefault.jpg', mood: '노래' },
     { title: '유승준 - 나나나 MV (뮤비) (1998)', videoId: 'PIRLqOBBMDw', thumb: 'https://i.ytimg.com/vi/PIRLqOBBMDw/hqdefault.jpg', mood: '노래' },
