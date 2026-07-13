@@ -440,6 +440,8 @@ const SCHEDULE_EVENTS = {
   '2026-07-11': [{ type: 'special', title: '제주도 한라산 공약' }],
   '2026-07-12': [{ type: 'special', title: '제주도 한라산 공약' }],
   '2026-07-13': [{ type: 'live', title: '휴방' }],
+  '2026-07-14': [{ type: 'live', title: '휴방' }],
+  '2026-07-15': [{ type: 'live', title: '소통방송' }],
   '2026-07-18': [{ type: 'live', title: '토요미스테리' }],
   '2026-07-19': [{ type: 'live', title: '심야버스라디오' }],
   '2026-07-25': [{ type: 'live', title: '토요미스테리' }],
