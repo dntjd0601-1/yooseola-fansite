@@ -10,7 +10,8 @@
   "2026-07-09": [{ "type": "celebration", "title": "버컴퍼니 1주년" }],
   "2026-07-10": [{ "type": "special", "title": "제주도 한라산 공약" }],
   "2026-07-11": [{ "type": "special", "title": "제주도 한라산 공약" }],
-  "2026-07-12": [{ "type": "special", "title": "제주도 한라산 공약" }]
+  "2026-07-12": [{ "type": "special", "title": "제주도 한라산 공약" }],
+  "2026-07-13": [{ "type": "live", "title": "휴방" }]
 };
   Object.keys(overrides).forEach((date) => {
     SCHEDULE_EVENTS[date] = overrides[date];
