@@ -442,8 +442,9 @@ const SCHEDULE_EVENTS = {
   '2026-07-13': [{ type: 'live', title: '휴방' }],
   '2026-07-14': [{ type: 'live', title: '휴방' }],
   '2026-07-15': [{ type: 'live', title: '소통방송' }],
-  '2026-07-18': [{ type: 'live', title: '토요미스테리' }],
-  '2026-07-19': [{ type: 'live', title: '심야버스라디오' }],
+  '2026-07-16': [{ type: 'live', title: '꾸달새 야한성 + 킬내기' }],
+  '2026-07-18': [{ type: 'live', title: '버컴 알아보기 + 토요미스테리' }],
+  '2026-07-19': [{ type: 'live', title: '케로베로스 + 사연 라디오' }],
   '2026-07-25': [{ type: 'live', title: '토요미스테리' }],
   '2026-07-26': [{ type: 'live', title: '심야버스라디오' }],
 };
