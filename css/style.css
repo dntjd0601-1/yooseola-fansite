@@ -4287,6 +4287,127 @@ body.site-popup-open {
   border-color: rgba(255, 255, 255, 0.4);
 }
 
+/* ── Promo popup ── */
+.promo-popup {
+  position: fixed;
+  inset: 0;
+  z-index: 2100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--transition), visibility var(--transition);
+}
+
+.promo-popup--open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.promo-popup__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(8, 14, 28, 0.72);
+  border: 0;
+  cursor: pointer;
+}
+
+.promo-popup__card {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 420px);
+  border-radius: 20px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+}
+
+.promo-popup__image-link {
+  display: block;
+  line-height: 0;
+}
+
+.promo-popup__image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.promo-popup__actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding: 14px 16px 16px;
+  background: linear-gradient(180deg, #f7fbff 0%, #eef6ff 100%);
+}
+
+.promo-popup__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 14px;
+  border-radius: 12px;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform var(--transition), background var(--transition), color var(--transition);
+}
+
+.promo-popup__btn--primary {
+  color: #fff;
+  background: linear-gradient(135deg, #4f9dff 0%, #2f7fe8 100%);
+  box-shadow: 0 8px 18px rgba(47, 127, 232, 0.28);
+}
+
+.promo-popup__btn--primary:hover {
+  transform: translateY(-1px);
+  background: linear-gradient(135deg, #63a9ff 0%, #3d8df0 100%);
+}
+
+.promo-popup__btn--ghost {
+  color: #4a5d78;
+  background: #fff;
+  border: 1px solid rgba(79, 157, 255, 0.28);
+}
+
+.promo-popup__btn--ghost:hover {
+  background: #f4f8ff;
+}
+
+body.promo-popup-open {
+  overflow: hidden;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 480px) {
+  .promo-popup {
+    padding: 16px 12px;
+  }
+
+  .promo-popup__card {
+    border-radius: 16px;
+  }
+
+  .promo-popup__actions {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ── Footer ── */
 .footer {
   padding: 60px 0 32px;
