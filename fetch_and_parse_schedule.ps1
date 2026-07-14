@@ -93,15 +93,15 @@ foreach ($t in ($targets | Sort-Object year, month)) {
         }
 
         if ($filtered.Count -eq 0 -and -not $hasOff) { continue }
-        $title = if ($filtered.Count -gt 0) { ($filtered -join ' + ') } else { $offMarker }
-        if ($hasOff -and $filtered.Count -eq 0) {
-            $type = 'off'
-        } elseif ($title -eq $offMarker -or $title -like "$offMarker*") {
-            $type = 'off'
+        if ($filtered.Count -gt 0) {
+            $allEvents[$date] = @(
+                foreach ($line in $filtered) {
+                    @{ type = 'live'; title = $line }
+                }
+            )
         } else {
-            $type = 'live'
+            $allEvents[$date] = @(@{ type = 'off'; title = $offMarker })
         }
-        $allEvents[$date] = @{ type = $type; title = $title }
     }
 }
 
@@ -109,10 +109,21 @@ $overridePath = Join-Path $root 'schedule-overrides.json'
 if (Test-Path $overridePath) {
     $overrides = [System.IO.File]::ReadAllText($overridePath, [System.Text.Encoding]::UTF8) | ConvertFrom-Json
     foreach ($prop in $overrides.PSObject.Properties) {
-        $entry = $prop.Value
-        if ($entry -is [System.Array]) { $entry = $entry[0] }
-        $allEvents[$prop.Name] = @{ type = $entry.type; title = $entry.title }
+        $allEvents[$prop.Name] = @(
+            foreach ($entry in @($prop.Value)) {
+                @{ type = $entry.type; title = $entry.title }
+            }
+        )
     }
+}
+
+function Format-ScheduleJsLine {
+    param([string]$Date, $Events)
+    $items = foreach ($ev in @($Events)) {
+        $title = $ev.title.Replace("'", "\'")
+        "{ type: '$($ev.type)', title: '$title' }"
+    }
+    return "  '$Date': [$($items -join ', ')],"
 }
 
 $sb = New-Object System.Text.StringBuilder
@@ -121,8 +132,7 @@ $sb = New-Object System.Text.StringBuilder
 [void]$sb.AppendLine(' */')
 [void]$sb.AppendLine('const SCHEDULE_EVENTS = {')
 foreach ($kv in $allEvents.GetEnumerator() | Sort-Object Name) {
-    $title = $kv.Value.title.Replace("'", "\'")
-    [void]$sb.AppendLine("  '$($kv.Name)': [{ type: '$($kv.Value.type)', title: '$title' }],")
+    [void]$sb.AppendLine((Format-ScheduleJsLine -Date $kv.Name -Events $kv.Value))
 }
 [void]$sb.AppendLine('};')
 $outPath = Join-Path $root 'js\schedule-data.js'

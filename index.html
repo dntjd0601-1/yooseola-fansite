@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Jua&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=20260709r">
+  <link rel="stylesheet" href="css/style.css?v=20260715a">
 </head>
 <body>
 
@@ -752,6 +752,21 @@
     <p class="footer__copy">유설아 팬사이트. Made by 우렁이</p>
   </footer>
 
+  <!-- 링티 라이브 커머스 팝업 -->
+  <div class="promo-popup" id="promoPopup" hidden role="dialog" aria-modal="true" aria-labelledby="promoPopupTitle" aria-hidden="true">
+    <button type="button" class="promo-popup__backdrop" id="promoPopupBackdrop" aria-label="닫기"></button>
+    <div class="promo-popup__card">
+      <h2 class="visually-hidden" id="promoPopupTitle">링티 라이브 커머스</h2>
+      <a class="promo-popup__image-link" href="https://www.sooplive.com/station/yeveee/post/201445323" target="_blank" rel="noopener noreferrer">
+        <img class="promo-popup__image" src="images/lingti-promo-jul2026.png" alt="링티 라이브 커머스 7월 14일부터 20일까지" width="480" height="854" loading="eager" decoding="async">
+      </a>
+      <div class="promo-popup__actions">
+        <a class="promo-popup__btn promo-popup__btn--primary" href="https://sooptore.sooplive.com/products/134096053" target="_blank" rel="noopener noreferrer">구매하러 가기</a>
+        <button type="button" class="promo-popup__btn promo-popup__btn--ghost" id="promoPopupClose">닫기</button>
+      </div>
+    </div>
+  </div>
+
   <!-- 라이트박스 -->
   <div class="lightbox" id="lightbox" aria-hidden="true">
     <button class="lightbox__close" id="lightboxClose" aria-label="닫기">&times;</button>
@@ -769,16 +784,10 @@
     </div>
   </div>
 
-  <script src="js/schedule-data.js?v=6161aba9"></script>
-  <script src="js/schedule-overrides.js?v=19d7dfdc"></script>
-  <script>
-    (function () {
-      if (typeof SCHEDULE_EVENTS === 'undefined') return;
-      SCHEDULE_EVENTS['2026-07-07'] = [{ type: 'live', title: '\uC18C\uD1B5\uBC29\uC1A1' }];
-    })();
-  </script>
-  <script src="js/gallery-data.js?v=20260714"></script>
-  <script src="js/vod-data.js?v=20260714"></script>
+  <script src="js/schedule-data.js?v=6a905fba"></script>
+  <script src="js/schedule-overrides.js?v=f56189f2"></script>
+  <script src="js/gallery-data.js?v=20260715"></script>
+  <script src="js/vod-data.js?v=20260715"></script>
   <script src="js/vod.js?v=20260710a"></script>
   <script src="js/vendor/planck.min.js?v=20260611"></script>
   <script src="js/marble-maps-data.js?v=20260625"></script>
@@ -790,14 +799,15 @@
   <script src="js/stork-ruffle.js?v=20260627"></script>
   <script src="js/minigames.js?v=20260701"></script>
   <script src="js/rolling-paper.js?v=20260611"></script>
-  <script src="js/memory-playlist-data.js?v=20260714"></script>
+  <script src="js/memory-playlist-data.js?v=20260715"></script>
   <script src="js/site-music-labels.js?v=20260710d"></script>
   <script src="js/memory-playlist.js?v=20260710d"></script>
-  <script src="js/monthly-seola-data.js?v=20260714"></script>
+  <script src="js/monthly-seola-data.js?v=20260715"></script>
   <script src="js/monthly-seola.js?v=20260707d"></script>
   <script src="js/profile-history-data.js?v=20260629"></script>
   <script src="js/profile-history.js?v=20260626"></script>
   <script src="js/main.js?v=20260710a"></script>
+  <script src="js/site-promo-popup.js?v=20260715"></script>
   <script src="js/site-bgm.js?v=20260711a"></script>
 </body>
 </html>

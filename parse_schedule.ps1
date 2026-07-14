@@ -62,10 +62,25 @@ foreach ($entry in ($ids.GetEnumerator() | Sort-Object { $_.Value.year }, { $_.V
             $_ -and -not (& $isOffLine $_) -and ($weekdays -notcontains $_)
         }
         if ($filtered.Count -eq 0 -and -not $hasOff) { continue }
-        $title = if ($filtered.Count -gt 0) { ($filtered -join ' + ') } else { $offMarker }
-        $type = if ($hasOff -and $filtered.Count -eq 0) { 'off' } else { 'live' }
-        $allEvents[$date] = @{ type = $type; title = $title }
+        if ($filtered.Count -gt 0) {
+            $allEvents[$date] = @(
+                foreach ($line in $filtered) {
+                    @{ type = 'live'; title = $line }
+                }
+            )
+        } else {
+            $allEvents[$date] = @(@{ type = 'off'; title = $offMarker })
+        }
     }
+}
+
+function Format-ScheduleJsLine {
+    param([string]$Date, $Events)
+    $items = foreach ($ev in @($Events)) {
+        $title = $ev.title.Replace("'", "\'")
+        "{ type: '$($ev.type)', title: '$title' }"
+    }
+    return "  '$Date': [$($items -join ', ')],"
 }
 
 $sb = New-Object System.Text.StringBuilder
@@ -74,8 +89,7 @@ $sb = New-Object System.Text.StringBuilder
 [void]$sb.AppendLine(' */')
 [void]$sb.AppendLine('const SCHEDULE_EVENTS = {')
 foreach ($kv in $allEvents.GetEnumerator() | Sort-Object Name) {
-    $title = $kv.Value.title.Replace("'", "\'")
-    [void]$sb.AppendLine("  '$($kv.Name)': [{ type: '$($kv.Value.type)', title: '$title' }],")
+    [void]$sb.AppendLine((Format-ScheduleJsLine -Date $kv.Name -Events $kv.Value))
 }
 [void]$sb.AppendLine('};')
 [System.IO.File]::WriteAllText((Join-Path $PSScriptRoot 'js\schedule-data.js'), $sb.ToString(), [System.Text.Encoding]::UTF8)
