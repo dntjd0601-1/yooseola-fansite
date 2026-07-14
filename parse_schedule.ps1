@@ -63,7 +63,7 @@ foreach ($entry in ($ids.GetEnumerator() | Sort-Object { $_.Value.year }, { $_.V
         }
         if ($filtered.Count -eq 0 -and -not $hasOff) { continue }
         if ($filtered.Count -gt 0) {
-            $title = ($filtered -join '\n').Replace("'", "\'")
+            $title = ($filtered -join ' ').Replace("'", "\'")
             $allEvents[$date] = @(@{ type = 'live'; title = $title })
         } else {
             $allEvents[$date] = @(@{ type = 'off'; title = $offMarker })

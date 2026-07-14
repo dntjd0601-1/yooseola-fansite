@@ -560,7 +560,6 @@ body.is-home .footer {
   font-weight: 600;
   line-height: 1.45;
   word-break: keep-all;
-  white-space: pre-line;
 }
 
 .hero__schedule-empty {
@@ -3576,7 +3575,6 @@ body.site-popup-open {
   color: var(--color-text);
   word-break: keep-all;
   overflow-wrap: break-word;
-  white-space: pre-line;
 }
 
 .cal-event--off .cal-event__title {
@@ -4347,12 +4345,34 @@ body.site-popup-open {
 }
 
 .promo-popup__actions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
   flex: 0 0 auto;
   padding: 14px 16px 16px;
   background: linear-gradient(180deg, #f7fbff 0%, #eef6ff 100%);
+}
+
+.promo-popup__dismiss {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: #5a6d86;
+  cursor: pointer;
+  user-select: none;
+}
+
+.promo-popup__dismiss input {
+  width: 16px;
+  height: 16px;
+  accent-color: #2f7fe8;
+}
+
+.promo-popup__buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
 }
 
 .promo-popup__btn {
@@ -4415,7 +4435,7 @@ body.promo-popup-open {
     border-radius: 16px;
   }
 
-  .promo-popup__actions {
+  .promo-popup__buttons {
     grid-template-columns: 1fr;
   }
 }

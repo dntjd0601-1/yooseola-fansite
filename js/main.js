@@ -64,13 +64,15 @@ function getCombinedScheduleDisplay(events) {
     'live'
   );
   const primary = displays.find((display) => display.kind === kind) || displays[0];
-  const titles = displays.map((display) => display.title).filter(Boolean);
+  const titles = events
+    .map((ev) => decodeScheduleTitle(ev.title))
+    .flatMap((text) => text.split(/\n+/).map((part) => part.trim()).filter(Boolean));
 
   return {
     kind,
     off: kind === 'off',
     badge: primary.badge,
-    title: titles.join('\n'),
+    title: titles.join(' '),
   };
 }
 
@@ -536,6 +538,10 @@ function initPageViews() {
 
     if (id === 'gallery') {
       refreshGallerySection();
+    }
+
+    if (id === 'home') {
+      document.dispatchEvent(new CustomEvent('home:show'));
     }
 
     window.scrollTo(0, 0);
