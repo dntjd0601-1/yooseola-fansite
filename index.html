@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Jua&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=20260715c">
+  <link rel="stylesheet" href="css/style.css?v=20260715d">
 </head>
 <body>
 
@@ -761,8 +761,14 @@
         <img class="promo-popup__image" src="images/lingti-promo-jul2026.png" alt="링티 라이브 커머스 7월 14일부터 20일까지" width="480" height="854" loading="eager" decoding="async">
       </a>
       <div class="promo-popup__actions">
-        <a class="promo-popup__btn promo-popup__btn--primary" href="https://sooptore.sooplive.com/products/134096053" target="_blank" rel="noopener noreferrer">구매하러 가기</a>
-        <button type="button" class="promo-popup__btn promo-popup__btn--ghost" id="promoPopupClose">닫기</button>
+        <label class="promo-popup__dismiss">
+          <input type="checkbox" id="promoPopupDismissToday">
+          <span>오늘 하루 안 보기</span>
+        </label>
+        <div class="promo-popup__buttons">
+          <a class="promo-popup__btn promo-popup__btn--primary" href="https://sooptore.sooplive.com/products/134096053" target="_blank" rel="noopener noreferrer">구매하러 가기</a>
+          <button type="button" class="promo-popup__btn promo-popup__btn--ghost" id="promoPopupClose">닫기</button>
+        </div>
       </div>
     </div>
   </div>
@@ -784,7 +790,7 @@
     </div>
   </div>
 
-  <script src="js/schedule-data.js?v=564c393e"></script>
+  <script src="js/schedule-data.js?v=df2e43f4"></script>
   <script src="js/schedule-overrides.js?v=f56189f2"></script>
   <script src="js/gallery-data.js?v=20260715"></script>
   <script src="js/vod-data.js?v=20260715"></script>
@@ -806,8 +812,8 @@
   <script src="js/monthly-seola.js?v=20260707d"></script>
   <script src="js/profile-history-data.js?v=20260629"></script>
   <script src="js/profile-history.js?v=20260626"></script>
-  <script src="js/main.js?v=20260715b"></script>
-  <script src="js/site-promo-popup.js?v=20260715"></script>
+  <script src="js/main.js?v=20260715c"></script>
+  <script src="js/site-promo-popup.js?v=20260715b"></script>
   <script src="js/site-bgm.js?v=20260711a"></script>
 </body>
 </html>
