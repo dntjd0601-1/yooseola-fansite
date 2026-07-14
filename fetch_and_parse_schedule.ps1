@@ -94,11 +94,8 @@ foreach ($t in ($targets | Sort-Object year, month)) {
 
         if ($filtered.Count -eq 0 -and -not $hasOff) { continue }
         if ($filtered.Count -gt 0) {
-            $allEvents[$date] = @(
-                foreach ($line in $filtered) {
-                    @{ type = 'live'; title = $line }
-                }
-            )
+            $title = ($filtered -join '\n').Replace("'", "\'")
+            $allEvents[$date] = @(@{ type = 'live'; title = $title })
         } else {
             $allEvents[$date] = @(@{ type = 'off'; title = $offMarker })
         }

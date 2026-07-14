@@ -54,6 +54,26 @@ function getScheduleDisplay(ev) {
   return { kind: 'live', off: false, badge: '방송', title: plain };
 }
 
+function getCombinedScheduleDisplay(events) {
+  if (!events?.length) return null;
+
+  const displays = events.map(getScheduleDisplay);
+  const kindPriority = { celebration: 4, special: 3, off: 2, live: 1 };
+  const kind = displays.reduce(
+    (best, display) => (kindPriority[display.kind] > kindPriority[best] ? display.kind : best),
+    'live'
+  );
+  const primary = displays.find((display) => display.kind === kind) || displays[0];
+  const titles = displays.map((display) => display.title).filter(Boolean);
+
+  return {
+    kind,
+    off: kind === 'off',
+    badge: primary.badge,
+    title: titles.join('\n'),
+  };
+}
+
 const SCHEDULE_OVERRIDE_URL =
   'https://dntjd0601-1.github.io/yooseola-fansite/schedule-overrides.json';
 
@@ -456,25 +476,23 @@ function createHeroScheduleCard(date, label) {
     empty.textContent = '등록된 일정이 없습니다';
     body.appendChild(empty);
   } else {
-    events.forEach((ev) => {
-      const display = getScheduleDisplay(ev);
-      const item = document.createElement('div');
-      item.className = `hero__schedule-item${display.kind !== 'live' ? ` hero__schedule-item--${display.kind}` : ''}`;
+    const display = getCombinedScheduleDisplay(events);
+    const item = document.createElement('div');
+    item.className = `hero__schedule-item${display.kind !== 'live' ? ` hero__schedule-item--${display.kind}` : ''}`;
 
-      const badge = document.createElement('span');
-      badge.className = 'hero__schedule-badge';
-      badge.textContent = display.badge;
-      item.appendChild(badge);
+    const badge = document.createElement('span');
+    badge.className = 'hero__schedule-badge';
+    badge.textContent = display.badge;
+    item.appendChild(badge);
 
-      if (display.title) {
-        const title = document.createElement('p');
-        title.className = 'hero__schedule-title';
-        title.textContent = display.title;
-        item.appendChild(title);
-      }
+    if (display.title) {
+      const title = document.createElement('p');
+      title.className = 'hero__schedule-title';
+      title.textContent = display.title;
+      item.appendChild(title);
+    }
 
-      body.appendChild(item);
-    });
+    body.appendChild(item);
   }
 
   card.appendChild(body);
@@ -605,8 +623,10 @@ function initCalendar() {
     }
   }
 
-  function createEventEl(ev) {
-    const display = getScheduleDisplay(ev);
+  function createEventEl(events) {
+    const display = getCombinedScheduleDisplay(events);
+    if (!display) return null;
+
     const item = document.createElement('div');
     item.className = `cal-event cal-event--${display.kind}`;
 
@@ -667,7 +687,8 @@ function initCalendar() {
     if (events.length) {
       const list = document.createElement('div');
       list.className = 'cal-cell__events';
-      events.forEach((ev) => list.appendChild(createEventEl(ev)));
+      const eventEl = createEventEl(events);
+      if (eventEl) list.appendChild(eventEl);
       cell.appendChild(list);
     }
 
