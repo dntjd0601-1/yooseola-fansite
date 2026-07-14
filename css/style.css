@@ -4295,7 +4295,8 @@ body.site-popup-open {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 24px 16px;
+  padding: max(12px, env(safe-area-inset-top)) 16px max(12px, env(safe-area-inset-bottom));
+  overflow-y: auto;
   opacity: 0;
   visibility: hidden;
   transition: opacity var(--transition), visibility var(--transition);
@@ -4307,7 +4308,7 @@ body.site-popup-open {
 }
 
 .promo-popup__backdrop {
-  position: absolute;
+  position: fixed;
   inset: 0;
   background: rgba(8, 14, 28, 0.72);
   border: 0;
@@ -4317,16 +4318,24 @@ body.site-popup-open {
 .promo-popup__card {
   position: relative;
   z-index: 1;
-  width: min(100%, 420px);
+  display: flex;
+  flex-direction: column;
+  width: min(100%, 400px);
+  max-height: calc(100dvh - 24px);
   border-radius: 20px;
   overflow: hidden;
   background: #fff;
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+  margin: auto;
 }
 
 .promo-popup__image-link {
   display: block;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
   line-height: 0;
+  -webkit-overflow-scrolling: touch;
 }
 
 .promo-popup__image {
@@ -4339,6 +4348,7 @@ body.site-popup-open {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
+  flex: 0 0 auto;
   padding: 14px 16px 16px;
   background: linear-gradient(180deg, #f7fbff 0%, #eef6ff 100%);
 }
