@@ -17,7 +17,7 @@ const VOD_DATA = {
     { title: '그냥서버', url: 'https://vod.sooplive.com/player/200000759', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260628_61167AD3_295172411_5_r', date: '2026.06.29', duration: '2:12:45', views: 215 },
     { title: '그냥서버', url: 'https://vod.sooplive.com/player/199988885', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260628_D0B63217_295172411_2_r', date: '2026.06.29', duration: '5:41:53', views: 324 },
     { title: '후열 배그', url: 'https://vod.sooplive.com/player/199901961', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260627_23C6B6D2_295146833_5_r', date: '2026.06.28', duration: '2:15:45', views: 203 },
-    { title: '토요미스테리', url: 'https://vod.sooplive.com/player/199894121', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260627_876EAF12_295146833_2_r', date: '2026.06.28', duration: '7:40:31', views: 1043 },
+    { title: '토요미스테리', url: 'https://vod.sooplive.com/player/199894121', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260627_876EAF12_295146833_2_r', date: '2026.06.28', duration: '7:40:31', views: 1044 },
     { title: '롤 1승 미션 ...', url: 'https://vod.sooplive.com/player/199798321', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260626_D0355B7F_295117763_3_r', date: '2026.06.27', duration: '11:38:51', views: 478 },
   ],
   youtube: [
@@ -38,9 +38,9 @@ const VOD_DATA = {
     { title: 'GTA 인생모드 수상한 피자집, 모슈 [요양타운]', url: 'https://www.youtube.com/watch?v=BLRcHNBVI1M', thumb: 'https://i.ytimg.com/vi/BLRcHNBVI1M/hqdefault.jpg', date: '', duration: '', views: 0 },
   ],
   shorts: [
-    { title: '성적 안좋은팀 응원하는 이유 #유설아 #여푸', url: 'https://www.youtube.com/shorts/wYu_yGxgKr0', thumb: 'https://i.ytimg.com/vi/wYu_yGxgKr0/hqdefault.jpg', date: '2026.07.14', duration: '', views: 1724 },
-    { title: '메챠카멜레온은 기세입니다! #유설아 #니니 #기래민', url: 'https://www.youtube.com/shorts/zIzXXZTqi7U', thumb: 'https://i.ytimg.com/vi/zIzXXZTqi7U/hqdefault.jpg', date: '2026.07.13', duration: '', views: 6598 },
-    { title: '동년배같은 나이어린 동생 #유설아 #킹냥이 #망구랑', url: 'https://www.youtube.com/shorts/-jzwFiGOAz4', thumb: 'https://i.ytimg.com/vi/-jzwFiGOAz4/hqdefault.jpg', date: '2026.07.12', duration: '', views: 17086 },
+    { title: '성적 안좋은팀 응원하는 이유 #유설아 #여푸', url: 'https://www.youtube.com/shorts/wYu_yGxgKr0', thumb: 'https://i.ytimg.com/vi/wYu_yGxgKr0/hqdefault.jpg', date: '2026.07.14', duration: '', views: 1760 },
+    { title: '메챠카멜레온은 기세입니다! #유설아 #니니 #기래민', url: 'https://www.youtube.com/shorts/zIzXXZTqi7U', thumb: 'https://i.ytimg.com/vi/zIzXXZTqi7U/hqdefault.jpg', date: '2026.07.13', duration: '', views: 6622 },
+    { title: '동년배같은 나이어린 동생 #유설아 #킹냥이 #망구랑', url: 'https://www.youtube.com/shorts/-jzwFiGOAz4', thumb: 'https://i.ytimg.com/vi/-jzwFiGOAz4/hqdefault.jpg', date: '2026.07.12', duration: '', views: 17100 },
     { title: '피코파크 범인은 누구인가? #감스트 #유설아 #앙또', url: 'https://www.youtube.com/shorts/Zn43kK3GLAg', thumb: 'https://i.ytimg.com/vi/Zn43kK3GLAg/hqdefault.jpg', date: '2026.07.11', duration: '', views: 19226 },
     { title: '포켓몬카드 초판이 x천만원 이라고? #유설아', url: 'https://www.youtube.com/shorts/YnXfkY-7sKE', thumb: 'https://i.ytimg.com/vi/YnXfkY-7sKE/hqdefault.jpg', date: '2026.07.10', duration: '', views: 11136 },
     { title: '민교편지 받고 감동받은 유설아 #고래시티', url: 'https://www.youtube.com/shorts/lUBN7pdaP5s', thumb: 'https://i.ytimg.com/vi/lUBN7pdaP5s/hqdefault.jpg', date: '2026.07.08', duration: '', views: 4735 },
@@ -55,7 +55,7 @@ const VOD_DATA = {
     { title: '1조 준다면 이거 할수있음?', url: 'https://www.youtube.com/shorts/5BEvfgui_qg', thumb: 'https://i.ytimg.com/vi/5BEvfgui_qg/hqdefault.jpg', date: '2026.04.22', duration: '', views: 7923 },
   ],
   etc: [
-    { title: '【끝났다는 것은 다시 시작된다는 것을】버컴퍼니 1주년 커버곡', url: 'https://www.youtube.com/watch?v=XtVEV7wh76A', thumb: 'https://i.ytimg.com/vi/XtVEV7wh76A/hqdefault.jpg', date: '2026.07.09', duration: '', views: 20113 },
+    { title: '【끝났다는 것은 다시 시작된다는 것을】버컴퍼니 1주년 커버곡', url: 'https://www.youtube.com/watch?v=XtVEV7wh76A', thumb: 'https://i.ytimg.com/vi/XtVEV7wh76A/hqdefault.jpg', date: '2026.07.09', duration: '', views: 20106 },
     { title: '러브송 - 버컴 육공주 Cover', url: 'https://www.youtube.com/watch?v=RR4mfYREgS8', thumb: 'https://i.ytimg.com/vi/RR4mfYREgS8/hqdefault.jpg', date: '2025.12.28', duration: '', views: 32158 },
     { title: '근본걸', url: 'https://www.youtube.com/watch?v=5r6gTdmwnIU', thumb: 'https://i.ytimg.com/vi/5r6gTdmwnIU/hqdefault.jpg', date: '2026.05.08', duration: '', views: 151 },
     { title: '설뽑송', url: 'https://www.youtube.com/watch?v=B3cFHCGYX9U', thumb: 'https://i.ytimg.com/vi/B3cFHCGYX9U/hqdefault.jpg', date: '2026.05.07', duration: '', views: 146 },
