@@ -4,12 +4,16 @@
 
 function cleanTitle(title) {
   return (title || '')
-    .replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, '')
-    .replace(/\s*\+\s*\+\s*/g, ' + ')
-    .replace(/\s*\+\s*$/g, '')
-    .replace(/^\s*\+\s*/g, '')
-    .replace(/\s{2,}/g, ' ')
-    .trim();
+    .split(/\n+/)
+    .map((line) => line
+      .replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, '')
+      .replace(/\s*\+\s*\+\s*/g, ' + ')
+      .replace(/\s*\+\s*$/g, '')
+      .replace(/^\s*\+\s*/g, '')
+      .replace(/\s{2,}/g, ' ')
+      .trim())
+    .filter(Boolean)
+    .join('\n');
 }
 
 function decodeScheduleTitle(title) {
@@ -72,7 +76,7 @@ function getCombinedScheduleDisplay(events) {
     kind,
     off: kind === 'off',
     badge: primary.badge,
-    title: titles.join(' '),
+    title: titles.join('\n'),
   };
 }
 

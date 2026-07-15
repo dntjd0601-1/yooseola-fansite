@@ -560,6 +560,7 @@ body.is-home .footer {
   font-weight: 600;
   line-height: 1.45;
   word-break: keep-all;
+  white-space: pre-line;
 }
 
 .hero__schedule-empty {
@@ -3575,6 +3576,7 @@ body.site-popup-open {
   color: var(--color-text);
   word-break: keep-all;
   overflow-wrap: break-word;
+  white-space: pre-line;
 }
 
 .cal-event--off .cal-event__title {
