@@ -4,7 +4,7 @@
  */
 const VOD_DATA = {
   replay: [
-    { title: '버컴 1주년 커버곡 공개 !', url: 'https://vod.sooplive.com/player/201016995', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260709_5DDF65B2_295438945_4_r', date: '2026.07.09', duration: '6:50:28', views: 621 },
+    { title: '버컴 1주년 커버곡 공개 !', url: 'https://vod.sooplive.com/player/201016995', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260709_5DDF65B2_295438945_4_r', date: '2026.07.09', duration: '6:50:28', views: 623 },
     { title: '8년차 스트리머', url: 'https://vod.sooplive.com/player/200898335', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260708_BC5C2278_295412029_2_r', date: '2026.07.08', duration: '5:20:49', views: 536 },
     { title: '잔잔 소통', url: 'https://vod.sooplive.com/player/200841287', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260707_4CE43534_295400439_1_r', date: '2026.07.08', duration: '2:51:30', views: 28 },
     { title: '토요미스테리', url: 'https://vod.sooplive.com/player/200573417', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260704_6822400F_295327561_2_r', date: '2026.07.05', duration: '5:37:45', views: 1003 },
@@ -38,11 +38,11 @@ const VOD_DATA = {
     { title: 'GTA 인생모드 수상한 피자집, 모슈 [요양타운]', url: 'https://www.youtube.com/watch?v=BLRcHNBVI1M', thumb: 'https://i.ytimg.com/vi/BLRcHNBVI1M/hqdefault.jpg', date: '', duration: '', views: 0 },
   ],
   shorts: [
-    { title: '성적 안좋은팀 응원하는 이유 #유설아 #여푸', url: 'https://www.youtube.com/shorts/wYu_yGxgKr0', thumb: 'https://i.ytimg.com/vi/wYu_yGxgKr0/hqdefault.jpg', date: '2026.07.14', duration: '', views: 3066 },
-    { title: '메챠카멜레온은 기세입니다! #유설아 #니니 #기래민', url: 'https://www.youtube.com/shorts/zIzXXZTqi7U', thumb: 'https://i.ytimg.com/vi/zIzXXZTqi7U/hqdefault.jpg', date: '2026.07.13', duration: '', views: 12381 },
-    { title: '동년배같은 나이어린 동생 #유설아 #킹냥이 #망구랑', url: 'https://www.youtube.com/shorts/-jzwFiGOAz4', thumb: 'https://i.ytimg.com/vi/-jzwFiGOAz4/hqdefault.jpg', date: '2026.07.12', duration: '', views: 25251 },
+    { title: '성적 안좋은팀 응원하는 이유 #유설아 #여푸', url: 'https://www.youtube.com/shorts/wYu_yGxgKr0', thumb: 'https://i.ytimg.com/vi/wYu_yGxgKr0/hqdefault.jpg', date: '2026.07.14', duration: '', views: 3075 },
+    { title: '메챠카멜레온은 기세입니다! #유설아 #니니 #기래민', url: 'https://www.youtube.com/shorts/zIzXXZTqi7U', thumb: 'https://i.ytimg.com/vi/zIzXXZTqi7U/hqdefault.jpg', date: '2026.07.13', duration: '', views: 12454 },
+    { title: '동년배같은 나이어린 동생 #유설아 #킹냥이 #망구랑', url: 'https://www.youtube.com/shorts/-jzwFiGOAz4', thumb: 'https://i.ytimg.com/vi/-jzwFiGOAz4/hqdefault.jpg', date: '2026.07.12', duration: '', views: 25671 },
     { title: '피코파크 범인은 누구인가? #감스트 #유설아 #앙또', url: 'https://www.youtube.com/shorts/Zn43kK3GLAg', thumb: 'https://i.ytimg.com/vi/Zn43kK3GLAg/hqdefault.jpg', date: '2026.07.11', duration: '', views: 20707 },
-    { title: '포켓몬카드 초판이 x천만원 이라고? #유설아', url: 'https://www.youtube.com/shorts/YnXfkY-7sKE', thumb: 'https://i.ytimg.com/vi/YnXfkY-7sKE/hqdefault.jpg', date: '2026.07.10', duration: '', views: 11573 },
+    { title: '포켓몬카드 초판이 x천만원 이라고? #유설아', url: 'https://www.youtube.com/shorts/YnXfkY-7sKE', thumb: 'https://i.ytimg.com/vi/YnXfkY-7sKE/hqdefault.jpg', date: '2026.07.10', duration: '', views: 11614 },
     { title: '민교편지 받고 감동받은 유설아 #고래시티', url: 'https://www.youtube.com/shorts/lUBN7pdaP5s', thumb: 'https://i.ytimg.com/vi/lUBN7pdaP5s/hqdefault.jpg', date: '2026.07.08', duration: '', views: 4994 },
     { title: '두번이나 말끊기는 유설아 #킴성태 #천양 #고래시티', url: 'https://www.youtube.com/shorts/rRgy2goNGek', thumb: 'https://i.ytimg.com/vi/rRgy2goNGek/hqdefault.jpg', date: '2026.07.06', duration: '', views: 7160 },
     { title: '납치된 유설아가 풀려난 방법 #감스트 #고래시티', url: 'https://www.youtube.com/shorts/syoHUHEdwYA', thumb: 'https://i.ytimg.com/vi/syoHUHEdwYA/hqdefault.jpg', date: '2026.07.04', duration: '', views: 21983 },
@@ -51,11 +51,11 @@ const VOD_DATA = {
     { title: '진짜 경찰 선배님 맞아요? #김민교 #유설아 #고래시티', url: 'https://www.youtube.com/shorts/MJv9fU4bqik', thumb: 'https://i.ytimg.com/vi/MJv9fU4bqik/hqdefault.jpg', date: '2026.06.19', duration: '', views: 31213 },
     { title: '롯데리아 양념감자 최애 시즈닝은?', url: 'https://www.youtube.com/shorts/eG8r_hGR1Rc', thumb: 'https://i.ytimg.com/vi/eG8r_hGR1Rc/hqdefault.jpg', date: '2026.06.17', duration: '', views: 20254 },
     { title: '그시절 싸이월드 감성 #유설아', url: 'https://www.youtube.com/shorts/xsxaKV7WZhs', thumb: 'https://i.ytimg.com/vi/xsxaKV7WZhs/hqdefault.jpg', date: '2026.06.15', duration: '', views: 3983 },
-    { title: '누가 진짜고 누가 가짜야! #감스트 #미메시스 #니니', url: 'https://www.youtube.com/shorts/WO7Wbp7Ah7I', thumb: 'https://i.ytimg.com/vi/WO7Wbp7Ah7I/hqdefault.jpg', date: '2026.04.24', duration: '', views: 16856 },
+    { title: '누가 진짜고 누가 가짜야! #감스트 #미메시스 #니니', url: 'https://www.youtube.com/shorts/WO7Wbp7Ah7I', thumb: 'https://i.ytimg.com/vi/WO7Wbp7Ah7I/hqdefault.jpg', date: '2026.04.24', duration: '', views: 16857 },
     { title: '1조 준다면 이거 할수있음?', url: 'https://www.youtube.com/shorts/5BEvfgui_qg', thumb: 'https://i.ytimg.com/vi/5BEvfgui_qg/hqdefault.jpg', date: '2026.04.22', duration: '', views: 7967 },
   ],
   etc: [
-    { title: '【끝났다는 것은 다시 시작된다는 것을】버컴퍼니 1주년 커버곡', url: 'https://www.youtube.com/watch?v=XtVEV7wh76A', thumb: 'https://i.ytimg.com/vi/XtVEV7wh76A/hqdefault.jpg', date: '2026.07.09', duration: '', views: 20642 },
+    { title: '【끝났다는 것은 다시 시작된다는 것을】버컴퍼니 1주년 커버곡', url: 'https://www.youtube.com/watch?v=XtVEV7wh76A', thumb: 'https://i.ytimg.com/vi/XtVEV7wh76A/hqdefault.jpg', date: '2026.07.09', duration: '', views: 20653 },
     { title: '러브송 - 버컴 육공주 Cover', url: 'https://www.youtube.com/watch?v=RR4mfYREgS8', thumb: 'https://i.ytimg.com/vi/RR4mfYREgS8/hqdefault.jpg', date: '2025.12.28', duration: '', views: 32184 },
     { title: '근본걸', url: 'https://www.youtube.com/watch?v=5r6gTdmwnIU', thumb: 'https://i.ytimg.com/vi/5r6gTdmwnIU/hqdefault.jpg', date: '2026.05.08', duration: '', views: 151 },
     { title: '설뽑송', url: 'https://www.youtube.com/watch?v=B3cFHCGYX9U', thumb: 'https://i.ytimg.com/vi/B3cFHCGYX9U/hqdefault.jpg', date: '2026.05.07', duration: '', views: 146 },
