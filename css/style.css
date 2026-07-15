@@ -3486,7 +3486,7 @@ body.site-popup-open {
 }
 
 .cal-cell__mark--special {
-  background: #e04545;
+  background: #db2777;
 }
 
 .cal-cell__mark--celebration {
@@ -3503,6 +3503,17 @@ body.site-popup-open {
   box-shadow:
     inset 0 0 0 2px rgba(212, 175, 55, 0.55),
     0 0 12px rgba(255, 193, 7, 0.22);
+}
+
+.cal-cell--special {
+  background: linear-gradient(180deg, rgba(252, 231, 243, 0.72) 0%, rgba(244, 114, 182, 0.22) 100%);
+  box-shadow: inset 0 0 0 1px rgba(219, 39, 119, 0.35);
+}
+
+.cal-cell--special.cal-cell--today {
+  box-shadow:
+    inset 0 0 0 2px rgba(219, 39, 119, 0.5),
+    0 0 12px rgba(244, 114, 182, 0.22);
 }
 
 .cal-cell__events {
@@ -3529,8 +3540,8 @@ body.site-popup-open {
 }
 
 .cal-event--special {
-  background: rgba(224, 69, 69, 0.1);
-  border-left-color: #e04545;
+  background: rgba(219, 39, 119, 0.16);
+  border-left-color: #db2777;
 }
 
 .cal-event--celebration {
@@ -3560,8 +3571,8 @@ body.site-popup-open {
 }
 
 .cal-event--special .cal-event__badge {
-  color: #c62828;
-  background: rgba(224, 69, 69, 0.18);
+  color: #9d174d;
+  background: rgba(219, 39, 119, 0.22);
 }
 
 .cal-event--celebration .cal-event__badge {
@@ -3584,7 +3595,8 @@ body.site-popup-open {
 }
 
 .cal-event--special .cal-event__title {
-  color: #b71c1c;
+  color: #9d174d;
+  font-weight: 600;
 }
 
 .cal-event--celebration .cal-event__title {
