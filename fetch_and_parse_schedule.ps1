@@ -94,7 +94,7 @@ foreach ($t in ($targets | Sort-Object year, month)) {
 
         if ($filtered.Count -eq 0 -and -not $hasOff) { continue }
         if ($filtered.Count -gt 0) {
-            $title = ($filtered -join '\n').Replace("'", "\'")
+            $title = ($filtered -join "`n")
             $allEvents[$date] = @(@{ type = 'live'; title = $title })
         } else {
             $allEvents[$date] = @(@{ type = 'off'; title = $offMarker })
@@ -114,10 +114,16 @@ if (Test-Path $overridePath) {
     }
 }
 
+function Escape-ScheduleJsTitle {
+    param([string]$Title)
+    if ([string]::IsNullOrEmpty($Title)) { return '' }
+    return $Title.Replace('\', '\\').Replace("'", "\'").Replace("`r", '').Replace("`n", '\n')
+}
+
 function Format-ScheduleJsLine {
     param([string]$Date, $Events)
     $items = foreach ($ev in @($Events)) {
-        $title = $ev.title.Replace("'", "\'")
+        $title = Escape-ScheduleJsTitle $ev.title
         "{ type: '$($ev.type)', title: '$title' }"
     }
     return "  '$Date': [$($items -join ', ')],"
