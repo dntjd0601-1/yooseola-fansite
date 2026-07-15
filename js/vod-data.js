@@ -4,8 +4,9 @@
  */
 const VOD_DATA = {
   replay: [
-    { title: '버컴 1주년 커버곡 공개 !', url: 'https://vod.sooplive.com/player/201016995', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260709_5DDF65B2_295438945_4_r', date: '2026.07.09', duration: '6:50:28', views: 629 },
-    { title: '8년차 스트리머', url: 'https://vod.sooplive.com/player/200898335', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260708_BC5C2278_295412029_2_r', date: '2026.07.08', duration: '5:20:49', views: 538 },
+    { title: '후열 [버컴]', url: 'https://vod.sooplive.com/player/201580331', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260715_C97F37B3_295587489_6_r', date: '2026.07.16', duration: '8:57:42', views: 58 },
+    { title: '버컴 1주년 커버곡 공개 !', url: 'https://vod.sooplive.com/player/201016995', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260709_5DDF65B2_295438945_4_r', date: '2026.07.09', duration: '6:50:28', views: 630 },
+    { title: '8년차 스트리머', url: 'https://vod.sooplive.com/player/200898335', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260708_BC5C2278_295412029_2_r', date: '2026.07.08', duration: '5:20:49', views: 561 },
     { title: '잔잔 소통', url: 'https://vod.sooplive.com/player/200841287', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260707_4CE43534_295400439_1_r', date: '2026.07.08', duration: '2:51:30', views: 28 },
     { title: '토요미스테리', url: 'https://vod.sooplive.com/player/200573417', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260704_6822400F_295327561_2_r', date: '2026.07.05', duration: '5:37:45', views: 1006 },
     { title: '잔잔 소통', url: 'https://vod.sooplive.com/player/200454693', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260703_B8EA73F4_295300197_1_r', date: '2026.07.03', duration: '2:32:14', views: 41 },
@@ -18,7 +19,6 @@ const VOD_DATA = {
     { title: '그냥서버', url: 'https://vod.sooplive.com/player/199988885', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260628_D0B63217_295172411_2_r', date: '2026.06.29', duration: '5:41:53', views: 325 },
     { title: '후열 배그', url: 'https://vod.sooplive.com/player/199901961', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260627_23C6B6D2_295146833_5_r', date: '2026.06.28', duration: '2:15:45', views: 203 },
     { title: '토요미스테리', url: 'https://vod.sooplive.com/player/199894121', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260627_876EAF12_295146833_2_r', date: '2026.06.28', duration: '7:40:31', views: 1048 },
-    { title: '롤 1승 미션 ...', url: 'https://vod.sooplive.com/player/199798321', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260626_D0355B7F_295117763_3_r', date: '2026.06.27', duration: '11:38:51', views: 478 },
   ],
   youtube: [
     { title: 'GTA 별 다섯개 살아남기', url: 'https://www.youtube.com/watch?v=cRqRrCifjSI', thumb: 'https://i.ytimg.com/vi/cRqRrCifjSI/hqdefault.jpg', date: '', duration: '', views: 0 },
@@ -38,9 +38,9 @@ const VOD_DATA = {
     { title: 'GTA 인생모드 수상한 피자집, 모슈 [요양타운]', url: 'https://www.youtube.com/watch?v=BLRcHNBVI1M', thumb: 'https://i.ytimg.com/vi/BLRcHNBVI1M/hqdefault.jpg', date: '', duration: '', views: 0 },
   ],
   shorts: [
-    { title: '성적 안좋은팀 응원하는 이유 #유설아 #여푸', url: 'https://www.youtube.com/shorts/wYu_yGxgKr0', thumb: 'https://i.ytimg.com/vi/wYu_yGxgKr0/hqdefault.jpg', date: '2026.07.14', duration: '', views: 3320 },
-    { title: '메챠카멜레온은 기세입니다! #유설아 #니니 #기래민', url: 'https://www.youtube.com/shorts/zIzXXZTqi7U', thumb: 'https://i.ytimg.com/vi/zIzXXZTqi7U/hqdefault.jpg', date: '2026.07.13', duration: '', views: 13037 },
-    { title: '동년배같은 나이어린 동생 #유설아 #킹냥이 #망구랑', url: 'https://www.youtube.com/shorts/-jzwFiGOAz4', thumb: 'https://i.ytimg.com/vi/-jzwFiGOAz4/hqdefault.jpg', date: '2026.07.12', duration: '', views: 27860 },
+    { title: '성적 안좋은팀 응원하는 이유 #유설아 #여푸', url: 'https://www.youtube.com/shorts/wYu_yGxgKr0', thumb: 'https://i.ytimg.com/vi/wYu_yGxgKr0/hqdefault.jpg', date: '2026.07.14', duration: '', views: 3367 },
+    { title: '메챠카멜레온은 기세입니다! #유설아 #니니 #기래민', url: 'https://www.youtube.com/shorts/zIzXXZTqi7U', thumb: 'https://i.ytimg.com/vi/zIzXXZTqi7U/hqdefault.jpg', date: '2026.07.13', duration: '', views: 13184 },
+    { title: '동년배같은 나이어린 동생 #유설아 #킹냥이 #망구랑', url: 'https://www.youtube.com/shorts/-jzwFiGOAz4', thumb: 'https://i.ytimg.com/vi/-jzwFiGOAz4/hqdefault.jpg', date: '2026.07.12', duration: '', views: 28229 },
     { title: '피코파크 범인은 누구인가? #감스트 #유설아 #앙또', url: 'https://www.youtube.com/shorts/Zn43kK3GLAg', thumb: 'https://i.ytimg.com/vi/Zn43kK3GLAg/hqdefault.jpg', date: '2026.07.11', duration: '', views: 20789 },
     { title: '포켓몬카드 초판이 x천만원 이라고? #유설아', url: 'https://www.youtube.com/shorts/YnXfkY-7sKE', thumb: 'https://i.ytimg.com/vi/YnXfkY-7sKE/hqdefault.jpg', date: '2026.07.10', duration: '', views: 11652 },
     { title: '민교편지 받고 감동받은 유설아 #고래시티', url: 'https://www.youtube.com/shorts/lUBN7pdaP5s', thumb: 'https://i.ytimg.com/vi/lUBN7pdaP5s/hqdefault.jpg', date: '2026.07.08', duration: '', views: 5036 },
