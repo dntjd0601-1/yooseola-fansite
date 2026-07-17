@@ -38,7 +38,7 @@ const VOD_DATA = {
     { title: 'GTA 인생모드 수상한 피자집, 모슈 [요양타운]', url: 'https://www.youtube.com/watch?v=BLRcHNBVI1M', thumb: 'https://i.ytimg.com/vi/BLRcHNBVI1M/hqdefault.jpg', date: '', duration: '', views: 0 },
   ],
   shorts: [
-    { title: '코르티스 모르는 늙크크 #유연서 #유설아 #망구랑', url: 'https://www.youtube.com/shorts/Qqv3RbrwlB0', thumb: 'https://i.ytimg.com/vi/Qqv3RbrwlB0/hqdefault.jpg', date: '2026.07.16', duration: '', views: 14687 },
+    { title: '코르티스 모르는 늙크크 #유연서 #유설아 #망구랑', url: 'https://www.youtube.com/shorts/Qqv3RbrwlB0', thumb: 'https://i.ytimg.com/vi/Qqv3RbrwlB0/hqdefault.jpg', date: '2026.07.16', duration: '', views: 14703 },
     { title: '성적 안좋은팀 응원하는 이유 #유설아 #여푸', url: 'https://www.youtube.com/shorts/wYu_yGxgKr0', thumb: 'https://i.ytimg.com/vi/wYu_yGxgKr0/hqdefault.jpg', date: '2026.07.14', duration: '', views: 5228 },
     { title: '메챠카멜레온은 기세입니다! #유설아 #니니 #기래민', url: 'https://www.youtube.com/shorts/zIzXXZTqi7U', thumb: 'https://i.ytimg.com/vi/zIzXXZTqi7U/hqdefault.jpg', date: '2026.07.13', duration: '', views: 19052 },
     { title: '동년배같은 나이어린 동생 #유설아 #킹냥이 #망구랑', url: 'https://www.youtube.com/shorts/-jzwFiGOAz4', thumb: 'https://i.ytimg.com/vi/-jzwFiGOAz4/hqdefault.jpg', date: '2026.07.12', duration: '', views: 37793 },
