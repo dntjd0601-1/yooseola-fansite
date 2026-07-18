@@ -60,6 +60,7 @@ const MEMORY_PLAYLIST_DATA = {
     { title: '더넛츠 - 잔소리', videoId: 'rPn4iqyqVEM', thumb: 'https://i.ytimg.com/vi/rPn4iqyqVEM/hqdefault.jpg', mood: '노래' },
     { title: '당신을 위하여', videoId: 'rdMuZNrzsLM', thumb: 'https://i.ytimg.com/vi/rdMuZNrzsLM/hqdefault.jpg', mood: '노래' },
     { title: '인디고 - 여름아! 부탁해 [가사/Lyrics]', videoId: 'ZhVEe-uigzk', thumb: 'https://i.ytimg.com/vi/ZhVEe-uigzk/hqdefault.jpg', mood: '노래' },
+    { title: '더네임 (The Name) - 그녀를 찾아주세요 (Official Video)', videoId: 'Hm-yT5Mj64g', thumb: 'https://i.ytimg.com/vi/Hm-yT5Mj64g/hqdefault.jpg', mood: '노래' },
     { title: 'FTISLAND (FT아일랜드) - 사랑앓이 [가사/Lyrics]', videoId: 'Y_nfGFZonpE', thumb: 'https://i.ytimg.com/vi/Y_nfGFZonpE/hqdefault.jpg', mood: '노래' },
     { title: '얀(Yarn) - 그래서 그대는 [가사/Lyrics]', videoId: '6N4nVQTbDIs', thumb: 'https://i.ytimg.com/vi/6N4nVQTbDIs/hqdefault.jpg', mood: '노래' },
     { title: 'SG 워너비 - Timeless / 가사(Lyrics)', videoId: 'G4BuSPt9iNQ', thumb: 'https://i.ytimg.com/vi/G4BuSPt9iNQ/hqdefault.jpg', mood: '노래' },
