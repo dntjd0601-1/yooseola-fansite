@@ -105,6 +105,13 @@ $playlists = @(
         startVideoId = 'DC13_hnbzCA'
         htmlPath = Join-Path $root 'yt_memory_playlist_0618.html'
         fallbackTitle = '유설아의 심야버스라디오(0618)'
+    },
+    @{
+        key = 'simya0719'
+        listId = 'PLEpW9B_PgK0s'
+        startVideoId = 'P_COMZh7tEY'
+        htmlPath = Join-Path $root 'yt_memory_playlist_0719.html'
+        fallbackTitle = '유설아의 심야버스라디오(0719)'
     }
 )
 
