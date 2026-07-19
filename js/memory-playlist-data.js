@@ -17,6 +17,13 @@ const MEMORY_YOUTUBE_PLAYLISTS = [
     url: 'https://www.youtube.com/playlist?list=PLDmzzSPk7ZiBwOrhHtwbQsxUBGjpHkILu',
     startVideoId: 'DC13_hnbzCA',
   },
+  {
+    key: 'simya0719',
+    id: 'PLEpW9B_PgK0s',
+    title: '유설아의 심야버스라디오(0719)',
+    url: 'https://www.youtube.com/playlist?list=PLEpW9B_PgK0s',
+    startVideoId: 'P_COMZh7tEY',
+  },
 ];
 
 const MEMORY_PLAYLIST_DATA = {
@@ -79,5 +86,21 @@ const MEMORY_PLAYLIST_DATA = {
     { title: '[MV] 한로로 (HANRORO) - 0+0', videoId: '_Ngk-DCHfD0', thumb: 'https://i.ytimg.com/vi/_Ngk-DCHfD0/hqdefault.jpg', mood: '노래' },
     { title: 'CHEEZE / 치즈 - \'어떻게 생각해 (How Do You Think)\' Official Music Video', videoId: 'Frs7j21R4Cc', thumb: 'https://i.ytimg.com/vi/Frs7j21R4Cc/hqdefault.jpg', mood: '노래' },
     { title: '나비무덤 (나비무덤)', videoId: 'szQy_cqJKt8', thumb: 'https://i.ytimg.com/vi/szQy_cqJKt8/hqdefault.jpg', mood: '노래' },
+  ],
+  simya0719: [
+    { title: '[Korea-pop]   인디고(Indigo) - 여름아! 부탁해', videoId: 'P_COMZh7tEY', thumb: 'https://i.ytimg.com/vi/P_COMZh7tEY/hqdefault.jpg', mood: '노래' },
+    { title: '김나영 - 봄 내음보다 너를 / 가사', videoId: 'fO36kiw-bUE', thumb: 'https://i.ytimg.com/vi/fO36kiw-bUE/hqdefault.jpg', mood: '노래' },
+    { title: '감스트,단츄,예다,나나문,재닌,박재박,뢴트게늄 - TTL(Time To Love) Cover', videoId: 'pp9yKTlZt3A', thumb: 'https://i.ytimg.com/vi/pp9yKTlZt3A/hqdefault.jpg', mood: '노래' },
+    { title: '이수영 - Grace / 가사', videoId: '_gN_AC-OrK4', thumb: 'https://i.ytimg.com/vi/_gN_AC-OrK4/hqdefault.jpg', mood: '노래' },
+    { title: '김종국 - 제자리 걸음 [가사/Lyrics]', videoId: 'p-C6zi4xywM', thumb: 'https://i.ytimg.com/vi/p-C6zi4xywM/hqdefault.jpg', mood: '노래' },
+    { title: 'SG워너비 "The 3rd Masterpiece" - Untouchable', videoId: 'AnzJPhZYNNc', thumb: 'https://i.ytimg.com/vi/AnzJPhZYNNc/hqdefault.jpg', mood: '노래' },
+    { title: '[MV] ZIA(지아) _ Have a drink(술 한잔 해요)', videoId: 'j2t_VmzuZSc', thumb: 'https://i.ytimg.com/vi/j2t_VmzuZSc/hqdefault.jpg', mood: '노래' },
+    { title: 'T-MAX (티맥스) - 한번쯤은 (For Once)', videoId: 'yV8-JlMYbMQ', thumb: 'https://i.ytimg.com/vi/yV8-JlMYbMQ/hqdefault.jpg', mood: '노래' },
+    { title: '더 크로스(The Cross) - Don\'t Cry [가사/Lyrics]', videoId: 'A-ZBkJ2Frbw', thumb: 'https://i.ytimg.com/vi/A-ZBkJ2Frbw/hqdefault.jpg', mood: '노래' },
+    { title: '비스트(Beast) - Fiction [가사/Lyrics]', videoId: 'QKRTEpvIjWo', thumb: 'https://i.ytimg.com/vi/QKRTEpvIjWo/hqdefault.jpg', mood: '노래' },
+    { title: 'Beast (비스트) - Shadow (그림자) (Color Coded Lyrics Han/Rom/Eng/가사)', videoId: 'WwNb_27-VtA', thumb: 'https://i.ytimg.com/vi/WwNb_27-VtA/hqdefault.jpg', mood: '노래' },
+    { title: '비투비(BTOB) - 그리워하다 [가사/Lyrics]', videoId: '-yU6ib_QQw0', thumb: 'https://i.ytimg.com/vi/-yU6ib_QQw0/hqdefault.jpg', mood: '노래' },
+    { title: '버즈(Buzz) - 가시 [가사/Lyrics]', videoId: '1-Lm2LUR8Ss', thumb: 'https://i.ytimg.com/vi/1-Lm2LUR8Ss/hqdefault.jpg', mood: '노래' },
+    { title: 'ILLIT (아일릿) \'It\'s Me\' (Color Coded Lyrics)', videoId: 'RwUKqYWyzNc', thumb: 'https://i.ytimg.com/vi/RwUKqYWyzNc/hqdefault.jpg', mood: '노래' },
   ],
 };
