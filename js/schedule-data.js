@@ -445,7 +445,7 @@ const SCHEDULE_EVENTS = {
   '2026-07-16': [{ type: 'live', title: '꾸달새 야한성\n킬내기' }],
   '2026-07-17': [{ type: 'off', title: '휴방' }],
   '2026-07-18': [{ type: 'live', title: '버컴 알아보기\n워니랜드\n토요미스테리' }],
-  '2026-07-19': [{ type: 'live', title: '케로베로스\n사연 라디오' }],
+  '2026-07-19': [{ type: 'live', title: '케로베로스\n라디오 + 싱크룸' }],
   '2026-07-21': [{ type: 'live', title: '삼국지 연습' }],
   '2026-07-22': [{ type: 'live', title: '울큰고 x 바밍\nx 윤이샘 배그예정' }],
   '2026-07-23': [{ type: 'live', title: '휴방' }],
