@@ -56,7 +56,7 @@ function getScheduleDisplay(ev) {
       const rest = plain.replace(/^휴방\s*\+?\s*/, '').trim();
       return { kind, off: true, badge: '휴방', title: rest };
     }
-    return { kind, off: true, badge: plain, title: '' };
+    return { kind, off: true, badge: '휴방', title: plain };
   }
   return { kind: 'live', off: false, badge: '방송', title: plain };
 }
