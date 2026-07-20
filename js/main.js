@@ -52,8 +52,11 @@ function getScheduleDisplay(ev) {
     if (plain === '휴방' || plain === '튜방') {
       return { kind, off: true, badge: '휴방', title: '' };
     }
-    const rest = plain.replace(/^휴방\s*\+?\s*/, '').trim();
-    return { kind, off: true, badge: '휴방', title: rest };
+    if (/^휴방\b/.test(plain)) {
+      const rest = plain.replace(/^휴방\s*\+?\s*/, '').trim();
+      return { kind, off: true, badge: '휴방', title: rest };
+    }
+    return { kind, off: true, badge: plain, title: '' };
   }
   return { kind: 'live', off: false, badge: '방송', title: plain };
 }
