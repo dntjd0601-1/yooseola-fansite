@@ -672,8 +672,6 @@ function initCalendar() {
     if (dayOfWeek === 0) cell.classList.add('cal-cell--sunday');
     if (dayOfWeek === 6) cell.classList.add('cal-cell--saturday');
     if (dateStr === todayStr) cell.classList.add('cal-cell--today');
-    if (events.some((ev) => ev.type === 'celebration')) cell.classList.add('cal-cell--celebration');
-    if (events.some((ev) => ev.type === 'special')) cell.classList.add('cal-cell--special');
 
     const head = document.createElement('div');
     head.className = 'cal-cell__head';
