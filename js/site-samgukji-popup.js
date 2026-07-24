@@ -1,6 +1,9 @@
 (function () {
   const POPUP_ID = 'samgukjiPopup';
+  const ZOOM_ID = 'samgukjiZoom';
   const STORAGE_PREFIX = 'samgukji-promo-202607-dismiss';
+
+  let zoomApi = null;
 
   function getTodayStorageKey() {
     const now = new Date();
@@ -26,6 +29,8 @@
   }
 
   function closePopup(popup) {
+    zoomApi?.closeZoom();
+
     const dismissToday = document.getElementById('samgukjiPopupDismissToday');
     if (dismissToday?.checked) {
       try {
@@ -71,17 +76,150 @@
     window.setTimeout(tryOpenPopup, 600);
   }
 
+  function initSamgukjiZoom(popup) {
+    const zoom = document.getElementById(ZOOM_ID);
+    const zoomImage = document.getElementById('samgukjiZoomImage');
+    const zoomCaption = document.getElementById('samgukjiZoomCaption');
+    const zoomCounter = document.getElementById('samgukjiZoomCounter');
+    const zoomClose = document.getElementById('samgukjiZoomClose');
+    const zoomBackdrop = document.getElementById('samgukjiZoomBackdrop');
+    const zoomPrev = document.getElementById('samgukjiZoomPrev');
+    const zoomNext = document.getElementById('samgukjiZoomNext');
+
+    if (!zoom || !popup) return null;
+
+    const slides = [...popup.querySelectorAll('.samgukji-popup__zoom-btn')].map((button) => {
+      const img = button.querySelector('img');
+      const caption = button.closest('.samgukji-popup__figure')?.querySelector('.samgukji-popup__caption')?.textContent?.trim() || '';
+      return {
+        src: img?.currentSrc || img?.src || '',
+        alt: img?.alt || caption,
+        caption,
+      };
+    }).filter((slide) => slide.src);
+
+    let slideIndex = 0;
+    let touchStartX = 0;
+
+    function renderZoom() {
+      const slide = slides[slideIndex];
+      if (!slide) return;
+
+      zoomImage.src = slide.src;
+      zoomImage.alt = slide.alt;
+      zoomCaption.textContent = slide.caption;
+      zoomCounter.textContent = `${slideIndex + 1} / ${slides.length}`;
+    }
+
+    function openZoom(index) {
+      if (!slides.length) return;
+      slideIndex = ((index % slides.length) + slides.length) % slides.length;
+      renderZoom();
+      zoom.hidden = false;
+      zoom.classList.add('samgukji-zoom--open');
+      zoom.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('samgukji-zoom-open');
+    }
+
+    function closeZoom() {
+      if (!zoom.classList.contains('samgukji-zoom--open')) return;
+      zoom.classList.remove('samgukji-zoom--open');
+      zoom.setAttribute('aria-hidden', 'true');
+      zoom.hidden = true;
+      document.body.classList.remove('samgukji-zoom-open');
+      zoomImage.removeAttribute('src');
+    }
+
+    function navigate(direction) {
+      if (slides.length <= 1) return;
+      slideIndex = (slideIndex + direction + slides.length) % slides.length;
+      renderZoom();
+    }
+
+    popup.querySelectorAll('.samgukji-popup__zoom-btn').forEach((button) => {
+      button.addEventListener('click', (event) => {
+        event.stopPropagation();
+        const index = Number(button.dataset.zoomIndex);
+        if (Number.isNaN(index)) return;
+        openZoom(index);
+      });
+    });
+
+    zoomClose?.addEventListener('click', (event) => {
+      event.stopPropagation();
+      closeZoom();
+    });
+
+    zoomBackdrop?.addEventListener('click', () => closeZoom());
+    zoomPrev?.addEventListener('click', (event) => {
+      event.stopPropagation();
+      navigate(-1);
+    });
+    zoomNext?.addEventListener('click', (event) => {
+      event.stopPropagation();
+      navigate(1);
+    });
+
+    zoomImage?.addEventListener('click', (event) => {
+      event.stopPropagation();
+      closeZoom();
+    });
+
+    function bindZoomSwipe(target) {
+      if (!target) return;
+      target.addEventListener('touchstart', (event) => {
+        touchStartX = event.changedTouches[0]?.clientX || 0;
+      }, { passive: true });
+
+      target.addEventListener('touchend', (event) => {
+        if (slides.length <= 1) return;
+        const touchEndX = event.changedTouches[0]?.clientX || 0;
+        const delta = touchEndX - touchStartX;
+        if (Math.abs(delta) < 40) return;
+        navigate(delta > 0 ? -1 : 1);
+      }, { passive: true });
+    }
+
+    bindZoomSwipe(zoomImage);
+    bindZoomSwipe(zoom.querySelector('.samgukji-zoom__content'));
+
+    return {
+      openZoom,
+      closeZoom,
+      navigate,
+      isOpen: () => zoom.classList.contains('samgukji-zoom--open'),
+    };
+  }
+
   function initSamgukjiPopup() {
     const popup = document.getElementById(POPUP_ID);
     if (!popup) return;
 
     const closeBtn = document.getElementById('samgukjiPopupClose');
     const backdrop = document.getElementById('samgukjiPopupBackdrop');
+    zoomApi = initSamgukjiZoom(popup);
 
     closeBtn?.addEventListener('click', () => closePopup(popup));
     backdrop?.addEventListener('click', () => closePopup(popup));
 
     document.addEventListener('keydown', (event) => {
+      if (zoomApi?.isOpen()) {
+        if (event.key === 'Escape') {
+          zoomApi.closeZoom();
+          return;
+        }
+        if (event.key === 'ArrowLeft') {
+          event.preventDefault();
+          zoomApi.navigate(-1);
+          return;
+        }
+        if (event.key === 'ArrowRight') {
+          event.preventDefault();
+          zoomApi.navigate(1);
+          return;
+        }
+      }
+
       if (event.key === 'Escape' && popup.classList.contains('samgukji-popup--open')) {
         closePopup(popup);
       }

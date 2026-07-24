@@ -4510,6 +4510,28 @@ body.promo-popup-open {
   min-width: 0;
 }
 
+.samgukji-popup__zoom-btn {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.samgukji-popup__zoom-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+}
+
+.samgukji-popup__zoom-btn:focus-visible {
+  outline: 2px solid #c8923a;
+  outline-offset: 2px;
+}
+
 .samgukji-popup__image {
   display: block;
   width: 100%;
@@ -4576,6 +4598,112 @@ body.promo-popup-open {
 }
 
 body.samgukji-popup-open {
+  overflow: hidden;
+}
+
+.samgukji-zoom {
+  position: fixed;
+  inset: 0;
+  z-index: 2300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: max(12px, env(safe-area-inset-top)) 16px max(12px, env(safe-area-inset-bottom));
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--transition), visibility var(--transition);
+}
+
+.samgukji-zoom--open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.samgukji-zoom__backdrop {
+  position: fixed;
+  inset: 0;
+  border: 0;
+  background: rgba(0, 0, 0, 0.88);
+  cursor: zoom-out;
+}
+
+.samgukji-zoom__close,
+.samgukji-zoom__nav {
+  position: absolute;
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+
+.samgukji-zoom__close:hover,
+.samgukji-zoom__nav:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.samgukji-zoom__close {
+  top: max(16px, env(safe-area-inset-top));
+  right: 16px;
+}
+
+.samgukji-zoom__nav--prev {
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.samgukji-zoom__nav--next {
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.samgukji-zoom__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  max-width: min(96vw, 920px);
+  max-height: calc(100dvh - 24px);
+}
+
+.samgukji-zoom__image {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  max-height: calc(100dvh - 120px);
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+  cursor: zoom-out;
+}
+
+.samgukji-zoom__caption {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+}
+
+.samgukji-zoom__counter {
+  margin: 0;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+body.samgukji-zoom-open {
   overflow: hidden;
 }
 
