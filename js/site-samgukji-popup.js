@@ -43,14 +43,32 @@
     }
   }
 
+  function isHomeVisible() {
+    if (document.body.classList.contains('is-home')) return true;
+
+    const homeSection = document.getElementById('home');
+    if (homeSection?.classList.contains('page-section--active')) return true;
+
+    const hash = location.hash.slice(1);
+    return !hash || hash === 'home';
+  }
+
   function tryOpenPopup() {
     const popup = document.getElementById(POPUP_ID);
     if (!popup) return;
-    if (!document.body.classList.contains('is-home')) return;
+    if (!isHomeVisible()) return;
     if (isDismissedToday()) return;
     if (popup.classList.contains('samgukji-popup--open')) return;
 
     openPopup(popup);
+  }
+
+  function scheduleOpenAttempts() {
+    tryOpenPopup();
+    requestAnimationFrame(() => tryOpenPopup());
+    window.setTimeout(tryOpenPopup, 0);
+    window.setTimeout(tryOpenPopup, 150);
+    window.setTimeout(tryOpenPopup, 600);
   }
 
   function initSamgukjiPopup() {
@@ -70,8 +88,12 @@
     });
 
     document.addEventListener('home:show', tryOpenPopup);
-    tryOpenPopup();
+    scheduleOpenAttempts();
   }
 
-  document.addEventListener('DOMContentLoaded', initSamgukjiPopup);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSamgukjiPopup);
+  } else {
+    initSamgukjiPopup();
+  }
 })();
