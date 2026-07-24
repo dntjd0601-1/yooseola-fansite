@@ -4,11 +4,11 @@
  */
 const VOD_DATA = {
   replay: [
-    { title: '공약 점검 [버컴]', url: 'https://vod.sooplive.com/player/202359665', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260724_4E8A2A74_295817047_2_r', date: '2026.07.24', duration: '4:06:48', views: 94 },
-    { title: '침국지 같이보기', url: 'https://vod.sooplive.com/player/202232169', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260722_68B18F0A_295775237_2_r', date: '2026.07.23', duration: '8:55:36', views: 1376 },
+    { title: '공약 점검 [버컴]', url: 'https://vod.sooplive.com/player/202359665', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260724_4E8A2A74_295817047_2_r', date: '2026.07.24', duration: '4:06:48', views: 95 },
+    { title: '침국지 같이보기', url: 'https://vod.sooplive.com/player/202232169', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260722_68B18F0A_295775237_2_r', date: '2026.07.23', duration: '8:55:36', views: 1377 },
     { title: '설래니 모임🤍 + 삼국지연습', url: 'https://vod.sooplive.com/player/202142915', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260721_7584EFEC_295748159_1_r&column=2&t=1784717602', date: '2026.07.22', duration: '8:34:17', views: 695 },
     { title: '케로베로스 라디오 + 싱크룸', url: 'https://vod.sooplive.com/player/201926625', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260719_2F0FC57C_295691257_1_r&column=2&t=1784591133', date: '2026.07.19', duration: '5:04:58', views: 396 },
-    { title: '버컴 알아보기 + 워니랜드 + 삼연서버', url: 'https://vod.sooplive.com/player/201873637', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260718_18516754_295662453_4_r', date: '2026.07.19', duration: '15:05:17', views: 714 },
+    { title: '버컴 알아보기 + 워니랜드 + 삼연서버', url: 'https://vod.sooplive.com/player/201873637', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260718_18516754_295662453_4_r', date: '2026.07.19', duration: '15:05:17', views: 715 },
     { title: '후열 메챠 카멜레온', url: 'https://vod.sooplive.com/player/201654667', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260716_971475A3_295613827_5_r', date: '2026.07.16', duration: '3:51:15', views: 393 },
     { title: '꾸달새 vs 야한성', url: 'https://vod.sooplive.com/player/201631127', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260716_CEAEB77B_295613827_2_r', date: '2026.07.16', duration: '2:57:49', views: 265 },
     { title: '링티 커머스 + 용형 알아보기 + 삼연서버', url: 'https://vod.sooplive.com/player/201580331', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260715_C97F37B3_295587489_6_r', date: '2026.07.16', duration: '8:57:42', views: 465 },
@@ -21,7 +21,7 @@ const VOD_DATA = {
     { title: '카페 소통', url: 'https://vod.sooplive.com/player/200170525', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260630_D2E44A0F_295220555_2_r', date: '2026.07.01', duration: '5:12:46', views: 803 },
   ],
   youtube: [
-    { title: '비오는날 한라산 다녀오기. 여름 제주도 브이로그🍊', url: 'https://www.youtube.com/watch?v=6ENd-DJxcWU', thumb: 'https://i.ytimg.com/vi/6ENd-DJxcWU/hqdefault.jpg', date: '2026.07.23', duration: '', views: 6618 },
+    { title: '비오는날 한라산 다녀오기. 여름 제주도 브이로그🍊', url: 'https://www.youtube.com/watch?v=6ENd-DJxcWU', thumb: 'https://i.ytimg.com/vi/6ENd-DJxcWU/hqdefault.jpg', date: '2026.07.23', duration: '', views: 6637 },
     { title: 'GTA 별 다섯개 살아남기', url: 'https://www.youtube.com/watch?v=cRqRrCifjSI', thumb: 'https://i.ytimg.com/vi/cRqRrCifjSI/hqdefault.jpg', date: '', duration: '', views: 0 },
     { title: '절대 서로를 믿지마라... 공포게임 미메시스', url: 'https://www.youtube.com/watch?v=tWzjrhtY0kQ', thumb: 'https://i.ytimg.com/vi/tWzjrhtY0kQ/hqdefault.jpg', date: '', duration: '', views: 0 },
     { title: '저는 머글이였습니다.. 음성인식 마법게임 [메이지 아레나]', url: 'https://www.youtube.com/watch?v=lwsBhelHdZU', thumb: 'https://i.ytimg.com/vi/lwsBhelHdZU/hqdefault.jpg', date: '', duration: '', views: 0 },
