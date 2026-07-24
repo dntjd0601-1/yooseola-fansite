@@ -762,15 +762,21 @@
       </div>
       <div class="samgukji-popup__gallery">
         <figure class="samgukji-popup__figure">
-          <img class="samgukji-popup__image" src="images/samgukji-promo-personal.png" alt="삼국지서버 개인공약" width="400" height="600" loading="eager" decoding="async">
+          <button type="button" class="samgukji-popup__zoom-btn" data-zoom-index="0" aria-label="개인공약 크게 보기">
+            <img class="samgukji-popup__image" src="images/samgukji-promo-personal.png" alt="삼국지서버 개인공약" width="400" height="600" loading="eager" decoding="async">
+          </button>
           <figcaption class="samgukji-popup__caption">개인공약</figcaption>
         </figure>
         <figure class="samgukji-popup__figure">
-          <img class="samgukji-popup__image" src="images/samgukji-promo-server.png" alt="삼국지서버 공약" width="400" height="600" loading="eager" decoding="async">
+          <button type="button" class="samgukji-popup__zoom-btn" data-zoom-index="1" aria-label="서버 공약 크게 보기">
+            <img class="samgukji-popup__image" src="images/samgukji-promo-server.png" alt="삼국지서버 공약" width="400" height="600" loading="eager" decoding="async">
+          </button>
           <figcaption class="samgukji-popup__caption">서버 공약</figcaption>
         </figure>
         <figure class="samgukji-popup__figure">
-          <img class="samgukji-popup__image" src="images/samgukji-promo-funding.png" alt="삼국지서버 펀딩 순위 TOP3" width="400" height="600" loading="eager" decoding="async">
+          <button type="button" class="samgukji-popup__zoom-btn" data-zoom-index="2" aria-label="펀딩 TOP3 크게 보기">
+            <img class="samgukji-popup__image" src="images/samgukji-promo-funding.png" alt="삼국지서버 펀딩 순위 TOP3" width="400" height="600" loading="eager" decoding="async">
+          </button>
           <figcaption class="samgukji-popup__caption">펀딩 TOP3</figcaption>
         </figure>
       </div>
@@ -781,6 +787,18 @@
         </label>
         <button type="button" class="samgukji-popup__btn" id="samgukjiPopupClose">닫기</button>
       </div>
+    </div>
+  </div>
+
+  <div class="samgukji-zoom" id="samgukjiZoom" hidden aria-hidden="true">
+    <button type="button" class="samgukji-zoom__backdrop" id="samgukjiZoomBackdrop" aria-label="닫기"></button>
+    <button type="button" class="samgukji-zoom__close" id="samgukjiZoomClose" aria-label="닫기">&times;</button>
+    <button type="button" class="samgukji-zoom__nav samgukji-zoom__nav--prev" id="samgukjiZoomPrev" aria-label="이전">&lsaquo;</button>
+    <button type="button" class="samgukji-zoom__nav samgukji-zoom__nav--next" id="samgukjiZoomNext" aria-label="다음">&rsaquo;</button>
+    <div class="samgukji-zoom__content">
+      <img class="samgukji-zoom__image" id="samgukjiZoomImage" alt="">
+      <p class="samgukji-zoom__caption" id="samgukjiZoomCaption"></p>
+      <p class="samgukji-zoom__counter" id="samgukjiZoomCounter" aria-live="polite"></p>
     </div>
   </div>
 
@@ -845,7 +863,7 @@
   <script src="js/profile-history-data.js?v=20260629"></script>
   <script src="js/profile-history.js?v=20260626"></script>
   <script src="js/main.js?v=20260720c"></script>
-  <script src="js/site-samgukji-popup.js?v=20260725b"></script>
+  <script src="js/site-samgukji-popup.js?v=20260725c"></script>
   <script src="js/site-promo-popup.js?v=20260715b"></script>
   <script src="js/site-bgm.js?v=20260711a"></script>
 </body>
