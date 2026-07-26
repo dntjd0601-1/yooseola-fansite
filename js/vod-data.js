@@ -4,11 +4,11 @@
  */
 const VOD_DATA = {
   replay: [
-    { title: '방셀핀볼 100개 / 도전미션에... [버컴]', url: 'https://vod.sooplive.com/player/202492879', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260725_2A1A1781_295840075_2_r', date: '2026.07.26', duration: '13:41:23', views: 105 },
-    { title: '삼국지 API 시작합니다', url: 'https://vod.sooplive.com/player/202397015', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260724_0B8ECCF2_295830795_1_r', date: '2026.07.25', duration: '3:24:41', views: 712 },
-    { title: '공약 점검 [버컴]', url: 'https://vod.sooplive.com/player/202359665', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260724_4E8A2A74_295817047_2_r', date: '2026.07.24', duration: '4:06:48', views: 235 },
-    { title: '침국지 같이보기', url: 'https://vod.sooplive.com/player/202232169', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260722_68B18F0A_295775237_2_r', date: '2026.07.23', duration: '8:55:36', views: 1852 },
-    { title: '설래니 모임🤍 + 삼국지연습', url: 'https://vod.sooplive.com/player/202142915', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260721_7584EFEC_295748159_1_r&column=2&t=1784717602', date: '2026.07.22', duration: '8:34:17', views: 734 },
+    { title: '방셀핀볼 100개 / 도전미션에... [버컴]', url: 'https://vod.sooplive.com/player/202492879', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260725_2A1A1781_295840075_2_r', date: '2026.07.26', duration: '13:41:23', views: 106 },
+    { title: '삼국지 API 시작합니다', url: 'https://vod.sooplive.com/player/202397015', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260724_0B8ECCF2_295830795_1_r', date: '2026.07.25', duration: '3:24:41', views: 713 },
+    { title: '공약 점검 [버컴]', url: 'https://vod.sooplive.com/player/202359665', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260724_4E8A2A74_295817047_2_r', date: '2026.07.24', duration: '4:06:48', views: 239 },
+    { title: '침국지 같이보기', url: 'https://vod.sooplive.com/player/202232169', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260722_68B18F0A_295775237_2_r', date: '2026.07.23', duration: '8:55:36', views: 1868 },
+    { title: '설래니 모임🤍 + 삼국지연습', url: 'https://vod.sooplive.com/player/202142915', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260721_7584EFEC_295748159_1_r&column=2&t=1784717602', date: '2026.07.22', duration: '8:34:17', views: 737 },
     { title: '케로베로스 라디오 + 싱크룸', url: 'https://vod.sooplive.com/player/201926625', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260719_2F0FC57C_295691257_1_r&column=2&t=1784591133', date: '2026.07.19', duration: '5:04:58', views: 403 },
     { title: '버컴 알아보기 + 워니랜드 + 삼연서버', url: 'https://vod.sooplive.com/player/201873637', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260718_18516754_295662453_4_r', date: '2026.07.19', duration: '15:05:17', views: 736 },
     { title: '후열 메챠 카멜레온', url: 'https://vod.sooplive.com/player/201654667', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260716_971475A3_295613827_5_r', date: '2026.07.16', duration: '3:51:15', views: 399 },
@@ -21,7 +21,7 @@ const VOD_DATA = {
     { title: '잔잔 소통', url: 'https://vod.sooplive.com/player/200454693', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260703_B8EA73F4_295300197_1_r', date: '2026.07.03', duration: '2:32:14', views: 42 },
   ],
   youtube: [
-    { title: '비오는날 한라산 다녀오기. 여름 제주도 브이로그🍊', url: 'https://www.youtube.com/watch?v=6ENd-DJxcWU', thumb: 'https://i.ytimg.com/vi/6ENd-DJxcWU/hqdefault.jpg', date: '2026.07.23', duration: '', views: 8218 },
+    { title: '비오는날 한라산 다녀오기. 여름 제주도 브이로그🍊', url: 'https://www.youtube.com/watch?v=6ENd-DJxcWU', thumb: 'https://i.ytimg.com/vi/6ENd-DJxcWU/hqdefault.jpg', date: '2026.07.23', duration: '', views: 8245 },
     { title: 'GTA 별 다섯개 살아남기', url: 'https://www.youtube.com/watch?v=cRqRrCifjSI', thumb: 'https://i.ytimg.com/vi/cRqRrCifjSI/hqdefault.jpg', date: '', duration: '', views: 0 },
     { title: '절대 서로를 믿지마라... 공포게임 미메시스', url: 'https://www.youtube.com/watch?v=tWzjrhtY0kQ', thumb: 'https://i.ytimg.com/vi/tWzjrhtY0kQ/hqdefault.jpg', date: '', duration: '', views: 0 },
     { title: '저는 머글이였습니다.. 음성인식 마법게임 [메이지 아레나]', url: 'https://www.youtube.com/watch?v=lwsBhelHdZU', thumb: 'https://i.ytimg.com/vi/lwsBhelHdZU/hqdefault.jpg', date: '', duration: '', views: 0 },
@@ -38,7 +38,7 @@ const VOD_DATA = {
     { title: '갑니다, 오아의 탑으로 [오함마2]', url: 'https://www.youtube.com/watch?v=81sv_uSxyRQ', thumb: 'https://i.ytimg.com/vi/81sv_uSxyRQ/hqdefault.jpg', date: '', duration: '', views: 0 },
   ],
   shorts: [
-    { title: '코르티스 모르는 늙크크 #유연서 #유설아 #망구랑', url: 'https://www.youtube.com/shorts/Qqv3RbrwlB0', thumb: 'https://i.ytimg.com/vi/Qqv3RbrwlB0/hqdefault.jpg', date: '2026.07.16', duration: '', views: 27291 },
+    { title: '코르티스 모르는 늙크크 #유연서 #유설아 #망구랑', url: 'https://www.youtube.com/shorts/Qqv3RbrwlB0', thumb: 'https://i.ytimg.com/vi/Qqv3RbrwlB0/hqdefault.jpg', date: '2026.07.16', duration: '', views: 27343 },
     { title: '성적 안좋은팀 응원하는 이유 #유설아 #여푸', url: 'https://www.youtube.com/shorts/wYu_yGxgKr0', thumb: 'https://i.ytimg.com/vi/wYu_yGxgKr0/hqdefault.jpg', date: '2026.07.14', duration: '', views: 6441 },
     { title: '메챠카멜레온은 기세입니다! #유설아 #니니 #기래민', url: 'https://www.youtube.com/shorts/zIzXXZTqi7U', thumb: 'https://i.ytimg.com/vi/zIzXXZTqi7U/hqdefault.jpg', date: '2026.07.13', duration: '', views: 21625 },
     { title: '동년배같은 나이어린 동생 #유설아 #킹냥이 #망구랑', url: 'https://www.youtube.com/shorts/-jzwFiGOAz4', thumb: 'https://i.ytimg.com/vi/-jzwFiGOAz4/hqdefault.jpg', date: '2026.07.12', duration: '', views: 48620 },
@@ -46,7 +46,7 @@ const VOD_DATA = {
     { title: '포켓몬카드 초판이 x천만원 이라고? #유설아', url: 'https://www.youtube.com/shorts/YnXfkY-7sKE', thumb: 'https://i.ytimg.com/vi/YnXfkY-7sKE/hqdefault.jpg', date: '2026.07.10', duration: '', views: 13548 },
     { title: '민교편지 받고 감동받은 유설아 #고래시티', url: 'https://www.youtube.com/shorts/lUBN7pdaP5s', thumb: 'https://i.ytimg.com/vi/lUBN7pdaP5s/hqdefault.jpg', date: '2026.07.08', duration: '', views: 5894 },
     { title: '두번이나 말끊기는 유설아 #킴성태 #천양 #고래시티', url: 'https://www.youtube.com/shorts/rRgy2goNGek', thumb: 'https://i.ytimg.com/vi/rRgy2goNGek/hqdefault.jpg', date: '2026.07.06', duration: '', views: 8604 },
-    { title: '납치된 유설아가 풀려난 방법 #감스트 #고래시티', url: 'https://www.youtube.com/shorts/syoHUHEdwYA', thumb: 'https://i.ytimg.com/vi/syoHUHEdwYA/hqdefault.jpg', date: '2026.07.04', duration: '', views: 24411 },
+    { title: '납치된 유설아가 풀려난 방법 #감스트 #고래시티', url: 'https://www.youtube.com/shorts/syoHUHEdwYA', thumb: 'https://i.ytimg.com/vi/syoHUHEdwYA/hqdefault.jpg', date: '2026.07.04', duration: '', views: 24458 },
     { title: '서로 똑같은 버컴 1인자와 2인자 #감스트 #유설아 #스캠라인', url: 'https://www.youtube.com/shorts/p06SyMau_Rk', thumb: 'https://i.ytimg.com/vi/p06SyMau_Rk/hqdefault.jpg', date: '2026.06.23', duration: '', views: 9865 },
     { title: '쉬 이즈 근근두두 설창맨 #유설아 #감스트 #스캠라인', url: 'https://www.youtube.com/shorts/N09B8M7ghno', thumb: 'https://i.ytimg.com/vi/N09B8M7ghno/hqdefault.jpg', date: '2026.06.21', duration: '', views: 8912 },
     { title: '진짜 경찰 선배님 맞아요? #김민교 #유설아 #고래시티', url: 'https://www.youtube.com/shorts/MJv9fU4bqik', thumb: 'https://i.ytimg.com/vi/MJv9fU4bqik/hqdefault.jpg', date: '2026.06.19', duration: '', views: 34473 },
@@ -54,7 +54,7 @@ const VOD_DATA = {
     { title: '그시절 싸이월드 감성 #유설아', url: 'https://www.youtube.com/shorts/xsxaKV7WZhs', thumb: 'https://i.ytimg.com/vi/xsxaKV7WZhs/hqdefault.jpg', date: '2026.06.15', duration: '', views: 4228 },
   ],
   etc: [
-    { title: '【끝났다는 것은 다시 시작된다는 것을】버컴퍼니 1주년 커버곡', url: 'https://www.youtube.com/watch?v=XtVEV7wh76A', thumb: 'https://i.ytimg.com/vi/XtVEV7wh76A/hqdefault.jpg', date: '2026.07.09', duration: '', views: 24531 },
+    { title: '【끝났다는 것은 다시 시작된다는 것을】버컴퍼니 1주년 커버곡', url: 'https://www.youtube.com/watch?v=XtVEV7wh76A', thumb: 'https://i.ytimg.com/vi/XtVEV7wh76A/hqdefault.jpg', date: '2026.07.09', duration: '', views: 24565 },
     { title: '러브송 - 버컴 육공주 Cover', url: 'https://www.youtube.com/watch?v=RR4mfYREgS8', thumb: 'https://i.ytimg.com/vi/RR4mfYREgS8/hqdefault.jpg', date: '2025.12.28', duration: '', views: 32479 },
     { title: '근본걸', url: 'https://www.youtube.com/watch?v=5r6gTdmwnIU', thumb: 'https://i.ytimg.com/vi/5r6gTdmwnIU/hqdefault.jpg', date: '2026.05.08', duration: '', views: 159 },
     { title: '설뽑송', url: 'https://www.youtube.com/watch?v=B3cFHCGYX9U', thumb: 'https://i.ytimg.com/vi/B3cFHCGYX9U/hqdefault.jpg', date: '2026.05.07', duration: '', views: 146 },
