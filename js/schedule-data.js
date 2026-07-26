@@ -451,6 +451,10 @@ const SCHEDULE_EVENTS = {
   '2026-07-22': [{ type: 'live', title: '침국지\n같이보기' }],
   '2026-07-23': [{ type: 'live', title: '휴방' }],
   '2026-07-24': [{ type: 'live', title: '버컴 우당탕탕경주' }],
-  '2026-07-25': [{ type: 'live', title: '토요미스테리' }],
-  '2026-07-26': [{ type: 'live', title: '심야버스 라디오' }],
+  '2026-07-25': [{ type: 'special', title: '삼국지 api모금' }],
+  '2026-07-26': [{ type: 'special', title: '삼국지 api모금' }],
+  '2026-07-27': [{ type: 'special', title: '삼국지 api모금' }],
+  '2026-07-28': [{ type: 'special', title: '삼국지 api모금' }],
+  '2026-07-29': [{ type: 'special', title: '삼국지 api모금' }],
+  '2026-07-30': [{ type: 'special', title: '삼국지 api모금' }],
 };
