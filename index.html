@@ -752,77 +752,6 @@
     <p class="footer__copy">유설아 팬사이트. Made by 우렁이</p>
   </footer>
 
-  <!-- 삼국지서버 공약 팝업 -->
-  <div class="samgukji-popup" id="samgukjiPopup" hidden role="dialog" aria-modal="true" aria-labelledby="samgukjiPopupTitle" aria-hidden="true">
-    <button type="button" class="samgukji-popup__backdrop" id="samgukjiPopupBackdrop" aria-label="닫기"></button>
-    <div class="samgukji-popup__card">
-      <div class="samgukji-popup__head">
-        <h2 class="samgukji-popup__title" id="samgukjiPopupTitle">삼국지서버 공약</h2>
-        <p class="samgukji-popup__desc">장군의 약속, 함께 이루어갈 천하!</p>
-      </div>
-      <div class="samgukji-popup__gallery">
-        <figure class="samgukji-popup__figure">
-          <button type="button" class="samgukji-popup__zoom-btn" data-zoom-index="0" aria-label="개인공약 크게 보기">
-            <img class="samgukji-popup__image" src="images/samgukji-promo-personal.png" alt="삼국지서버 개인공약" width="400" height="600" loading="eager" decoding="async">
-          </button>
-          <figcaption class="samgukji-popup__caption">개인공약</figcaption>
-        </figure>
-        <figure class="samgukji-popup__figure">
-          <button type="button" class="samgukji-popup__zoom-btn" data-zoom-index="1" aria-label="서버 공약 크게 보기">
-            <img class="samgukji-popup__image" src="images/samgukji-promo-server.png" alt="삼국지서버 공약" width="400" height="600" loading="eager" decoding="async">
-          </button>
-          <figcaption class="samgukji-popup__caption">서버 공약</figcaption>
-        </figure>
-        <figure class="samgukji-popup__figure">
-          <button type="button" class="samgukji-popup__zoom-btn" data-zoom-index="2" aria-label="펀딩 TOP3 크게 보기">
-            <img class="samgukji-popup__image" src="images/samgukji-promo-funding.png" alt="삼국지서버 펀딩 순위 TOP3" width="400" height="600" loading="eager" decoding="async">
-          </button>
-          <figcaption class="samgukji-popup__caption">펀딩 TOP3</figcaption>
-        </figure>
-      </div>
-      <div class="samgukji-popup__actions">
-        <label class="samgukji-popup__dismiss">
-          <input type="checkbox" id="samgukjiPopupDismissToday">
-          <span>오늘 하루 안 보기</span>
-        </label>
-        <button type="button" class="samgukji-popup__btn" id="samgukjiPopupClose">닫기</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="samgukji-zoom" id="samgukjiZoom" hidden aria-hidden="true">
-    <button type="button" class="samgukji-zoom__backdrop" id="samgukjiZoomBackdrop" aria-label="닫기"></button>
-    <button type="button" class="samgukji-zoom__close" id="samgukjiZoomClose" aria-label="닫기">&times;</button>
-    <button type="button" class="samgukji-zoom__nav samgukji-zoom__nav--prev" id="samgukjiZoomPrev" aria-label="이전">&lsaquo;</button>
-    <button type="button" class="samgukji-zoom__nav samgukji-zoom__nav--next" id="samgukjiZoomNext" aria-label="다음">&rsaquo;</button>
-    <div class="samgukji-zoom__content">
-      <img class="samgukji-zoom__image" id="samgukjiZoomImage" alt="">
-      <p class="samgukji-zoom__caption" id="samgukjiZoomCaption"></p>
-      <p class="samgukji-zoom__counter" id="samgukjiZoomCounter" aria-live="polite"></p>
-    </div>
-  </div>
-
-  <!-- 링티 라이브 커머스 팝업 -->
-  <div class="promo-popup" id="promoPopup" hidden role="dialog" aria-modal="true" aria-labelledby="promoPopupTitle" aria-hidden="true">
-    <button type="button" class="promo-popup__backdrop" id="promoPopupBackdrop" aria-label="닫기"></button>
-    <div class="promo-popup__card">
-      <h2 class="visually-hidden" id="promoPopupTitle">링티 라이브 커머스</h2>
-      <a class="promo-popup__image-link" href="https://www.sooplive.com/station/yeveee/post/201445323" target="_blank" rel="noopener noreferrer">
-        <img class="promo-popup__image" src="images/lingti-promo-jul2026.png" alt="링티 라이브 커머스 7월 14일부터 20일까지" width="480" height="854" loading="eager" decoding="async">
-      </a>
-      <div class="promo-popup__actions">
-        <label class="promo-popup__dismiss">
-          <input type="checkbox" id="promoPopupDismissToday">
-          <span>오늘 하루 안 보기</span>
-        </label>
-        <div class="promo-popup__buttons">
-          <a class="promo-popup__btn promo-popup__btn--primary" href="https://sooptore.sooplive.com/products/134096053" target="_blank" rel="noopener noreferrer">구매하러 가기</a>
-          <button type="button" class="promo-popup__btn promo-popup__btn--ghost" id="promoPopupClose">닫기</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- 라이트박스 -->
   <div class="lightbox" id="lightbox" aria-hidden="true">
     <button class="lightbox__close" id="lightboxClose" aria-label="닫기">&times;</button>
@@ -863,8 +792,6 @@
   <script src="js/profile-history-data.js?v=20260629"></script>
   <script src="js/profile-history.js?v=20260626"></script>
   <script src="js/main.js?v=20260720c"></script>
-  <script src="js/site-samgukji-popup.js?v=20260725c"></script>
-  <script src="js/site-promo-popup.js?v=20260715b"></script>
   <script src="js/site-bgm.js?v=20260711a"></script>
 </body>
 </html>
