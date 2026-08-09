@@ -4,7 +4,7 @@
  */
 const VOD_DATA = {
   replay: [
-    { title: '후국지 우승 >ㅁ< [버컴]', url: 'https://vod.sooplive.com/player/203791433', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260808_A0612BF4_296196671_3_r', date: '2026.08.09', duration: '15:05:53', views: 282 },
+    { title: '후국지 우승 >ㅁ< [버컴]', url: 'https://vod.sooplive.com/player/203791433', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260808_A0612BF4_296196671_3_r', date: '2026.08.09', duration: '15:05:53', views: 284 },
     { title: '후국지 3일차 성장판이 닫혀버린 일직 [버컴]', url: 'https://vod.sooplive.com/player/203706167', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260807_240D154F_296170521_3_r', date: '2026.08.08', duration: '21:15:55', views: 80 },
     { title: '후국지 ! 강화석 피료합니다 [버컴]', url: 'https://vod.sooplive.com/player/203613895', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260806_9293473F_296153201_4_r', date: '2026.08.07', duration: '3:53:00', views: 108 },
     { title: '후국지', url: 'https://vod.sooplive.com/player/203608263', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260806_47741FB8_296153201_2_r', date: '2026.08.07', duration: '10:42:20', views: 77 },
@@ -43,7 +43,7 @@ const VOD_DATA = {
     { title: '메챠카멜레온은 기세입니다! #유설아 #니니 #기래민', url: 'https://www.youtube.com/shorts/zIzXXZTqi7U', thumb: 'https://i.ytimg.com/vi/zIzXXZTqi7U/hqdefault.jpg', date: '2026.07.13', duration: '', views: 23566 },
     { title: '동년배같은 나이어린 동생 #유설아 #킹냥이 #망구랑', url: 'https://www.youtube.com/shorts/-jzwFiGOAz4', thumb: 'https://i.ytimg.com/vi/-jzwFiGOAz4/hqdefault.jpg', date: '2026.07.12', duration: '', views: 55329 },
     { title: '피코파크 범인은 누구인가? #감스트 #유설아 #앙또', url: 'https://www.youtube.com/shorts/Zn43kK3GLAg', thumb: 'https://i.ytimg.com/vi/Zn43kK3GLAg/hqdefault.jpg', date: '2026.07.11', duration: '', views: 28437 },
-    { title: '포켓몬카드 초판이 x천만원 이라고? #유설아', url: 'https://www.youtube.com/shorts/YnXfkY-7sKE', thumb: 'https://i.ytimg.com/vi/YnXfkY-7sKE/hqdefault.jpg', date: '2026.07.10', duration: '', views: 14428 },
+    { title: '포켓몬카드 초판이 x천만원 이라고? #유설아', url: 'https://www.youtube.com/shorts/YnXfkY-7sKE', thumb: 'https://i.ytimg.com/vi/YnXfkY-7sKE/hqdefault.jpg', date: '2026.07.10', duration: '', views: 14436 },
     { title: '민교편지 받고 감동받은 유설아 #고래시티', url: 'https://www.youtube.com/shorts/lUBN7pdaP5s', thumb: 'https://i.ytimg.com/vi/lUBN7pdaP5s/hqdefault.jpg', date: '2026.07.08', duration: '', views: 6281 },
     { title: '두번이나 말끊기는 유설아 #킴성태 #천양 #고래시티', url: 'https://www.youtube.com/shorts/rRgy2goNGek', thumb: 'https://i.ytimg.com/vi/rRgy2goNGek/hqdefault.jpg', date: '2026.07.06', duration: '', views: 9602 },
     { title: '납치된 유설아가 풀려난 방법 #감스트 #고래시티', url: 'https://www.youtube.com/shorts/syoHUHEdwYA', thumb: 'https://i.ytimg.com/vi/syoHUHEdwYA/hqdefault.jpg', date: '2026.07.04', duration: '', views: 26036 },
@@ -55,7 +55,7 @@ const VOD_DATA = {
   ],
   etc: [
     { title: '【끝났다는 것은 다시 시작된다는 것을】버컴퍼니 1주년 커버곡', url: 'https://www.youtube.com/watch?v=XtVEV7wh76A', thumb: 'https://i.ytimg.com/vi/XtVEV7wh76A/hqdefault.jpg', date: '2026.07.09', duration: '', views: 27007 },
-    { title: '러브송 - 버컴 육공주 Cover', url: 'https://www.youtube.com/watch?v=RR4mfYREgS8', thumb: 'https://i.ytimg.com/vi/RR4mfYREgS8/hqdefault.jpg', date: '2025.12.28', duration: '', views: 32802 },
+    { title: '러브송 - 버컴 육공주 Cover', url: 'https://www.youtube.com/watch?v=RR4mfYREgS8', thumb: 'https://i.ytimg.com/vi/RR4mfYREgS8/hqdefault.jpg', date: '2025.12.28', duration: '', views: 32803 },
     { title: '근본걸', url: 'https://www.youtube.com/watch?v=5r6gTdmwnIU', thumb: 'https://i.ytimg.com/vi/5r6gTdmwnIU/hqdefault.jpg', date: '2026.05.08', duration: '', views: 166 },
     { title: '설뽑송', url: 'https://www.youtube.com/watch?v=B3cFHCGYX9U', thumb: 'https://i.ytimg.com/vi/B3cFHCGYX9U/hqdefault.jpg', date: '2026.05.07', duration: '', views: 146 },
     { title: '숲(SOOP)속의 별, 유설아', url: 'https://www.youtube.com/watch?v=iHwA9fjQ1Io', thumb: 'https://i.ytimg.com/vi/iHwA9fjQ1Io/hqdefault.jpg', date: '2026.02.17', duration: '', views: 120 },
