@@ -465,7 +465,7 @@ const SCHEDULE_EVENTS = {
   '2026-08-05': [{ type: 'live', title: '삼국지' }],
   '2026-08-06': [{ type: 'live', title: '삼국지' }],
   '2026-08-07': [{ type: 'live', title: '삼국지' }],
-  '2026-08-08': [{ type: 'live', title: '삼국지' }],
-  '2026-08-09': [{ type: 'live', title: '삼국지' }],
+  '2026-08-08': [{ type: 'live', title: '삼국지\n완' }],
+  '2026-08-09': [{ type: 'live', title: '휴방' }],
   '2026-08-10': [{ type: 'off', title: '휴방' }],
 };
