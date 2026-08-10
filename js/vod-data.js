@@ -4,14 +4,14 @@
  */
 const VOD_DATA = {
   replay: [
-    { title: '후국지 우승 >ㅁ< [버컴]', url: 'https://vod.sooplive.com/player/203791433', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260808_A0612BF4_296196671_3_r', date: '2026.08.09', duration: '15:05:53', views: 379 },
+    { title: '후국지 우승 >ㅁ< [버컴]', url: 'https://vod.sooplive.com/player/203791433', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260808_A0612BF4_296196671_3_r', date: '2026.08.09', duration: '15:05:53', views: 383 },
     { title: '후국지 3일차 성장판이 닫혀버린 일직 [버컴]', url: 'https://vod.sooplive.com/player/203706167', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260807_240D154F_296170521_3_r', date: '2026.08.08', duration: '21:15:55', views: 92 },
     { title: '후국지 ! 강화석 피료합니다 [버컴]', url: 'https://vod.sooplive.com/player/203613895', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260806_9293473F_296153201_4_r', date: '2026.08.07', duration: '3:53:00', views: 114 },
     { title: '후국지', url: 'https://vod.sooplive.com/player/203608263', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260806_47741FB8_296153201_2_r', date: '2026.08.07', duration: '10:42:20', views: 81 },
-    { title: '일직궁수 ㅎㅎ 후국지 이틀차 [버컴]', url: 'https://vod.sooplive.com/player/203535743', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260805_FE79E331_296120197_3_r', date: '2026.08.06', duration: '20:51:17', views: 291 },
-    { title: '🤍 신궁 유설아 🤍 후국지 1일차 [버컴]', url: 'https://vod.sooplive.com/player/203441529', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260804_C78DAE43_296095037_3_r', date: '2026.08.05', duration: '20:12:14', views: 238 },
+    { title: '일직궁수 ㅎㅎ 후국지 이틀차 [버컴]', url: 'https://vod.sooplive.com/player/203535743', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260805_FE79E331_296120197_3_r', date: '2026.08.06', duration: '20:51:17', views: 293 },
+    { title: '🤍 신궁 유설아 🤍 후국지 1일차 [버컴]', url: 'https://vod.sooplive.com/player/203441529', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260804_C78DAE43_296095037_3_r', date: '2026.08.05', duration: '20:12:14', views: 240 },
     { title: '삼국지 삼일차', url: 'https://vod.sooplive.com/player/203329371', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260803_3B0DA420_296068745_2_r', date: '2026.08.04', duration: '9:42:20', views: 535 },
-    { title: '삼국지 삼일차', url: 'https://vod.sooplive.com/player/203264351', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260801_FDF7D408_296021647_12_r', date: '2026.08.03', duration: '15:28:20', views: 203 },
+    { title: '삼국지 삼일차', url: 'https://vod.sooplive.com/player/203264351', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260801_FDF7D408_296021647_12_r', date: '2026.08.03', duration: '15:28:20', views: 204 },
     { title: '삼국지 이틀차', url: 'https://vod.sooplive.com/player/203211069', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260801_5473D08A_296021647_8_r', date: '2026.08.02', duration: '19:14:02', views: 179 },
     { title: '삼국지 1일차', url: 'https://vod.sooplive.com/player/203144205', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260801_40AB3632_296021647_5_r', date: '2026.08.02', duration: '2:07:26', views: 137 },
     { title: '삼국지 1일차', url: 'https://vod.sooplive.com/player/203131761', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260801_B4ED6454_296021647_4_r', date: '2026.08.02', duration: '3:38:09', views: 155 },
@@ -54,7 +54,7 @@ const VOD_DATA = {
     { title: '그시절 싸이월드 감성 #유설아', url: 'https://www.youtube.com/shorts/xsxaKV7WZhs', thumb: 'https://i.ytimg.com/vi/xsxaKV7WZhs/hqdefault.jpg', date: '2026.06.15', duration: '', views: 4360 },
   ],
   etc: [
-    { title: '【끝났다는 것은 다시 시작된다는 것을】버컴퍼니 1주년 커버곡', url: 'https://www.youtube.com/watch?v=XtVEV7wh76A', thumb: 'https://i.ytimg.com/vi/XtVEV7wh76A/hqdefault.jpg', date: '2026.07.09', duration: '', views: 27160 },
+    { title: '【끝났다는 것은 다시 시작된다는 것을】버컴퍼니 1주년 커버곡', url: 'https://www.youtube.com/watch?v=XtVEV7wh76A', thumb: 'https://i.ytimg.com/vi/XtVEV7wh76A/hqdefault.jpg', date: '2026.07.09', duration: '', views: 27163 },
     { title: '러브송 - 버컴 육공주 Cover', url: 'https://www.youtube.com/watch?v=RR4mfYREgS8', thumb: 'https://i.ytimg.com/vi/RR4mfYREgS8/hqdefault.jpg', date: '2025.12.28', duration: '', views: 32827 },
     { title: '근본걸', url: 'https://www.youtube.com/watch?v=5r6gTdmwnIU', thumb: 'https://i.ytimg.com/vi/5r6gTdmwnIU/hqdefault.jpg', date: '2026.05.08', duration: '', views: 166 },
     { title: '설뽑송', url: 'https://www.youtube.com/watch?v=B3cFHCGYX9U', thumb: 'https://i.ytimg.com/vi/B3cFHCGYX9U/hqdefault.jpg', date: '2026.05.07', duration: '', views: 147 },
