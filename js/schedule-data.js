@@ -468,4 +468,8 @@ const SCHEDULE_EVENTS = {
   '2026-08-08': [{ type: 'live', title: '삼국지\n완' }],
   '2026-08-09': [{ type: 'live', title: '휴방' }],
   '2026-08-10': [{ type: 'off', title: '휴방' }],
+  '2026-08-11': [{ type: 'live', title: '짧은 소통방송' }],
+  '2026-08-12': [{ type: 'off', title: '휴방' }],
+  '2026-08-13': [{ type: 'off', title: '휴방' }],
+  '2026-08-14': [{ type: 'off', title: '휴방' }],
 };
