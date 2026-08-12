@@ -4,7 +4,7 @@
  */
 const VOD_DATA = {
   replay: [
-    { title: '생존신고', url: 'https://vod.sooplive.com/player/204046591', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260811_89EAB27F_296281911_1_r', date: '2026.08.11', duration: '3:29:54', views: 220 },
+    { title: '생존신고', url: 'https://vod.sooplive.com/player/204046591', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260811_89EAB27F_296281911_1_r', date: '2026.08.11', duration: '3:29:54', views: 224 },
     { title: '🤍 촉나라의 천하통일 🤍', url: 'https://vod.sooplive.com/player/203791433', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260808_A0612BF4_296196671_3_r', date: '2026.08.09', duration: '15:05:53', views: 543 },
     { title: '성장판이 닫혔어요', url: 'https://vod.sooplive.com/player/203706167', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260807_240D154F_296170521_3_r', date: '2026.08.08', duration: '21:15:55', views: 109 },
     { title: '🤍 일직궁수의 삶 🤍', url: 'https://vod.sooplive.com/player/203613895', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260806_9293473F_296153201_4_r', date: '2026.08.07', duration: '3:53:00', views: 120 },
@@ -38,11 +38,11 @@ const VOD_DATA = {
     { title: '갑니다, 오아의 탑으로 [오함마2]', url: 'https://www.youtube.com/watch?v=81sv_uSxyRQ', thumb: 'https://i.ytimg.com/vi/81sv_uSxyRQ/hqdefault.jpg', date: '', duration: '', views: 0 },
   ],
   shorts: [
-    { title: '한라산 등산하다 실제로 넘어진 버튜버 #유설아', url: 'https://www.youtube.com/shorts/Z53GPRUEQB4', thumb: 'https://i.ytimg.com/vi/Z53GPRUEQB4/hqdefault.jpg', date: '2026.08.12', duration: '', views: 622 },
+    { title: '한라산 등산하다 실제로 넘어진 버튜버 #유설아', url: 'https://www.youtube.com/shorts/Z53GPRUEQB4', thumb: 'https://i.ytimg.com/vi/Z53GPRUEQB4/hqdefault.jpg', date: '2026.08.12', duration: '', views: 700 },
     { title: '코르티스 모르는 늙크크 #유연서 #유설아 #망구랑', url: 'https://www.youtube.com/shorts/Qqv3RbrwlB0', thumb: 'https://i.ytimg.com/vi/Qqv3RbrwlB0/hqdefault.jpg', date: '2026.07.16', duration: '', views: 30510 },
     { title: '성적 안좋은팀 응원하는 이유 #유설아 #여푸', url: 'https://www.youtube.com/shorts/wYu_yGxgKr0', thumb: 'https://i.ytimg.com/vi/wYu_yGxgKr0/hqdefault.jpg', date: '2026.07.14', duration: '', views: 7270 },
     { title: '메챠카멜레온은 기세입니다! #유설아 #니니 #기래민', url: 'https://www.youtube.com/shorts/zIzXXZTqi7U', thumb: 'https://i.ytimg.com/vi/zIzXXZTqi7U/hqdefault.jpg', date: '2026.07.13', duration: '', views: 23690 },
-    { title: '동년배같은 나이어린 동생 #유설아 #킹냥이 #망구랑', url: 'https://www.youtube.com/shorts/-jzwFiGOAz4', thumb: 'https://i.ytimg.com/vi/-jzwFiGOAz4/hqdefault.jpg', date: '2026.07.12', duration: '', views: 55596 },
+    { title: '동년배같은 나이어린 동생 #유설아 #킹냥이 #망구랑', url: 'https://www.youtube.com/shorts/-jzwFiGOAz4', thumb: 'https://i.ytimg.com/vi/-jzwFiGOAz4/hqdefault.jpg', date: '2026.07.12', duration: '', views: 55614 },
     { title: '피코파크 범인은 누구인가? #감스트 #유설아 #앙또', url: 'https://www.youtube.com/shorts/Zn43kK3GLAg', thumb: 'https://i.ytimg.com/vi/Zn43kK3GLAg/hqdefault.jpg', date: '2026.07.11', duration: '', views: 28649 },
     { title: '포켓몬카드 초판이 x천만원 이라고? #유설아', url: 'https://www.youtube.com/shorts/YnXfkY-7sKE', thumb: 'https://i.ytimg.com/vi/YnXfkY-7sKE/hqdefault.jpg', date: '2026.07.10', duration: '', views: 14561 },
     { title: '민교편지 받고 감동받은 유설아 #고래시티', url: 'https://www.youtube.com/shorts/lUBN7pdaP5s', thumb: 'https://i.ytimg.com/vi/lUBN7pdaP5s/hqdefault.jpg', date: '2026.07.08', duration: '', views: 6317 },
