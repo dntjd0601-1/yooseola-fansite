@@ -4,8 +4,8 @@
  */
 const VOD_DATA = {
   replay: [
-    { title: '생존신고', url: 'https://vod.sooplive.com/player/204046591', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260811_89EAB27F_296281911_1_r', date: '2026.08.11', duration: '3:29:54', views: 308 },
-    { title: '🤍 촉나라의 천하통일 🤍', url: 'https://vod.sooplive.com/player/203791433', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260808_A0612BF4_296196671_3_r', date: '2026.08.09', duration: '15:05:53', views: 560 },
+    { title: '생존신고', url: 'https://vod.sooplive.com/player/204046591', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260811_89EAB27F_296281911_1_r', date: '2026.08.11', duration: '3:29:54', views: 322 },
+    { title: '🤍 촉나라의 천하통일 🤍', url: 'https://vod.sooplive.com/player/203791433', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260808_A0612BF4_296196671_3_r', date: '2026.08.09', duration: '15:05:53', views: 563 },
     { title: '성장판이 닫혔어요', url: 'https://vod.sooplive.com/player/203706167', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260807_240D154F_296170521_3_r', date: '2026.08.08', duration: '21:15:55', views: 116 },
     { title: '🤍 일직궁수의 삶 🤍', url: 'https://vod.sooplive.com/player/203613895', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260806_9293473F_296153201_4_r', date: '2026.08.07', duration: '3:53:00', views: 121 },
     { title: '🤍 후국지 3일차 🤍', url: 'https://vod.sooplive.com/player/203608263', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260806_47741FB8_296153201_2_r', date: '2026.08.07', duration: '10:42:20', views: 90 },
@@ -16,12 +16,12 @@ const VOD_DATA = {
     { title: '🤍 삼국지 2일차 🤍', url: 'https://vod.sooplive.com/player/203211069', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260801_5473D08A_296021647_8_r', date: '2026.08.02', duration: '19:14:02', views: 179 },
     { title: '🤍 삼국지 1일차 🤍', url: 'https://vod.sooplive.com/player/203144205', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260801_40AB3632_296021647_5_r', date: '2026.08.02', duration: '2:07:26', views: 137 },
     { title: '🤍 삼국지 1일차 🤍', url: 'https://vod.sooplive.com/player/203131761', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260801_B4ED6454_296021647_4_r', date: '2026.08.02', duration: '3:38:09', views: 160 },
-    { title: '🤍 삼국지 대기중 🤍', url: 'https://vod.sooplive.com/player/203101631', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260801_82655017_296021647_1_r', date: '2026.08.01', duration: '2:22:49', views: 180 },
+    { title: '🤍 삼국지 대기중 🤍', url: 'https://vod.sooplive.com/player/203101631', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260801_82655017_296021647_1_r', date: '2026.08.01', duration: '2:22:49', views: 181 },
     { title: '🤍 삼국지 D - 1 🤍', url: 'https://vod.sooplive.com/player/203053769', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260731_CDA142B2_296001767_2_r', date: '2026.08.01', duration: '8:38:07', views: 381 },
     { title: '감사합니닷 !!!!!!!!', url: 'https://vod.sooplive.com/player/202952627', thumb: 'https://videoimg.sooplive.com/php/SnapshotLoad.php?rowKey=20260730_694D7A28_295979837_2_r', date: '2026.07.31', duration: '6:44:41', views: 85 },
   ],
   youtube: [
-    { title: '비오는날 한라산 다녀오기. 여름 제주도 브이로그🍊', url: 'https://www.youtube.com/watch?v=6ENd-DJxcWU', thumb: 'https://i.ytimg.com/vi/6ENd-DJxcWU/hqdefault.jpg', date: '2026.07.23', duration: '', views: 10049 },
+    { title: '비오는날 한라산 다녀오기. 여름 제주도 브이로그🍊', url: 'https://www.youtube.com/watch?v=6ENd-DJxcWU', thumb: 'https://i.ytimg.com/vi/6ENd-DJxcWU/hqdefault.jpg', date: '2026.07.23', duration: '', views: 10065 },
     { title: 'GTA 별 다섯개 살아남기', url: 'https://www.youtube.com/watch?v=cRqRrCifjSI', thumb: 'https://i.ytimg.com/vi/cRqRrCifjSI/hqdefault.jpg', date: '', duration: '', views: 0 },
     { title: '절대 서로를 믿지마라... 공포게임 미메시스', url: 'https://www.youtube.com/watch?v=tWzjrhtY0kQ', thumb: 'https://i.ytimg.com/vi/tWzjrhtY0kQ/hqdefault.jpg', date: '', duration: '', views: 0 },
     { title: '저는 머글이였습니다.. 음성인식 마법게임 [메이지 아레나]', url: 'https://www.youtube.com/watch?v=lwsBhelHdZU', thumb: 'https://i.ytimg.com/vi/lwsBhelHdZU/hqdefault.jpg', date: '', duration: '', views: 0 },
@@ -38,7 +38,7 @@ const VOD_DATA = {
     { title: '갑니다, 오아의 탑으로 [오함마2]', url: 'https://www.youtube.com/watch?v=81sv_uSxyRQ', thumb: 'https://i.ytimg.com/vi/81sv_uSxyRQ/hqdefault.jpg', date: '', duration: '', views: 0 },
   ],
   shorts: [
-    { title: '한라산 등산하다 실제로 넘어진 버튜버 #유설아', url: 'https://www.youtube.com/shorts/Z53GPRUEQB4', thumb: 'https://i.ytimg.com/vi/Z53GPRUEQB4/hqdefault.jpg', date: '2026.08.12', duration: '', views: 2206 },
+    { title: '한라산 등산하다 실제로 넘어진 버튜버 #유설아', url: 'https://www.youtube.com/shorts/Z53GPRUEQB4', thumb: 'https://i.ytimg.com/vi/Z53GPRUEQB4/hqdefault.jpg', date: '2026.08.12', duration: '', views: 2248 },
     { title: '코르티스 모르는 늙크크 #유연서 #유설아 #망구랑', url: 'https://www.youtube.com/shorts/Qqv3RbrwlB0', thumb: 'https://i.ytimg.com/vi/Qqv3RbrwlB0/hqdefault.jpg', date: '2026.07.16', duration: '', views: 30681 },
     { title: '성적 안좋은팀 응원하는 이유 #유설아 #여푸', url: 'https://www.youtube.com/shorts/wYu_yGxgKr0', thumb: 'https://i.ytimg.com/vi/wYu_yGxgKr0/hqdefault.jpg', date: '2026.07.14', duration: '', views: 7364 },
     { title: '메챠카멜레온은 기세입니다! #유설아 #니니 #기래민', url: 'https://www.youtube.com/shorts/zIzXXZTqi7U', thumb: 'https://i.ytimg.com/vi/zIzXXZTqi7U/hqdefault.jpg', date: '2026.07.13', duration: '', views: 23799 },
@@ -62,6 +62,6 @@ const VOD_DATA = {
     { title: '설날(유설아) 자막ver.', url: 'https://www.youtube.com/watch?v=do1cqnJDVus', thumb: 'https://i.ytimg.com/vi/do1cqnJDVus/hqdefault.jpg', date: '2026.02.16', duration: '', views: 43 },
     { title: '설따맘마', url: 'https://www.youtube.com/watch?v=e3AhX4sIeKU', thumb: 'https://i.ytimg.com/vi/e3AhX4sIeKU/hqdefault.jpg', date: '2026.02.17', duration: '', views: 22 },
     { title: '버컴을 나가요(유설아버전)', url: 'https://www.youtube.com/watch?v=l6nr_uEJfqY', thumb: 'https://i.ytimg.com/vi/l6nr_uEJfqY/hqdefault.jpg', date: '2025.07.14', duration: '', views: 1087 },
-    { title: '유설아x영쨩 - 흥칫뿡', url: 'https://www.youtube.com/watch?v=yDpuVN2ehaQ', thumb: 'https://i.ytimg.com/vi/yDpuVN2ehaQ/hqdefault.jpg', date: '2024.09.30', duration: '', views: 2587 },
+    { title: '유설아x영쨩 - 흥칫뿡', url: 'https://www.youtube.com/watch?v=yDpuVN2ehaQ', thumb: 'https://i.ytimg.com/vi/yDpuVN2ehaQ/hqdefault.jpg', date: '2024.09.30', duration: '', views: 2588 },
   ],
 };
