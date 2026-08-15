@@ -472,4 +472,6 @@ const SCHEDULE_EVENTS = {
   '2026-08-12': [{ type: 'off', title: '휴방' }],
   '2026-08-13': [{ type: 'off', title: '휴방' }],
   '2026-08-14': [{ type: 'off', title: '휴방' }],
+  '2026-08-15': [{ type: 'live', title: '휴방' }],
+  '2026-08-16': [{ type: 'live', title: '생존신고\n짧방' }],
 };
