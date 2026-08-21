@@ -477,7 +477,7 @@ const SCHEDULE_EVENTS = {
   '2026-08-17': [{ type: 'live', title: '휴방' }],
   '2026-08-18': [{ type: 'live', title: '휴방' }],
   '2026-08-19': [{ type: 'live', title: '워터파크알바\nw 망구랑 부르\n재박' }],
-  '2026-08-20': [{ type: 'live', title: '버컴 머신파티' }],
+  '2026-08-20': [{ type: 'live', title: '머신파티\nw 해리 킴나니\n설이' }],
   '2026-08-21': [{ type: 'live', title: '소통 방송' }],
   '2026-08-22': [{ type: 'live', title: '토요미스테리' }],
   '2026-08-23': [{ type: 'live', title: '설래니\n합방' }],
