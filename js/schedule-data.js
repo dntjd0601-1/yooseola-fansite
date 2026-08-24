@@ -480,6 +480,8 @@ const SCHEDULE_EVENTS = {
   '2026-08-20': [{ type: 'live', title: '머신파티\nw 해리 킴나니\n설이' }],
   '2026-08-21': [{ type: 'live', title: '소통 방송' }],
   '2026-08-22': [{ type: 'live', title: '맨유 중계\n토요미스테리' }],
+  '2026-08-23': [{ type: 'live', title: '휴방' }],
+  '2026-08-24': [{ type: 'live', title: '소통 방송' }],
   '2026-08-25': [{ type: 'live', title: '설래니\n합방' }],
   '2026-08-26': [{ type: 'live', title: '세팅+마크회의' }],
   '2026-08-28': [{ type: 'live', title: '여수 브이로그\n촬영 여행&#127888;' }],
