@@ -482,7 +482,11 @@ const SCHEDULE_EVENTS = {
   '2026-08-22': [{ type: 'live', title: '맨유 중계\n토요미스테리' }],
   '2026-08-23': [{ type: 'live', title: '휴방' }],
   '2026-08-24': [{ type: 'live', title: '소통 방송' }],
-  '2026-08-26': [{ type: 'live', title: '세팅+마크회의' }],
+  '2026-08-25': [{ type: 'live', title: '소통 방송' }],
+  '2026-08-26': [{ type: 'live', title: '세팅+마크회의\n밤 짧방' }],
+  '2026-08-27': [{ type: 'live', title: '아침 소통방송' }],
+  '2026-08-28': [{ type: 'live', title: '아침 소통방송' }],
   '2026-08-29': [{ type: 'live', title: '휴방' }],
-  '2026-08-31': [{ type: 'live', title: '피파 팀 맞추기\n마크 운동회' }],
+  '2026-08-30': [{ type: 'live', title: '설래니 합방\n맨유 중계' }],
+  '2026-08-31': [{ type: 'live', title: '단츄의\n마크 운동회' }],
 };
