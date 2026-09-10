@@ -2,107 +2,202 @@ param(
     [switch]$ForceRefresh
 )
 
-$ErrorActionPreference = 'Stop'
+$ErrorActionPreference = "Stop"
 $root = $PSScriptRoot
-$ref = 'https://cafe.naver.com/yoonanana'
-$ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-$offMarker = [char]0xD29C + [char]0xBC29
-$schedWord = [char]0xC77C + [char]0xC815
-$weekWord = [char]0xC774 + [char]0xBC88 + [char]0xC8FC
-$monthChar = [char]0xC6D4
-$weekdays = @([char]0xC77C,[char]0xC6D4,[char]0xD654,[char]0xC218,[char]0xBAA9,[char]0xAE08,[char]0xD1A0)
+$spreadsheetId = "15fY3MiUeEYFjIb3RxpPTF59hLLJKBoj5x1aciuLGnQg"
+$ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+$offRest = [string]([char]0xD734) + [char]0xBC29
+$offBang = [string]([char]0xD734) + [char]0xBC45
+$offTune = [string]([char]0xD29C) + [char]0xBC29
 
-$listUrl = 'https://apis.naver.com/cafe-web/cafe-boardlist-api/v1/cafes/31396984/menus/11/articles?page=1&pageSize=50'
-$listPath = Join-Path $root 'schedule_boardlist.json'
-curl.exe -sL -A $ua -H "Referer: $ref" $listUrl --max-time 25 -o $listPath | Out-Null
-$listRaw = [System.IO.File]::ReadAllText($listPath, [System.Text.Encoding]::UTF8)
-$listJson = $listRaw | ConvertFrom-Json
-$list = $listJson.result.articleList
-if (-not $list -or $list.Count -eq 0) {
-    throw "Failed to fetch schedule board list from Naver cafe (menu 11)."
+function ConvertFrom-CsvLine {
+    param([string]$Line)
+    $result = New-Object System.Collections.Generic.List[string]
+    $sb = New-Object System.Text.StringBuilder
+    $inQuotes = $false
+    for ($i = 0; $i -lt $Line.Length; $i++) {
+        $ch = $Line[$i]
+        if ($ch -eq [char]34) {
+            if ($inQuotes -and ($i + 1) -lt $Line.Length -and $Line[$i + 1] -eq [char]34) {
+                [void]$sb.Append([char]34)
+                $i++
+            } else {
+                $inQuotes = -not $inQuotes
+            }
+        } elseif ($ch -eq [char]44 -and -not $inQuotes) {
+            $result.Add($sb.ToString())
+            [void]$sb.Clear()
+        } else {
+            [void]$sb.Append($ch)
+        }
+    }
+    $result.Add($sb.ToString())
+    return ,$result.ToArray()
 }
 
-$targets = @()
-foreach ($entry in $list) {
-    $item = $entry.item
-    if ($item.subject -notlike "*$schedWord*") { continue }
-    if ($item.subject -like "*$weekWord*") { continue }
-
-    if ($item.subject -match '(\d{1,2})') {
-        $month = [int]$Matches[1]
-    } else {
-        continue
-    }
-
-    $posted = [DateTimeOffset]::FromUnixTimeMilliseconds($item.writeDateTimestamp)
-    $year = $posted.Year
-    if ($month -lt $posted.Month -and $posted.Month -ge 10) { $year += 1 }
-
-    $targets += [pscustomobject]@{
-        id = $item.articleId
-        month = $month
-        year = $year
-        writeDate = $item.writeDateTimestamp
-    }
+function Get-CleanCell {
+    param([string]$Text)
+    if ([string]::IsNullOrWhiteSpace($Text)) { return "" }
+    $clean = ($Text -replace "[\u200B\uFEFF]", "").Trim()
+    $clean = $clean -replace "\s+", " "
+    return $clean.Trim()
 }
 
-$targets = $targets |
-    Sort-Object year, month, writeDate |
-    Group-Object year, month |
-    ForEach-Object { $_.Group[-1] }
+function Get-SheetList {
+    $htmlPath = Join-Path $root "tmp_yuki_sheet_index.html"
+    $url = "https://docs.google.com/spreadsheets/d/$spreadsheetId/htmlview"
+    curl.exe -sL -A $ua $url --max-time 30 -o $htmlPath | Out-Null
+    $html = [System.IO.File]::ReadAllText($htmlPath, [System.Text.Encoding]::UTF8)
+    $pattern = 'items\.push\(\{name:\s*"([^"]+)"[\s\S]*?gid:\s*"(\d+)"'
+    $sheets = @()
+    foreach ($m in [regex]::Matches($html, $pattern)) {
+        $sheets += [pscustomobject]@{
+            name = [regex]::Unescape($m.Groups[1].Value)
+            gid  = $m.Groups[2].Value
+        }
+    }
+    if ($sheets.Count -eq 0) {
+        $sheets = @(
+            [pscustomobject]@{ name = "2026.09"; gid = "1186211302" }
+            [pscustomobject]@{ name = "2026.10"; gid = "1594753512" }
+        )
+    }
+    return $sheets
+}
 
-$allEvents = [ordered]@{}
+function Get-SheetCsv {
+    param([string]$Gid, [string]$Name)
+    $safe = ($Name -replace "[^\d.]", "")
+    if (-not $safe) { $safe = $Gid }
+    $path = Join-Path $root "tmp_yuki_cal_$safe.csv"
+    if ($ForceRefresh -or -not (Test-Path $path)) {
+        $url = "https://docs.google.com/spreadsheets/d/$spreadsheetId/export?format=csv&gid=$Gid"
+        curl.exe -sL -A $ua $url --max-time 30 -o $path | Out-Null
+    }
+    return [System.IO.File]::ReadAllText($path, [System.Text.Encoding]::UTF8)
+}
 
-foreach ($t in ($targets | Sort-Object year, month)) {
-    $id = $t.id
-    $path = Join-Path $root "article_$id.json"
-    if (-not (Test-Path $path) -or $ForceRefresh) {
-        $url = "https://article.cafe.naver.com/gw/cafes/31396984/articles/$id"
-        curl.exe -sL -A $ua -H "Referer: $ref" $url --max-time 25 -o $path
-        Start-Sleep -Milliseconds 300
+function Test-DayHeaderRow {
+    param([string[]]$Cells, [int[]]$Cols)
+    $hits = 0
+    $other = 0
+    foreach ($col in $Cols) {
+        if ($col -ge $Cells.Count) { continue }
+        $cell = Get-CleanCell $Cells[$col]
+        if (-not $cell) { continue }
+        if ($cell -match "^\d{1,2}$" -and [int]$cell -ge 1 -and [int]$cell -le 31) {
+            $hits++
+        } else {
+            $other++
+        }
+    }
+    return ($hits -ge 1 -and $other -eq 0)
+}
+
+function Parse-MonthCsv {
+    param([string]$Csv, [int]$Year, [int]$Month)
+
+    $lines = $Csv -split "\r?\n"
+    $rows = foreach ($line in $lines) {
+        if ($line -eq "") { continue }
+        ConvertFrom-CsvLine $line
     }
 
-    $raw = [System.IO.File]::ReadAllText($path, [System.Text.Encoding]::UTF8)
-    $json = $raw | ConvertFrom-Json
-    $html = $json.article.content
-    if ($html -notmatch 'se-table') { continue }
+    $calCols = $null
+    $weekDays = $null
+    $buckets = @{}
 
-    $spans = [regex]::Matches($html, '<span[^>]*>([\s\S]*?)</span>') | ForEach-Object {
-        ($_.Groups[1].Value -replace '&#8203;', '' -replace '&#9729;&#65039;', 'OFFDAY' -replace '<[^>]+>', '').Trim()
-    } | Where-Object { $_ }
-
-    $rows = @()
-    $day = $null
-    $lines = @()
-    foreach ($text in $spans) {
-        if ($text -match '^\d{1,2}$') {
-            if ($null -ne $day) { $rows += [pscustomobject]@{ day = $day; lines = $lines } }
-            $day = [int]$text
-            $lines = @()
+    foreach ($cells in $rows) {
+        if (-not $calCols) {
+            for ($i = 0; $i -lt $cells.Count; $i++) {
+                if ((Get-CleanCell $cells[$i]) -eq "SUNDAY") {
+                    $calCols = 0..6 | ForEach-Object { $i + $_ }
+                    break
+                }
+            }
             continue
         }
-        if ($null -ne $day) { $lines += $text }
+
+        if (Test-DayHeaderRow $cells $calCols) {
+            $weekDays = @($null) * 7
+            for ($idx = 0; $idx -lt 7; $idx++) {
+                $col = $calCols[$idx]
+                if ($col -ge $cells.Count) { continue }
+                $cell = Get-CleanCell $cells[$col]
+                if ($cell -match "^\d{1,2}$") {
+                    $weekDays[$idx] = [int]$cell
+                    $dayKey = [string]$weekDays[$idx]
+                    if (-not $buckets.ContainsKey($dayKey)) {
+                        $buckets[$dayKey] = New-Object System.Collections.Generic.List[string]
+                    }
+                }
+            }
+            continue
+        }
+
+        if (-not $weekDays) { continue }
+
+        for ($idx = 0; $idx -lt 7; $idx++) {
+            $day = $weekDays[$idx]
+            if ($null -eq $day) { continue }
+            $col = $calCols[$idx]
+            if ($col -ge $cells.Count) { continue }
+            $cell = Get-CleanCell $cells[$col]
+            if (-not $cell) { continue }
+            if ($cell -match "^(SUNDAY|MONDAY|TUESDAY|WEDNESDAY|THURSDAY|FRIDAY|SATURDAY|memo|#REF!)$") { continue }
+            $buckets["$day"].Add($cell)
+        }
     }
-    if ($null -ne $day) { $rows += [pscustomobject]@{ day = $day; lines = $lines } }
 
-    foreach ($r in $rows) {
-        $date = '{0}-{1:D2}-{2:D2}' -f $t.year, $t.month, $r.day
-        $hasOff = ($r.lines | Where-Object { $_ -like "*$offMarker*" -or $_ -like '*OFFDAY*' }).Count -gt 0
-        $filtered = $r.lines | Where-Object {
-            $_ -and $_ -notlike "*$offMarker*" -and $_ -notlike '*OFFDAY*' -and ($weekdays -notcontains $_)
+    $events = [ordered]@{}
+    foreach ($day in ($buckets.Keys | ForEach-Object { [int]$_ } | Sort-Object)) {
+        try {
+            $date = Get-Date -Year $Year -Month $Month -Day $day
+        } catch {
+            continue
+        }
+        $key = $date.ToString("yyyy-MM-dd")
+        $linesForDay = @($buckets["$day"] | Where-Object { $_ })
+        if ($linesForDay.Count -eq 0) { continue }
+
+        $isOff = $false
+        $titles = New-Object System.Collections.Generic.List[string]
+        foreach ($line in $linesForDay) {
+            $plain = $line.Trim().Trim([char]45).Trim()
+            $plain = [regex]::Replace($plain, "^[^\p{L}\d]+", "")
+            if ($plain.Contains($offBang) -or $plain.Contains($offRest) -or $plain.Contains($offTune)) {
+                $isOff = $true
+                continue
+            }
+            if ($plain) { $titles.Add($plain) }
         }
 
-        if ($filtered.Count -eq 0 -and -not $hasOff) { continue }
-        if ($filtered.Count -gt 0) {
-            $title = ($filtered -join "`n")
-            $allEvents[$date] = @(@{ type = 'live'; title = $title })
-        } else {
-            $allEvents[$date] = @(@{ type = 'off'; title = $offMarker })
+        if ($isOff -and $titles.Count -eq 0) {
+            $events[$key] = @(@{ type = "off"; title = $offRest })
+        } elseif ($titles.Count -gt 0) {
+            $type = if ($isOff) { "off" } else { "live" }
+            $events[$key] = @(@{ type = $type; title = ($titles -join "`n") })
         }
+    }
+    return $events
+}
+
+$sheets = Get-SheetList
+$allEvents = [ordered]@{}
+
+foreach ($sheet in $sheets) {
+    if ($sheet.name -notmatch "^(20\d{2})\.(\d{1,2})$") { continue }
+    $year = [int]$Matches[1]
+    $month = [int]$Matches[2]
+    Write-Output ("Using sheet {0} gid={1} -> {2}-{3}" -f $sheet.name, $sheet.gid, $year, $month)
+    $csv = Get-SheetCsv -Gid $sheet.gid -Name $sheet.name
+    $monthEvents = Parse-MonthCsv -Csv $csv -Year $year -Month $month
+    foreach ($kv in $monthEvents.GetEnumerator()) {
+        $allEvents[$kv.Name] = $kv.Value
     }
 }
 
-$overridePath = Join-Path $root 'schedule-overrides.json'
+$overridePath = Join-Path $root "schedule-overrides.json"
 if (Test-Path $overridePath) {
     $overrides = [System.IO.File]::ReadAllText($overridePath, [System.Text.Encoding]::UTF8) | ConvertFrom-Json
     foreach ($prop in $overrides.PSObject.Properties) {
@@ -114,31 +209,20 @@ if (Test-Path $overridePath) {
     }
 }
 
-function Escape-ScheduleJsTitle {
-    param([string]$Title)
-    if ([string]::IsNullOrEmpty($Title)) { return '' }
-    return $Title.Replace('\', '\\').Replace("'", "\'").Replace("`r", '').Replace("`n", '\n')
-}
+$json = ($allEvents | ConvertTo-Json -Depth 6)
+$js = @"
+/**
+ * Schedule from https://docs.google.com/spreadsheets/d/$spreadsheetId
+ */
+const SCHEDULE_EVENTS = $json;
+"@
 
-function Format-ScheduleJsLine {
-    param([string]$Date, $Events)
-    $items = foreach ($ev in @($Events)) {
-        $title = Escape-ScheduleJsTitle $ev.title
-        "{ type: '$($ev.type)', title: '$title' }"
-    }
-    return "  '$Date': [$($items -join ', ')],"
-}
+$outPath = Join-Path $root "js\schedule-data.js"
+$utf8 = New-Object System.Text.UTF8Encoding $false
+[System.IO.File]::WriteAllText($outPath, $js, $utf8)
 
-$sb = New-Object System.Text.StringBuilder
-[void]$sb.AppendLine('/**')
-[void]$sb.AppendLine(' * Schedule from https://cafe.naver.com/yoonanana')
-[void]$sb.AppendLine(' */')
-[void]$sb.AppendLine('const SCHEDULE_EVENTS = {')
-foreach ($kv in $allEvents.GetEnumerator() | Sort-Object Name) {
-    [void]$sb.AppendLine((Format-ScheduleJsLine -Date $kv.Name -Events $kv.Value))
+$buildOverrides = Join-Path $root "build-schedule-overrides-js.ps1"
+if (Test-Path $buildOverrides) {
+    & $buildOverrides
 }
-[void]$sb.AppendLine('};')
-$outPath = Join-Path $root 'js\schedule-data.js'
-[System.IO.File]::WriteAllText($outPath, $sb.ToString(), [System.Text.Encoding]::UTF8)
-& (Join-Path $root 'build-schedule-overrides-js.ps1')
-Write-Output "Articles: $($targets.Count), Events: $(($allEvents.Keys).Count)"
+Write-Output "Sheets: $($sheets.Count), Events: $(($allEvents.Keys).Count)"

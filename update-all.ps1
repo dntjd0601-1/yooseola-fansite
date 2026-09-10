@@ -8,20 +8,16 @@ $ErrorActionPreference = 'Stop'
 $root = $PSScriptRoot
 
 Write-Host '=== [1/5] VOD data ===' -ForegroundColor Cyan
-& (Join-Path $root 'fetch_vod.ps1')
+Write-Host 'Skip: fetch_vod.ps1 still targets the previous streamer. Keep js/vod-data.js.' -ForegroundColor Yellow
 
 Write-Host '=== [2/5] Gallery data ===' -ForegroundColor Cyan
-& (Join-Path $root 'fetch_gallery.ps1')
+Write-Host 'Skip: gallery is not on the Yuki site.' -ForegroundColor Yellow
 
 Write-Host '=== [3/5] Schedule data ===' -ForegroundColor Cyan
 & (Join-Path $root 'fetch_and_parse_schedule.ps1') -ForceRefresh
 
 Write-Host '=== [4/5] Memory playlist data ===' -ForegroundColor Cyan
-try {
-    & (Join-Path $root 'fetch_memory_playlist.ps1')
-} catch {
-    Write-Warning "Memory playlist fetch failed, keeping existing memory-playlist-data.js: $($_.Exception.Message)"
-}
+Write-Host 'Skip: memory playlist is not on the Yuki site.' -ForegroundColor Yellow
 
 if (-not $SkipPack) {
     Write-Host '=== [5/6] Bump data cache versions ===' -ForegroundColor Cyan

@@ -1,5 +1,5 @@
 /**
- * 츄르단 롤링페이퍼 — Netlify 서버 공유 저장
+ * 단눈이 롤링페이퍼 — Netlify 서버 공유 저장
  * 관리자만 수정·삭제 (ROLLING_PAPER_ADMIN_KEY)
  */
 (function () {
@@ -157,7 +157,7 @@
       const meta = document.createElement('p');
       meta.className = 'rolling-paper__note-meta';
       const edited = msg.updatedAt ? ' · 수정됨' : '';
-      meta.textContent = `익명의 츄르단 · ${formatDate(msg.createdAt)}${edited}`;
+      meta.textContent = `익명의 단눈이 · ${formatDate(msg.createdAt)}${edited}`;
 
       note.appendChild(text);
       note.appendChild(meta);

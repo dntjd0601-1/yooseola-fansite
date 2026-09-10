@@ -1,4 +1,4 @@
-const SOOP_BJ_ID = 'yeveee';
+const SOOP_BJ_ID = 'amaiyk0105';
 const PLAY_URL = `https://play.sooplive.com/${SOOP_BJ_ID}`;
 
 const corsHeaders = {
@@ -51,7 +51,7 @@ export default async (req) => {
 
   try {
     const res = await fetch(PLAY_URL, {
-      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; YooseolaFanSite/1.0)' },
+      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; YukiFanSite/1.0)' },
     });
     if (!res.ok) return json({ live: false });
     return json(parseLiveFromHtml(await res.text()));

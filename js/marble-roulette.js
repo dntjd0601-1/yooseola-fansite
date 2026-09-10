@@ -1,5 +1,5 @@
 /**
- * 츄르단 마블 룰렛 — lazygyu/roulette 맵·물리 기반 (MIT / freeware)
+ * 단눈이 마블 룰렛 — lazygyu/roulette 맵·물리 기반 (MIT / freeware)
  * https://lazygyu.github.io/roulette/
  */
 function initMarbleRoulette() {

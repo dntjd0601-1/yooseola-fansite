@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="referrer" content="strict-origin-when-cross-origin">
-  <meta name="description" content="SOOP 스트리머 유설아 팬사이트 — 일정, 방송 기록, 콘텐츠, 갤러리">
-  <title>유설아 팬사이트</title>
+  <meta name="description" content="SOOP 스트리머 유키 팬사이트 — 일정, VOD, 단눈이 공간">
+  <title>유키 팬사이트</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Jua&display=swap" rel="stylesheet">
@@ -18,17 +18,14 @@
     <nav class="nav container">
       <a href="#home" class="nav__logo">
         <span class="nav__logo-icon">✦</span>
-        유설아 팬사이트
+        유키 팬사이트
       </a>
       <ul class="nav__menu" id="navMenu">
         <li><a href="#home" class="nav__link active">홈</a></li>
         <li><a href="#profile" class="nav__link">프로필</a></li>
         <li><a href="#schedule" class="nav__link">일정</a></li>
         <li><a href="#vod" class="nav__link">VOD</a></li>
-        <li><a href="#gallery" class="nav__link">사진관</a></li>
-        <li><a href="#memory-playlist" class="nav__link">추억의 플리</a></li>
-        <li><a href="#monthly-seola" class="nav__link">월간 설아</a></li>
-        <li><a href="#churudan" class="nav__link">츄르단 공간</a></li>
+        <li><a href="#churudan" class="nav__link">단눈이 공간</a></li>
       </ul>
       <div class="nav__actions">
         <button class="nav__toggle" id="navToggle" aria-label="메뉴 열기" aria-expanded="false">
@@ -58,20 +55,6 @@
     </div>
   </aside>
 
-  <aside class="playlist-dock" id="navMusicPlayer" hidden aria-label="재생 중인 추억의 플리">
-    <div class="nav-player">
-      <div class="nav-player__info">
-        <span class="nav-player__label">Now Playing</span>
-        <p class="nav-player__title" id="navMusicTitle"></p>
-      </div>
-      <div class="nav-player__controls">
-        <button type="button" class="nav-player__btn" id="navMusicPlay" aria-label="재생">▶</button>
-        <button type="button" class="nav-player__btn" id="navMusicPause" aria-label="멈춤">⏸</button>
-        <button type="button" class="nav-player__btn" id="navMusicNext" aria-label="다음">⏭</button>
-      </div>
-    </div>
-  </aside>
-
   <main>
     <!-- 히어로 -->
     <section class="hero page-section--active" id="home">
@@ -79,8 +62,8 @@
       <div class="hero__inner container">
         <div class="hero__left">
           <div class="hero__content">
-            <h1 class="hero__title">유설아 팬사이트</h1>
-            <p class="hero__subtitle">함께 웃고, 함께 즐기는 방송</p>
+            <h1 class="hero__title">유키 팬사이트</h1>
+            <p class="hero__subtitle">안녕 나 유키 ( ᵔ ᗢ ᵔ )💙</p>
           </div>
           <div class="hero__schedule" id="heroSchedule" aria-label="오늘과 내일 방송 일정"></div>
         </div>
@@ -88,8 +71,8 @@
           <div class="hero__visual-glow"></div>
           <img
             class="hero__portrait"
-            src="images/hero-seola.gif"
-            alt="유설아"
+            src="images/hero-yuki-wide.jpg"
+            alt="유키"
             width="380"
             height="231"
             loading="eager"
@@ -98,7 +81,7 @@
           <a
             id="heroLiveBtn"
             class="hero__live-card"
-            href="https://www.sooplive.com/station/yeveee"
+            href="https://www.sooplive.com/station/amaiyk0105"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="SOOP 생방송 보러가기"
@@ -107,7 +90,7 @@
             <img
               class="hero__live-thumb"
               id="heroLiveThumb"
-              src="images/hero-seola.png"
+              src="images/hero-yuki.jpg"
               alt=""
               width="72"
               height="48"
@@ -122,14 +105,14 @@
         </div>
 
         <div class="hero__foot-left">
-          <span class="hero__info-logo">✦ 유설아 Fan Site</span>
+          <span class="hero__info-logo">✦ 유키 Fan Site</span>
           <p class="hero__info-text">공식 팬사이트입니다. 모든 콘텐츠의 저작권은 각 권리자에게 있습니다.</p>
         </div>
 
         <div class="hero__shortcuts">
           <a
             class="hero__shortcut hero__shortcut--soop"
-            href="https://www.sooplive.com/station/yeveee"
+            href="https://www.sooplive.com/station/amaiyk0105"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="SOOP 바로가기"
@@ -140,7 +123,7 @@
           </a>
           <a
             class="hero__shortcut hero__shortcut--cafe"
-            href="https://cafe.naver.com/yoonanana"
+            href="https://cafe.naver.com/amaiyuki"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="네이버 카페 바로가기"
@@ -153,7 +136,7 @@
           </a>
           <a
             class="hero__shortcut hero__shortcut--youtube"
-            href="https://www.youtube.com/@yoo_seola/featured"
+            href="https://www.youtube.com/@유키0105/videos"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="유튜브 바로가기"
@@ -167,7 +150,7 @@
           </a>
         </div>
 
-        <p class="hero__info-copy">유설아 팬사이트, Made by 우렁이</p>
+        <p class="hero__info-copy">유키 팬사이트, Made by 우렁이</p>
       </div>
     </section>
 
@@ -177,30 +160,30 @@
         <div class="section__header">
           <span class="section__label">Profile</span>
           <h2 class="section__title">프로필</h2>
-          <p class="section__desc">유설아님을 소개합니다.</p>
+          <p class="section__desc">유키님을 소개합니다.</p>
         </div>
 
         <div class="profile__layout">
           <div class="profile__main reveal">
             <div class="profile__avatar">
-              <img src="images/hero-seola.png" alt="유설아" class="profile__avatar-img">
+              <img src="images/hero-yuki.jpg" alt="유키" class="profile__avatar-img">
             </div>
             <div class="profile__info">
               <p class="profile__role">SOOP Virtual Streamer</p>
-              <h3 class="profile__name">유설아</h3>
-              <p class="profile__intro">안녕안녕 나는 설아야🤍</p>
+              <h3 class="profile__name">유키</h3>
+              <p class="profile__intro">안녕 나 유키 ( ᵔ ᗢ ᵔ )💙</p>
               <div class="profile__links">
-                <a href="https://www.sooplive.com/station/yeveee" target="_blank" rel="noopener noreferrer" class="profile__link-btn profile__link-btn--soop">
+                <a href="https://www.sooplive.com/station/amaiyk0105" target="_blank" rel="noopener noreferrer" class="profile__link-btn profile__link-btn--soop">
                   <img class="profile__link-icon" src="images/logos/soop.svg" alt="" width="52" height="16" loading="lazy" decoding="async">
                   <span>SOOP</span>
                 </a>
-                <a href="https://cafe.naver.com/yoonanana" target="_blank" rel="noopener noreferrer" class="profile__link-btn profile__link-btn--cafe">
+                <a href="https://cafe.naver.com/amaiyuki" target="_blank" rel="noopener noreferrer" class="profile__link-btn profile__link-btn--cafe">
                   <svg class="profile__link-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
                     <path fill="currentColor" d="M16.273 12.845L7.376 0H0v24h7.727V11.155L16.624 24H24V0h-7.727v12.845z"/>
                   </svg>
                   <span>카페</span>
                 </a>
-                <a href="https://www.youtube.com/@yoo_seola" target="_blank" rel="noopener noreferrer" class="profile__link-btn profile__link-btn--youtube">
+                <a href="https://www.youtube.com/@유키0105" target="_blank" rel="noopener noreferrer" class="profile__link-btn profile__link-btn--youtube">
                   <svg class="profile__link-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
                     <path fill="currentColor" d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z"/>
                     <path fill="#fff" d="M9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
@@ -214,34 +197,33 @@
           <div class="profile__cards">
             <article class="profile__card reveal">
               <h4 class="profile__card-label">팬덤명</h4>
-              <p class="profile__card-value">츄르단</p>
+              <p class="profile__card-value">단눈</p>
             </article>
             <article class="profile__card reveal">
               <h4 class="profile__card-label">첫 방송</h4>
-              <p class="profile__card-value">2018. 01. 16</p>
+              <p class="profile__card-value">2024. 10. 21</p>
             </article>
             <article class="profile__card reveal">
               <h4 class="profile__card-label">생일</h4>
-              <p class="profile__card-value">04. 19</p>
+              <p class="profile__card-value">01. 05</p>
             </article>
             <article class="profile__card reveal">
               <h4 class="profile__card-label">소속 크루</h4>
-              <p class="profile__card-value">종달새 · 버컴퍼니</p>
+              <p class="profile__card-value">크레비쥬 · 뚱딴지</p>
             </article>
             <article class="profile__card reveal">
               <h4 class="profile__card-label">플랫폼</h4>
               <p class="profile__card-value">SOOP · YouTube</p>
             </article>
             <a
-              href="https://v-company.xyz/"
+              href="https://x.com/amaiyuki0105"
               target="_blank"
               rel="noopener noreferrer"
               class="profile__card profile__card--link reveal"
             >
-              <h4 class="profile__card-label">버컴퍼니 팬사이트</h4>
+              <h4 class="profile__card-label">X (Twitter)</h4>
               <p class="profile__card-value profile__card-value--link">
-                <img class="profile__card-icon" src="images/logos/vcompany.webp" alt="" width="28" height="28" loading="lazy" decoding="async">
-                v-company.xyz
+                @amaiyuki0105
               </p>
             </a>
           </div>
@@ -257,13 +239,13 @@
           <div class="profile__tabpanels">
             <div class="profile__tabpanel active" role="tabpanel" id="profileTabOverview" aria-labelledby="profileTabBtnOverview">
               <p class="profile__overview-text">
-                SOOP과 YouTube를 중심으로 활동하는 버츄얼 스트리머이자 크리에이터, 유설아의 공간입니다.
+                SOOP과 YouTube에서 활동하는 크레비쥬 소속 버츄얼 스트리머 유키의 공간입니다.
               </p>
               <p class="profile__overview-text">
-                종합 게임과 다채로운 일상 소통을 바탕으로 시청자들과 긴밀하게 호흡하고 있으며, 특유의 타격감 넘치는 리액션과 어떤 크리에이터와도 자연스럽게 어우러지는 환상의 케미로 많은 사랑을 받고 있습니다.
+                2024년 10월 21일 데뷔했으며, 종합 게임·소통·노래 커버를 중심으로 단눈이와 함께합니다. 퍼스널 컬러는 연하늘·하양·연핑크입니다.
               </p>
               <p class="profile__overview-text">
-                2018년 노캠 배틀그라운드 방송으로 활동을 시작했으며, 퐁퐁랜드 2차 입주를 계기로 마인크래프트·버츄얼 스트리머 교류로 인지도를 넓혔습니다. 퐁퐁랜드 종료 후 감체스터에 합격했고, 2025년 7월 버컴퍼니 창립 멤버로 합류해 현재 크루 활동을 이어가고 있습니다.
+                아마이 유키로 활동을 시작했고 2025년 10월 유키로 이름을 바꿨습니다. 버컴퍼니 1기를 거쳐 2026년 4월부터 뚱딴지 크루에서 활동하고 있습니다.
               </p>
             </div>
 
@@ -285,14 +267,14 @@
         <div class="section__header">
           <span class="section__label">Schedule</span>
           <h2 class="section__title">방송 일정</h2>
-          <p class="section__desc">달력에서 유설아님의 방송·휴방 일정을 확인하세요.</p>
+          <p class="section__desc">유키 캘린더 시트의 방송·휴방 일정을 달력에서 확인하세요.</p>
         </div>
 
         <div class="schedule-board reveal" id="calendar">
           <div class="schedule-board__top">
             <div class="schedule-board__heading">
               <h3 class="schedule-board__title" id="calendarTitle"></h3>
-              <p class="schedule-board__subtitle">SOOP 방송 일정</p>
+              <p class="schedule-board__subtitle">유키 캘린더</p>
             </div>
             <div class="schedule-board__controls">
               <div class="schedule-board__view" role="tablist" aria-label="보기 방식">
@@ -331,10 +313,10 @@
 
         <div class="vod-layout" id="vodLayout">
           <div class="vod__filters" id="vodFilters">
-            <button class="vod-filter-btn" data-vod-filter="replay">숲 다시보기</button>
+            <button class="vod-filter-btn active" data-vod-filter="replay">숲 다시보기</button>
             <button class="vod-filter-btn" data-vod-filter="youtube">유튜브</button>
             <button class="vod-filter-btn" data-vod-filter="shorts">쇼츠</button>
-            <button class="vod-filter-btn active" data-vod-filter="etc">기타</button>
+            <button class="vod-filter-btn" data-vod-filter="etc">기타</button>
           </div>
 
           <div class="vod-player">
@@ -343,7 +325,7 @@
                 id="vodPlayerFrame"
                 class="vod-player__iframe"
                 src="about:blank"
-                title="【끝났다는 것은 다시 시작된다는 것을】 버컴퍼니 1주년 커버곡"
+                title="고추잠자리 - 너라는별 Cover"
                 referrerpolicy="strict-origin-when-cross-origin"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowfullscreen
@@ -362,8 +344,8 @@
               </div>
             </div>
             <div class="vod-player__info">
-              <h3 class="vod-player__title" id="vodPlayerTitle">【끝났다는 것은 다시 시작된다는 것을】 버컴퍼니 1주년 커버곡</h3>
-              <a class="vod-player__link" id="vodPlayerLink" href="https://www.youtube.com/watch?v=XtVEV7wh76A" target="_blank" rel="noopener noreferrer">원본 보기</a>
+              <h3 class="vod-player__title" id="vodPlayerTitle">고추잠자리 - 너라는별 Cover</h3>
+              <a class="vod-player__link" id="vodPlayerLink" href="https://www.youtube.com/watch?v=BdbnqcoAgkU" target="_blank" rel="noopener noreferrer">원본 보기</a>
             </div>
           </div>
 
@@ -372,7 +354,7 @@
             <a
               class="vod__more"
               id="vodMoreLink"
-              href="https://www.youtube.com/playlist?list=PLR2c_oelBOVU"
+              href="https://www.youtube.com/@유키0105/videos"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="더보기"
@@ -387,98 +369,12 @@
       </div>
     </section>
 
-    <!-- 사진관 -->
-    <section class="section" id="gallery">
-      <div class="container">
-        <div class="section__header">
-          <span class="section__label">Gallery</span>
-          <h2 class="section__title">사진관</h2>
-          <p class="section__desc">팬카페·버컴퍼니 사진관에서 유설아 이미지를 실시간으로 불러옵니다.<br>아래로 스크롤하면 더 불러옵니다.</p>
-        </div>
-
-        <p class="gallery__count" id="galleryCount" aria-live="polite"></p>
-        <div class="gallery__grid" id="galleryGrid"></div>
-        <div class="gallery__sentinel" id="gallerySentinel" aria-hidden="true"></div>
-        <p class="gallery__status" id="galleryStatus"></p>
-      </div>
-    </section>
-
-    <!-- 추억의 플리 -->
-    <section class="memory-playlist" id="memory-playlist">
-      <div class="memory-playlist__bg" aria-hidden="true"></div>
-      <div class="memory-playlist__stars" aria-hidden="true"></div>
-      <div class="container memory-playlist__inner">
-        <div class="memory-playlist__header reveal">
-          <span class="memory-playlist__label">Playlist</span>
-          <h2 class="memory-playlist__title">추억의 플리</h2>
-          <p class="memory-playlist__desc">밤하늘 아래, 유튜브 재생목록을 불러옵니다.</p>
-          <div class="memory-playlist__picker reveal" id="memoryPlaylistPicker" hidden></div>
-          <a class="memory-playlist__source" id="memoryPlaylistSource" href="https://www.youtube.com/playlist?list=PLDmzzSPk7ZiAFX3Gk9kOR0AwTeId5WolD" target="_blank" rel="noopener noreferrer">YouTube에서 보기</a>
-        </div>
-
-        <div class="memory-playlist__layout">
-          <div class="memory-playlist__player-wrap reveal">
-            <div class="memory-playlist__screen">
-              <div
-                id="memoryPlaylistFrame"
-                class="memory-playlist__frame"
-                aria-label="추억의 플리 재생"
-              ></div>
-            </div>
-            <div class="memory-playlist__now">
-              <span class="memory-playlist__now-label">Now Playing</span>
-              <p class="memory-playlist__now-title" id="memoryPlaylistNow"></p>
-            </div>
-          </div>
-
-          <ul class="memory-playlist__tracks reveal" id="memoryPlaylistTracks"></ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- 월간 설아 -->
-    <section class="section section--alt" id="monthly-seola">
-      <div class="container">
-        <div class="section__header">
-          <span class="section__label">Monthly</span>
-          <h2 class="section__title">월간 설아</h2>
-          <p class="section__desc">일정 메뉴처럼 월별로 넘기며, 방송 사진과 내용을 함께 볼 수 있어요.</p>
-          <a class="monthly-seola__source" id="monthlySeolaSource" href="https://docs.google.com/spreadsheets/d/1AJPoSE5AA9mgpzSSYuKG6oLpG3Ww71kMfHILqsu-JJs/edit?usp=sharing" target="_blank" rel="noopener noreferrer">구글 시트에서 보기</a>
-        </div>
-
-        <div class="schedule-board monthly-seola__board reveal" id="monthlySeolaBoard">
-          <div class="schedule-board__top">
-            <div class="schedule-board__heading">
-              <h3 class="schedule-board__title" id="monthlySeolaTitle"></h3>
-              <p class="schedule-board__subtitle" id="monthlySeolaSummary">설아 월간정리</p>
-            </div>
-            <div class="schedule-board__controls">
-              <div class="schedule-board__nav">
-                <button type="button" class="schedule-board__nav-btn" id="monthlySeolaPrev" aria-label="이전 달">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
-                </button>
-                <button type="button" class="schedule-board__today" id="monthlySeolaToday">오늘</button>
-                <button type="button" class="schedule-board__nav-btn" id="monthlySeolaNext" aria-label="다음 달">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div class="schedule-board__weekdays">
-            <span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span>
-          </div>
-          <div class="schedule-board__grid schedule-board__grid--month" id="monthlySeolaDays"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 츄르단 공간 -->
+    <!-- 단눈이 공간 -->
     <section class="section section--alt" id="churudan">
       <div class="container">
         <div class="section__header">
           <span class="section__label">Community</span>
-          <h2 class="section__title">츄르단 공간</h2>
+          <h2 class="section__title">단눈이 공간</h2>
           <p class="section__desc">팬들이 모이는 커뮤니티 공간입니다. 미니게임도 즐겨 보세요!</p>
         </div>
 
@@ -502,18 +398,18 @@
             <button type="button" class="churudan__card" data-churudan="suika">
               <span class="churudan__icon" aria-hidden="true">🍉</span>
               <span class="churudan__title">수박게임</span>
-              <span class="churudan__desc">유설아 움짤을 합쳐 대설아를 만들어 보세요</span>
+              <span class="churudan__desc">유키 이미지를 합쳐 대유키를 만들어 보세요</span>
             </button>
             <button type="button" class="churudan__card" data-churudan="rolling">
               <span class="churudan__icon" aria-hidden="true">💌</span>
               <span class="churudan__title">롤링페이퍼</span>
-              <span class="churudan__desc">유설아님께 익명 응원 쪽지를 남겨 보세요</span>
+              <span class="churudan__desc">유키님께 익명 응원 쪽지를 남겨 보세요</span>
             </button>
           </div>
         </div>
 
         <div class="churudan-activity" id="churudanActivity" hidden>
-          <button type="button" class="churudan__back" id="churudanBack">← 츄르단 공간</button>
+          <button type="button" class="churudan__back" id="churudanBack">← 단눈이 공간</button>
 
           <div class="minigame">
           <!-- 사다리타기 -->
@@ -521,7 +417,7 @@
             <div class="ladder-game">
               <div class="ladder-game__header">
                 <div class="ladder-game__intro">
-                  <h3 class="ladder-game__title">츄르단 사다리</h3>
+                  <h3 class="ladder-game__title">단눈이 사다리</h3>
                   <p class="ladder-game__desc">사다리 시작을 누른 뒤 참가자를 클릭하면 그 사람만 내려갑니다. 한꺼번에 보려면 전체공개를 누르세요.</p>
                 </div>
                 <div class="ladder-game__toolbar">
@@ -597,7 +493,7 @@
                   </div>
                 </div>
                 <label class="marble-roulette__names-title" for="pinballNames">이름 입력</label>
-                <textarea id="pinballNames" class="marble-roulette__textarea" rows="2" spellcheck="false">유설아,츄르단1,츄르단2,츄르단3,츄르단4</textarea>
+                <textarea id="pinballNames" class="marble-roulette__textarea" rows="2" spellcheck="false">유키,단눈이1,단눈이2,단눈이3,단눈이4</textarea>
                 <p class="marble-roulette__names-hint">쉼표·줄바꿈 · <code>이름*2</code></p>
                 <div class="marble-roulette__actions">
                   <button type="button" class="marble-roulette__btn marble-roulette__btn--shuffle" id="pinballShuffle">셔플</button>
@@ -629,8 +525,8 @@
             <div class="suika-game">
               <div class="suika-game__header">
                 <div>
-                  <h3 class="suika-game__title">츄르단 수박게임</h3>
-                  <p class="suika-game__desc">같은 단계의 유설아 움짤을 맞추면 더 큰 단계로 합쳐집니다. 보드 위에서 위치를 정한 뒤 클릭해 떨어뜨리세요.</p>
+                  <h3 class="suika-game__title">단눈이 수박게임</h3>
+                  <p class="suika-game__desc">같은 단계의 유키 이미지를 맞추면 더 큰 단계로 합쳐집니다. 보드 위에서 위치를 정한 뒤 클릭해 떨어뜨리세요.</p>
                 </div>
                 <div class="suika-game__meta">
                   <span class="suika-game__best">최고 <strong id="suikaBest">0</strong></span>
@@ -663,7 +559,7 @@
                 </div>
 
                 <div class="suika-game__evolution" id="suikaEvolution" aria-label="합체 순서"></div>
-                <p class="suika-game__hint">처음 4단계만 떨어뜨릴 수 있어요. 같은 단계를 합쳐 대설아를 만드세요!</p>
+                <p class="suika-game__hint">처음 4단계만 떨어뜨릴 수 있어요. 같은 단계를 합쳐 대유키를 만드세요!</p>
               </div>
 
               <div class="suika-game__overlay" id="suikaOverlay" hidden role="dialog" aria-modal="true">
@@ -679,8 +575,8 @@
           <div class="minigame__panel rolling-paper" id="gameRolling" role="tabpanel" hidden>
           <div class="rolling-paper__header">
             <div>
-              <h3 class="rolling-paper__title">츄르단 롤링페이퍼</h3>
-              <p class="rolling-paper__desc">유설아님께 익명으로 응원 메시지를 남겨 보세요. 따뜻한 말만 부탁드려요!</p>
+              <h3 class="rolling-paper__title">단눈이 롤링페이퍼</h3>
+              <p class="rolling-paper__desc">유키님께 익명으로 응원 메시지를 남겨 보세요. 따뜻한 말만 부탁드려요!</p>
             </div>
             <span class="rolling-paper__count" id="rollingPaperCount" aria-live="polite"></span>
           </div>
@@ -692,7 +588,7 @@
               class="rolling-paper__textarea"
               rows="3"
               maxlength="300"
-              placeholder="유설아님, 항상 응원해요! 오늘 방송도 재밌었어요 ♥"
+              placeholder="유키님, 항상 응원해요! 오늘 방송도 재밌었어요 ♥"
               required
             ></textarea>
             <div class="rolling-paper__form-foot">
@@ -741,57 +637,35 @@
   <footer class="footer">
     <div class="container footer__inner">
       <div class="footer__brand">
-        <span class="footer__logo">✦ 유설아 Fan Site</span>
+        <span class="footer__logo">✦ 유키 Fan Site</span>
         <p class="footer__text">공식 팬사이트입니다. 모든 콘텐츠의 저작권은 각 권리자에게 있습니다.</p>
       </div>
       <div class="footer__links">
-        <a href="https://www.sooplive.com/station/yeveee" target="_blank" rel="noopener noreferrer">SOOP 채널</a>
-        <a href="https://cafe.naver.com/yoonanana" target="_blank" rel="noopener noreferrer">네이버 카페</a>
+        <a href="https://www.sooplive.com/station/amaiyk0105" target="_blank" rel="noopener noreferrer">SOOP 채널</a>
+        <a href="https://cafe.naver.com/amaiyuki" target="_blank" rel="noopener noreferrer">네이버 카페</a>
       </div>
     </div>
-    <p class="footer__copy">유설아 팬사이트. Made by 우렁이</p>
+    <p class="footer__copy">유키 팬사이트. Made by 우렁이</p>
   </footer>
 
-  <!-- 라이트박스 -->
-  <div class="lightbox" id="lightbox" aria-hidden="true">
-    <button class="lightbox__close" id="lightboxClose" aria-label="닫기">&times;</button>
-    <button class="lightbox__nav lightbox__nav--prev" id="lightboxPrev" aria-label="이전">&lsaquo;</button>
-    <button class="lightbox__nav lightbox__nav--next" id="lightboxNext" aria-label="다음">&rsaquo;</button>
-    <div class="lightbox__content">
-      <img class="lightbox__image" id="lightboxImage" alt="">
-      <div class="lightbox__meta">
-        <p class="lightbox__caption" id="lightboxCaption"></p>
-        <div class="lightbox__actions">
-          <span class="lightbox__counter" id="lightboxCounter" aria-live="polite"></span>
-          <button type="button" class="lightbox__download" id="lightboxDownload">다운로드</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script src="js/schedule-data.js?v=66fc87d2"></script>
-  <script src="js/schedule-overrides.js?v=c8f99d55"></script>
-  <script src="js/gallery-data.js?v=20260812"></script>
-  <script src="js/vod-data.js?v=20260812"></script>
-  <script src="js/vod.js?v=20260710a"></script>
+  <script src="js/schedule-data.js?v=44a7014a"></script>
+  <script src="js/schedule-overrides.js?v=f56189f2"></script>
+  <script src="js/vod-data.js?v=20260910"></script>
+  <script src="js/vod.js?v=20260910y"></script>
   <script src="js/vendor/planck.min.js?v=20260611"></script>
   <script src="js/marble-maps-data.js?v=20260625"></script>
-  <script src="js/marble-sprites-data.js?v=20260710"></script>
-  <script src="js/marble-roulette.js?v=20260705"></script>
+  <script src="js/marble-sprites-data.js?v=20260910y"></script>
+  <script src="js/marble-roulette.js?v=20260910y"></script>
   <script src="js/vendor/matter.min.js?v=20260701"></script>
-  <script src="js/suika-data.js?v=20260710"></script>
+  <script src="js/suika-data.js?v=20260910y"></script>
   <script src="js/suika-game.js?v=20260705"></script>
   <script src="js/stork-ruffle.js?v=20260627"></script>
   <script src="js/minigames.js?v=20260701"></script>
-  <script src="js/rolling-paper.js?v=20260611"></script>
-  <script src="js/memory-playlist-data.js?v=20260812"></script>
-  <script src="js/site-music-labels.js?v=20260710d"></script>
-  <script src="js/memory-playlist.js?v=20260710d"></script>
-  <script src="js/monthly-seola-data.js?v=20260812"></script>
-  <script src="js/monthly-seola.js?v=20260707d"></script>
-  <script src="js/profile-history-data.js?v=20260629"></script>
+  <script src="js/rolling-paper.js?v=20260910a"></script>
+  <script src="js/site-music-labels.js?v=20260910y"></script>
+  <script src="js/profile-history-data.js?v=20260910y"></script>
   <script src="js/profile-history.js?v=20260626"></script>
-  <script src="js/main.js?v=20260720c"></script>
+  <script src="js/main.js?v=20260910y"></script>
   <script src="js/site-bgm.js?v=20260711a"></script>
 </body>
 </html>

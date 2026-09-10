@@ -21,24 +21,24 @@ const VOD_PLAYLIST_API = '/.netlify/functions/youtube-playlist';
 
 const VOD_DEFAULT = {
   type: 'youtube',
-  title: '【끝났다는 것은 다시 시작된다는 것을】 버컴퍼니 1주년 커버곡',
-  url: 'https://www.youtube.com/watch?v=XtVEV7wh76A',
-  embedUrl: buildYoutubeEmbed('XtVEV7wh76A', '0'),
+  title: '고추잠자리 - 너라는별 Cover',
+  url: 'https://www.youtube.com/watch?v=BdbnqcoAgkU',
+  embedUrl: buildYoutubeEmbed('BdbnqcoAgkU', '0'),
 };
 
 const VOD_MAX_ITEMS = 15;
 
 const YOUTUBE_FEED_URL =
-  'https://www.youtube.com/feeds/videos.xml?channel_id=UCCeCOBCcnkMxy7Hb09u8dxg';
+  'https://www.youtube.com/feeds/videos.xml?channel_id=UC-gPjEcT0dAzMy0rz83PgpQ';
 
 let youtubeFeedPromise = null;
 
 const VOD_SOURCES = {
   replay: {
     title: '숲 다시보기',
-    moreUrl: 'https://www.sooplive.com/station/yeveee/vod',
+    moreUrl: 'https://www.sooplive.com/station/amaiyk0105/vod',
     fetch: () =>
-      fetch('https://chapi.sooplive.com/api/yeveee/vods/review?page=1&per_page=15&orderby=reg_date')
+      fetch('https://chapi.sooplive.com/api/amaiyk0105/vods/review?page=1&per_page=15&orderby=reg_date')
         .then((r) => r.json())
         .then((json) =>
           (json.data || []).map((item) => mapSoopItem(item.title_name, item.title_no, item))
@@ -46,24 +46,24 @@ const VOD_SOURCES = {
   },
   youtube: {
     title: '유튜브',
-    moreUrl: 'https://www.youtube.com/@yoo_seola/videos',
-    // 롱폼만 — @yoo_seola/videos 탭 순서 (fetch_vod.ps1로 생성된 VOD_DATA 사용)
+    moreUrl: 'https://www.youtube.com/@유키0105/videos',
+    // 롱폼 — VOD_DATA.youtube 폴백, 피드에서 쇼츠가 아닌 항목은 쇼츠 탭에서 걸러짐
     fetch: () => Promise.resolve([]),
   },
   shorts: {
     title: '쇼츠',
-    moreUrl: 'https://www.youtube.com/@yoo_seola/shorts',
+    moreUrl: 'https://www.youtube.com/@유키0105/shorts',
     fetch: () => fetchYoutubeEntries().then((items) => items.filter((item) => isYoutubeShort(item.url))),
   },
   etc: {
     title: '기타',
-    moreUrl: `https://www.youtube.com/playlist?list=${VOD_ETC_PLAYLIST_ID}`,
-    fetch: () => fetchEtcPlaylist(),
+    moreUrl: 'https://www.youtube.com/@유키0105/videos',
+    fetch: () => Promise.resolve([]),
   },
 };
 
 const vodCache = {};
-let activeVodTab = 'etc';
+let activeVodTab = 'replay';
 let currentPlayerItem = { ...VOD_DEFAULT };
 
 function isYoutubeShort(url) {
@@ -562,7 +562,7 @@ function initVodLibrary() {
   });
 
   const defaultItem = getEtcDefaultItem();
-  switchVodTab('etc');
+  switchVodTab('replay');
   setVodPlayer({
     ...defaultItem,
     embedUrl: defaultItem.embedUrl || buildYoutubeEmbed(extractYoutubeId(defaultItem.url), '0'),
