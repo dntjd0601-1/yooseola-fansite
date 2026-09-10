@@ -1,5 +1,5 @@
 /**
- * 유설아 Fan Site — Main Script
+ * 유키 팬사이트 — Main Script
  */
 
 function cleanTitle(title) {
@@ -83,11 +83,10 @@ function getCombinedScheduleDisplay(events) {
   };
 }
 
-const SCHEDULE_OVERRIDE_URL =
-  'https://dntjd0601-1.github.io/yooseola-fansite/schedule-overrides.json';
+const SCHEDULE_OVERRIDE_URL = '';
 
 async function loadScheduleOverrides() {
-  if (typeof SCHEDULE_EVENTS === 'undefined') return;
+  if (typeof SCHEDULE_EVENTS === 'undefined' || !SCHEDULE_OVERRIDE_URL) return;
 
   try {
     const res = await fetch(`${SCHEDULE_OVERRIDE_URL}?v=${Date.now()}`);
@@ -106,15 +105,15 @@ document.addEventListener('DOMContentLoaded', async () => {
   initHeroSchedule();
   initHeroLive();
   initCalendar();
-  initMonthlySeola();
+  if (typeof initMonthlySeola === 'function') initMonthlySeola();
   initScrollReveal();
-  initGallery();
+  if (document.getElementById('galleryGrid')) initGallery();
 });
 
-const SOOP_BJ_ID = 'yeveee';
+const SOOP_BJ_ID = 'amaiyk0105';
 const SOOP_LIVE_API = '/.netlify/functions/soop-live';
 const SOOP_LIVE_POLL_MS = 90_000;
-const SOOP_LIVE_THUMB_FALLBACK = 'images/hero-seola.png';
+const SOOP_LIVE_THUMB_FALLBACK = 'images/hero-yuki.jpg';
 
 function normalizeSoopThumb(url) {
   if (!url) return '';
