@@ -1,5 +1,5 @@
 const monthlySeolaMonths = Array.isArray(MONTHLY_SEOLA_MONTHS) ? MONTHLY_SEOLA_MONTHS : [];
-const MONTHLY_SEOLA_NETLIFY_ORIGIN = 'https://yooseolafansite.netlify.app';
+const MONTHLY_SEOLA_NETLIFY_ORIGIN = 'https://yukifansite.netlify.app';
 
 function getMonthlySeolaImageProxyBase() {
   const host = window.location.hostname;
