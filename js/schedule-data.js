@@ -112,8 +112,8 @@ const SCHEDULE_EVENTS = {
   ],
   "2026-09-19": [
     {
-      "type": "live",
-      "title": "1부 뱅온: 오전 7시"
+      "type": "off",
+      "title": "휴방"
     }
   ],
   "2026-09-20": [
